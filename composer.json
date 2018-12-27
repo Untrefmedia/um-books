@@ -1,0 +1,13 @@
+{
+    "name": "untrefmedia/um-books",
+    "description": "Book package for um-books",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Pablo Coronel",
+            "email": "pcoronel@untref.edu.ar"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
