@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace Untrefmedia\UMBooks;
 
 use Illuminate\Support\ServiceProvider;
 
