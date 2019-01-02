@@ -13,7 +13,9 @@ class UMBooksProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->publishes([
+            __DIR__ . '/config/um-books.php' => config_path('um-books.php')
+        ], 'config');
     }
 
     /**
@@ -23,6 +25,7 @@ class UMBooksProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        require __DIR__ . '/routes/web.php';
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'umbooks');
     }
 }
