@@ -4,52 +4,52 @@ return [
     'menu' => [
         [
             'text'        => 'Venues',
-            'url'         => 'admin/venues',
+            'url'         => 'admin/venue',
             'icon'        => 'file',
             'label'       => null,
             'label_color' => 'success',
             'submenu'     => [
                 [
                     'text' => 'List',
-                    'url'  => 'admin/venues'
+                    'url'  => 'admin/venue'
                 ],
                 [
                     'text' => 'Create',
-                    'url'  => 'admin/venues/create'
+                    'url'  => 'admin/venue/create'
                 ]
             ]
         ],
         [
             'text'        => 'Books',
-            'url'         => 'admin/books',
+            'url'         => 'admin/book',
             'icon'        => 'file',
             'label'       => null,
             'label_color' => 'success',
             'submenu'     => [
                 [
                     'text' => 'List',
-                    'url'  => 'admin/books'
+                    'url'  => 'admin/book'
                 ],
                 [
                     'text' => 'Create',
-                    'url'  => 'admin/books/create'
+                    'url'  => 'admin/book/create'
                 ]
             ]
         ],
         [
             'text'        => 'Events',
-            'url'         => 'admin/events',
+            'url'         => 'admin/event',
             'icon'        => 'file',
             'label'       => null,
             'label_color' => 'success',
             'submenu'     => [
                 [
                     'text' => 'List',
-                    'url'  => 'admin/events'
+                    'url'  => 'admin/event'
                 ],
                 [
                     'text' => 'Create',
-                    'url'  => 'admin/events/create'
+                    'url'  => 'admin/event/create'
                 ]
             ]
         ]
