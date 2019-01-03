@@ -17,6 +17,8 @@ class UMBooksProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/config/um-books.php' => config_path('um-books.php')
         ], 'config');
+
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
     }
 
     /**

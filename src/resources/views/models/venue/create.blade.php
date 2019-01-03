@@ -35,7 +35,7 @@
   
     <div class="panel-body">
 
-        {!! Form::open(array('route' => 'user.store',  'method' => 'POST','enctype'=>"multipart/form-data", 'class' => 'form-horizontal')) !!}
+        {!! Form::open(array('route' => 'venue.store',  'method' => 'POST','enctype'=>"multipart/form-data", 'class' => 'form-horizontal')) !!}
 
         {!!   Form::token() !!}
 

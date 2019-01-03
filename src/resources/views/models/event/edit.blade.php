@@ -35,7 +35,7 @@
   
     <div class="panel-body">
 
-        {!! Form::open(array('route' => ['user.update', $user->id],  'method' => 'PATCH','enctype'=>"multipart/form-data", 'class' => 'form-horizontal')) !!}
+        {!! Form::open(array('route' => ['event.update', $user->id],  'method' => 'PATCH','enctype'=>"multipart/form-data", 'class' => 'form-horizontal')) !!}
 
         {!!   Form::token() !!}
 
