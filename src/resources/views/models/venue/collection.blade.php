@@ -1,19 +1,17 @@
 @extends('umadmin::admin.layouts.app')
 
-@section('title', 'Dashboard')
-
-
+@section('title', 'Dashboard') 
 
 @section('content_header')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <h1>Dashboard</h1>
-@stop
+@stop 
 
 @section('content')
-    <div class="crud-container">
-        <div class="app-content" style="background: #fafafa;padding: 20px;">
-            <table class="table table-bordered" id="users-table">
-                <thead>
+<div class="crud-container">
+    <div class="app-content" style="background: #fafafa;padding: 20px;">
+        <table class="table table-bordered" id="users-table">
+            <thead>
                 <tr>
                     <th>Id</th>
                     <th>Title</th>
@@ -21,15 +19,15 @@
                     <th>Updated At</th>
                     <th>Actions</th>
                 </tr>
-                </thead>
-            </table>
-        </div>
+            </thead>
+        </table>
     </div>
-@stop
+</div>
 
+@stop 
 @section('js')
-    <script>
-        $(function () {
+<script>
+    $(function () {
             $.fn.dataTable.ext.errMode = 'throw';
             
             $('#users-table').DataTable({
@@ -46,8 +44,6 @@
                 ]
             });
         });
-    </script>
+</script>
+
 @stop
-
-
-

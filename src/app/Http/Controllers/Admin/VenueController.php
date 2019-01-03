@@ -3,7 +3,10 @@
 namespace Untrefmedia\UMBooks\App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
+use Session;
+use Untrefmedia\UMBooks\App\Http\Requests\VenueRequest;
 use Untrefmedia\UMBooks\App\Venue;
 use URL;
 use Yajra\Datatables\Datatables;
@@ -27,7 +30,7 @@ class VenueController extends Controller
      */
     public function create()
     {
-        //
+        return view('umbooks::models.venue.create');
     }
 
     /**
@@ -36,9 +39,28 @@ class VenueController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(VenueRequest $request)
     {
-        //
+        $venue = new Venue();
+
+        $venue->title       = $request->title;
+        $venue->slug        = SlugService::createSlug(Venue::class, 'slug', $request->title, ['unique' => true]);
+        $venue->description = $request->description;
+        $venue->address1    = $request->address1;
+        $venue->address2    = $request->address2;
+        $venue->city        = $request->city;
+        $venue->state       = $request->state;
+        $venue->postcode    = $request->postcode;
+        $venue->country     = $request->country;
+        $venue->url         = $request->url;
+        $venue->phone       = $request->phone;
+        $venue->latitude    = $request->latitude;
+        $venue->longitude   = $request->longitude;
+        $venue->save();
+
+        Session::flash('guardado', 'creado correctamente');
+
+        return back();
     }
 
     /**
@@ -70,7 +92,7 @@ class VenueController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(VenueRequest $request, $id)
     {
         //
     }
