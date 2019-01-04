@@ -82,7 +82,13 @@ class VenueController extends Controller
      */
     public function edit($id)
     {
-        //
+        $venue = Venue::find($id);
+
+        $args = [
+            'venue' => $venue
+        ];
+
+        return view('umbooks::models.venue.edit', $args);
     }
 
     /**
@@ -94,7 +100,25 @@ class VenueController extends Controller
      */
     public function update(VenueRequest $request, $id)
     {
-        //
+        $venue = Venue::find($id);
+
+        $venue->title       = $request->title;
+        $venue->description = $request->description;
+        $venue->address1    = $request->address1;
+        $venue->address2    = $request->address2;
+        $venue->city        = $request->city;
+        $venue->state       = $request->state;
+        $venue->postcode    = $request->postcode;
+        $venue->country     = $request->country;
+        $venue->url         = $request->url;
+        $venue->phone       = $request->phone;
+        $venue->latitude    = $request->latitude;
+        $venue->longitude   = $request->longitude;
+        $venue->save();
+
+        Session::flash('guardado', 'Editado correctamente');
+
+        return back();
     }
 
     /**
@@ -105,7 +129,12 @@ class VenueController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $venue = Venue::find($id);
+        $venue->delete();
+
+        Session::flash('guardado', 'Editado correctamente');
+
+        return back();
     }
 
     /**

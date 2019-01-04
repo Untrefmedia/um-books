@@ -27,9 +27,7 @@
 @stop 
 @section('js')
 <script>
-    $(function () {
-            $.fn.dataTable.ext.errMode = 'throw';
-            
+    $(function () {            
             $('#users-table').DataTable({
                 processing: true,
                 serverSide: true,
