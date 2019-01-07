@@ -132,7 +132,7 @@ class VenueController extends Controller
         $venue = Venue::find($id);
         $venue->delete();
 
-        Session::flash('guardado', 'Editado correctamente');
+        Session::flash('guardado', 'Eliminado correctamente');
 
         return back();
     }

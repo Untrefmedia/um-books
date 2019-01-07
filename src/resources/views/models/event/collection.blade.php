@@ -15,8 +15,7 @@
                 <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Name</th>
-                    <th>Email</th>
+                    <th>Title</th>
                     <th>Created At</th>
                     <th>Updated At</th>
                     <th>Actions</th>
@@ -29,22 +28,21 @@
 
 @section('js')
     <script>
-        // $(function () {
-        //     $('#users-table').DataTable({
-        //         processing: true,
-        //         serverSide: true,
-        //         ajax: '{!! route('event.dataList') !!}',
-        //         columns: [
-        //             {data: 'id', name: 'id'},
-        //             {data: 'name', name: 'name'},
-        //             {data: 'email', name: 'email'},
-        //             {data: 'created_at', name: 'created_at'},
-        //             {data: 'updated_at', name: 'updated_at'},
-        //             {data: 'action', name: 'action', orderable: false, searchable: false}
+        $(function () {
+            $('#users-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{!! route('event.dataList') !!}',
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'title', name: 'title'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'updated_at', name: 'updated_at'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
 
-        //         ]
-        //     });
-        // });
+                ]
+            });
+        });
     </script>
 @stop
 

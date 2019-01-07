@@ -1,6 +1,6 @@
 @extends('umadmin::admin.layouts.app')
 
-@section('title', 'Edit User')
+@section('title', 'Edit Event')
 
 
 @section('content')
@@ -35,33 +35,18 @@
   
     <div class="panel-body">
 
-        {!! Form::open(array('route' => ['event.update', $user->id],  'method' => 'PATCH','enctype'=>"multipart/form-data", 'class' => 'form-horizontal')) !!}
+        {!! Form::open(array('route' => ['event.update', $event->id],  'method' => 'PATCH','enctype'=>"multipart/form-data", 'class' => 'form-horizontal')) !!}
 
-        {!!   Form::token() !!}
+        {!! Form::token() !!}
 
-        {!! Form::hidden('id', $user->id) !!}
-
-
-        <div class="form-group">
-            {!! Form::label('', 'Nombre:', ['class' => 'col-sm-3']) !!}
-            <div class="col-sm-9">
-                {!! Form::text('name', $user->name, ['class' => 'form-control']) !!}
-            </div>
-        </div>
+        {!! Form::hidden('id', $event->id) !!}
 
         <div class="form-group">
-            {!! Form::label('', 'Email:', ['class' => 'col-sm-3']) !!}
+            {!! Form::label('', 'Título:', ['class' => 'col-sm-3']) !!}
             <div class="col-sm-9">
-                {!! Form::text('email', $user->email, ['class' => 'form-control']) !!}
+                {!! Form::text('title', $event->title, ['class' => 'form-control']) !!}
             </div>
         </div>
-
-        {{-- <div class="form-group">
-            {!! Form::label('', 'Password:', ['class' => 'col-sm-3']) !!}
-            <div class="col-sm-9">
-                {!! Form::password('password', ['class' => 'form-control']) !!}
-            </div>
-        </div> --}} 
 
         <div class="form-group text-center">
             {!! Form::submit() !!}<br>

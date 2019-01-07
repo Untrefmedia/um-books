@@ -37,7 +37,7 @@
 
         {!! Form::open(array('route' => ['venue.update', $venue->id],  'method' => 'PATCH','enctype'=>"multipart/form-data", 'class' => 'form-horizontal')) !!}
 
-        {!!   Form::token() !!}
+        {!! Form::token() !!}
 
         {!! Form::hidden('id', $venue->id) !!}
 
