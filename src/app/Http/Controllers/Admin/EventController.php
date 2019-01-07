@@ -111,7 +111,7 @@ class EventController extends Controller
         $event = Event::find($id);
         $event->delete();
 
-        Session::flash('guardado', 'Editado correctamente');
+        Session::flash('guardado', 'Eliminado correctamente');
 
         return back();
     }

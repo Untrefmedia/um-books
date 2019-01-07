@@ -1,15 +1,15 @@
 @extends('umadmin::admin.layouts.app')
 
-@section('title', 'Create User')
+@section('title', 'Create Book')
 
 
 @section('content')
 
-<h1 class="page-header">Crear Usuario</h1>
+<h1 class="page-header">Crear Reserva</h1>
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">Información personal</h3>
+        <h3 class="panel-title">Información</h3>
     </div>
 
     <div class="row">
@@ -37,29 +37,14 @@
 
         {!! Form::open(array('route' => 'book.store',  'method' => 'POST','enctype'=>"multipart/form-data", 'class' => 'form-horizontal')) !!}
 
-        {!!   Form::token() !!}
-
+        {!! Form::token() !!}
 
         <div class="form-group">
-            {!! Form::label('', 'Nombre:', ['class' => 'col-sm-3']) !!}
+            {!! Form::label('', 'Título:', ['class' => 'col-sm-3']) !!}
             <div class="col-sm-9">
-                {!! Form::text('name', '', ['class' => 'form-control']) !!}
+                {!! Form::text('title', '', ['class' => 'form-control']) !!}
             </div>
         </div>
-
-        <div class="form-group">
-            {!! Form::label('', 'Email:', ['class' => 'col-sm-3']) !!}
-            <div class="col-sm-9">
-                {!! Form::text('email', '', ['class' => 'form-control']) !!}
-            </div>
-        </div>
-
-        <div class="form-group">
-            {!! Form::label('', 'Password:', ['class' => 'col-sm-3']) !!}
-            <div class="col-sm-9">
-                {!! Form::password('password', ['class' => 'form-control']) !!}
-            </div>
-        </div>  
 
         <div class="form-group text-center">
             {!! Form::submit() !!}<br>
