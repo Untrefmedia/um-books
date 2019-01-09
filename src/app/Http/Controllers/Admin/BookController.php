@@ -19,7 +19,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        return view('umbooks::models.book.collection');
+        return view('umbooks::admin.models.book.collection');
     }
 
     /**
@@ -29,7 +29,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        return view('umbooks::models.book.create');
+        return view('umbooks::admin.models.book.create');
     }
 
     /**
@@ -76,7 +76,7 @@ class BookController extends Controller
             'book' => $book
         ];
 
-        return view('umbooks::models.book.edit', $args);
+        return view('umbooks::admin.models.book.edit', $args);
     }
 
     /**

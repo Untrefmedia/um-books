@@ -20,7 +20,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        return view('umbooks::models.event.collection');
+        return view('umbooks::admin.models.event.collection');
     }
 
     /**
@@ -30,7 +30,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        return view('umbooks::models.event.create');
+        return view('umbooks::admin.models.event.create');
     }
 
     /**
@@ -78,7 +78,7 @@ class EventController extends Controller
             'event' => $event
         ];
 
-        return view('umbooks::models.event.edit', $args);
+        return view('umbooks::admin.models.event.edit', $args);
     }
 
     /**

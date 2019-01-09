@@ -20,7 +20,7 @@ class VenueController extends Controller
      */
     public function index()
     {
-        return view('umbooks::models.venue.collection');
+        return view('umbooks::admin.models.venue.collection');
     }
 
     /**
@@ -30,7 +30,7 @@ class VenueController extends Controller
      */
     public function create()
     {
-        return view('umbooks::models.venue.create');
+        return view('umbooks::admin.models.venue.create');
     }
 
     /**
@@ -88,7 +88,7 @@ class VenueController extends Controller
             'venue' => $venue
         ];
 
-        return view('umbooks::models.venue.edit', $args);
+        return view('umbooks::admin.models.venue.edit', $args);
     }
 
     /**
