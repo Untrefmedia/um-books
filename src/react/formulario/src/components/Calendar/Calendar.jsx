@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Calendar } from 'fullcalendar';
-import './../../fullcalendar/fullcalendar.min.css';
+import './fullcalendar.min.css';
 
 const Calendario = (props) => {
 	useEffect(() => {
@@ -26,7 +26,7 @@ const Calendario = (props) => {
 			noEventsMessage: 'No hay eventos para mostrar',
 			week: { dow: 1, doy: 4 },
 			locale: 'es',
-			defaultDate: '2018-12-12',
+			defaultDate: Date.now(),
 			navLinks: true, // can click day/week names to navigate views
 			editable: true,
 			eventLimit: true, // allow "more" link when too many events
