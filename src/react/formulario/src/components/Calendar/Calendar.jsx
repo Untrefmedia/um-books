@@ -11,6 +11,20 @@ const Calendario = (props) => {
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay,listWeek'
 			},
+			buttonText: {
+				prev: 'Ant',
+				next: 'Sig',
+				today: 'Hoy',
+				month: 'Mes',
+				week: 'Semana',
+				day: 'Día',
+				list: 'Agenda'
+			},
+			weekLabel: 'Sm',
+			allDayHtml: 'Todo<br/>el día',
+			eventLimitText: 'más',
+			noEventsMessage: 'No hay eventos para mostrar',
+			week: { dow: 1, doy: 4 },
 			locale: 'es',
 			defaultDate: '2018-12-12',
 			navLinks: true, // can click day/week names to navigate views
@@ -75,24 +89,6 @@ const Calendario = (props) => {
 			]
 		});
 		calendar.render();
-
-		// console.log(Calendar);
-		// $('#calendar').Calendar({
-		// 	header: {
-		// 		left: 'prev,next today',
-		// 		center: 'title',
-		// 		right: 'month,agendaWeek,agendaDay'
-		// 	},
-		// 	editable: true,
-		// 	droppable: true, // this allows things to be dropped onto the calendar
-		// 	drop: function() {
-		// 		// is the "remove after drop" checkbox checked?
-		// 		if ($('#drop-remove').is(':checked')) {
-		// 			// if so, remove the element from the "Draggable Events" list
-		// 			$(this).remove();
-		// 		}
-		// 	}
-		// });
 	}, []);
 
 	return <div id="calendar" />;
