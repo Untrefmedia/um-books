@@ -9,6 +9,6 @@ class BookController extends Controller
 {
     public function form()
     {
-        return view('umbooks::models.book.collection');
+        return view('umbooks::form');
     }
 }

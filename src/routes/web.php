@@ -11,4 +11,4 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'admin', 'auth:admin'
     Route::get('event.dataList', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\EventController@dataList')->name('event.dataList');
 });
 
-Route::get('book.form', 'Untrefmedia\UMBooks\App\Http\Controllers\BookController@form')->name('book.form');
+Route::get('book/form', 'Untrefmedia\UMBooks\App\Http\Controllers\BookController@form')->name('book.form');
