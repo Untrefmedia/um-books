@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Calendar } from 'fullcalendar';
-import './fullcalendar.min.css';
+import './fullcalendar.min.css'; 
+
 
 const Calendario = (props) => {
 	useEffect(() => {
