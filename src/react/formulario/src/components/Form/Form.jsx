@@ -16,81 +16,49 @@ const Formulario = () => {
 
 			<Formik
 				initialValues={{ user: 'pablo', selectedEvent: '' }}
-				enableReinitialized={true}
 				onSubmit={(values, { setSubmitting }) => {
 					setTimeout(() => {
 						alert(JSON.stringify(values, null, 2));
 						setSubmitting(false);
 					}, 500);
 				}}
-				validationSchema={Yup.object().shape({
-					// email: Yup.string()
-					// 	.email()
-					// 	.required('Required')
-				})}
-			>
-				{(props) => {
-					const {
-						values,
-						touched,
-						errors,
-						dirty,
-						isSubmitting,
-						handleChange,
-						handleBlur,
-						handleSubmit,
-						handleReset
-					} = props;
-
+				// validationSchema={Yup.object().shape({
+				// email: Yup.string()
+				// 	.email()
+				// 	.required('Required')
+				// })}
+				render={({
+					values,
+					touched,
+					errors,
+					dirty,
+					isSubmitting,
+					handleChange,
+					handleBlur,
+					handleSubmit,
+					handleReset
+				}) => {
 					// Setea el campo del Calendar
-					props.values.selectedEvent = evento;
+					values.selectedEvent = evento;
 
 					return (
-						<form onSubmit={handleSubmit} id="formu">
-							<label htmlFor="user" style={{ display: 'block' }}>
-								User
-							</label>
-							<input
-								id="user"
-								type="text"
-								value={values.user}
-								onChange={handleChange}
-								onBlur={handleBlur}
-								className={
-									errors.user && touched.user
-										? 'text-input error'
-										: 'text-input'
-								}
-							/>
-							{errors.user && touched.user && (
-								<div className="input-feedback">
-									{errors.user}
-								</div>
-							)}
+						<Form>
+							<Field type="text" name="user" />
+							<ErrorMessage name="user" component="div" />
 
-							<input
-								id="selectedEvent"
+							<Field
 								type="hidden"
-								value={values.selectedEvent}
-								onChange={handleChange}
+								name="selectedEvent"
+								value={evento}
 							/>
-
-							<button
-								type="button"
-								className="outline"
-								onClick={handleReset}
-								disabled={!dirty || isSubmitting}
-							>
-								Reset
-							</button>
 
 							<button type="submit" disabled={isSubmitting}>
 								Submit
 							</button>
-						</form>
+						</Form>
 					);
 				}}
-			</Formik>
+			/>
 		</div>
 	);
 };

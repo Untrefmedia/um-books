@@ -42,8 +42,8 @@ const Calendar = ({ selectedEvent }) => {
 			editable: true,
 			eventLimit: true, // allow "more" link when too many events
 			height: 650,
-			eventClick: (calEvent, jsEvent, view) => {
-				setEvent(calEvent.event.title);
+			eventClick: function(info) {
+				setEvent(info.event.title);
 			},
 			events: [
 				{
