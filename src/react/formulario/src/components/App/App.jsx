@@ -1,14 +1,8 @@
 import React from 'react';
-import Calendar from '../Calendar/Calendar';
 import Form from '../Form/Form';
 
 const App = (props) => {
-	return (
-		<div>
-			<Form />
-			<Calendar />
-		</div>
-	);
+	return <Form />;
 };
 
 export default App;

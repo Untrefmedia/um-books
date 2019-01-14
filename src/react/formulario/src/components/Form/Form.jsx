@@ -1,73 +1,98 @@
-import React from 'react';
-import { Formik } from 'formik';
+import React, { useState, useEffect } from 'react';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import Calendar from '../Calendar/Calendar';
 
-const Form = (props) => {
+const Formulario = () => {
+	const [evento, setEvent] = useState('');
+
+	const handleEvent = (value) => {
+		setEvent(value);
+	};
+
 	return (
-		<Formik
-			initialValues={{ email: '' }}
-			onSubmit={(values, { setSubmitting }) => {
-				setTimeout(() => {
-					alert(JSON.stringify(values, null, 2));
-					setSubmitting(false);
-				}, 500);
-			}}
-			validationSchema={Yup.object().shape({
-				email: Yup.string()
-					.email()
-					.required('Required')
-			})}
-		>
-			{(props) => {
-				const {
-					values,
-					touched,
-					errors,
-					dirty,
-					isSubmitting,
-					handleChange,
-					handleBlur,
-					handleSubmit,
-					handleReset
-				} = props;
-				return (
-					<form onSubmit={handleSubmit}>
-						<label htmlFor="email" style={{ display: 'block' }}>
-							Email
-						</label>
-						<input
-							id="email"
-							placeholder="Enter your email"
-							type="text"
-							value={values.email}
-							onChange={handleChange}
-							onBlur={handleBlur}
-							className={
-								errors.email && touched.email
-									? 'text-input error'
-									: 'text-input'
-							}
-						/>
-						{errors.email && touched.email && (
-							<div className="input-feedback">{errors.email}</div>
-						)}
+		<div>
+			<Calendar selectedEvent={handleEvent} />
 
-						<button
-							type="button"
-							className="outline"
-							onClick={handleReset}
-							disabled={!dirty || isSubmitting}
-						>
-							Reset
-						</button>
-						<button type="submit" disabled={isSubmitting}>
-							Submit
-						</button>
-					</form>
-				);
-			}}
-		</Formik>
+			<Formik
+				initialValues={{ user: 'pablo', selectedEvent: '' }}
+				enableReinitialized={true}
+				onSubmit={(values, { setSubmitting }) => {
+					setTimeout(() => {
+						alert(JSON.stringify(values, null, 2));
+						setSubmitting(false);
+					}, 500);
+				}}
+				validationSchema={Yup.object().shape({
+					// email: Yup.string()
+					// 	.email()
+					// 	.required('Required')
+				})}
+			>
+				{(props) => {
+					const {
+						values,
+						touched,
+						errors,
+						dirty,
+						isSubmitting,
+						handleChange,
+						handleBlur,
+						handleSubmit,
+						handleReset
+					} = props;
+
+					// Setea el campo del Calendar
+					props.values.selectedEvent = evento;
+
+					return (
+						<form onSubmit={handleSubmit} id="formu">
+							<label htmlFor="user" style={{ display: 'block' }}>
+								User
+							</label>
+							<input
+								id="user"
+								type="text"
+								value={values.user}
+								onChange={handleChange}
+								onBlur={handleBlur}
+								className={
+									errors.user && touched.user
+										? 'text-input error'
+										: 'text-input'
+								}
+							/>
+							{errors.user && touched.user && (
+								<div className="input-feedback">
+									{errors.user}
+								</div>
+							)}
+
+							<input
+								id="selectedEvent"
+								type="hidden"
+								value={values.selectedEvent}
+								onChange={handleChange}
+							/>
+
+							<button
+								type="button"
+								className="outline"
+								onClick={handleReset}
+								disabled={!dirty || isSubmitting}
+							>
+								Reset
+							</button>
+
+							<button type="submit" disabled={isSubmitting}>
+								Submit
+							</button>
+						</form>
+					);
+				}}
+			</Formik>
+		</div>
 	);
 };
 
-export default Form;
+export default Formulario;

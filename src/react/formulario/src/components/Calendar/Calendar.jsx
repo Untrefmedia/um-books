@@ -1,12 +1,21 @@
-import React, { useEffect } from 'react';
-import { Calendar } from 'fullcalendar';
-import './fullcalendar.min.css'; 
+import React, { useEffect, useState } from 'react';
+import { Calendar as fullcalendar } from 'fullcalendar';
+import './fullcalendar.min.css';
 
+const Calendar = ({ selectedEvent }) => {
+	const [event, setEvent] = useState([]);
 
-const Calendario = (props) => {
+	useEffect(
+		() => {
+			selectedEvent(event);
+		},
+		[event]
+	);
+
 	useEffect(() => {
 		var calendarEl = document.getElementById('calendar');
-		var calendar = new Calendar(calendarEl, {
+
+		var calendar = new fullcalendar(calendarEl, {
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -27,11 +36,15 @@ const Calendario = (props) => {
 			noEventsMessage: 'No hay eventos para mostrar',
 			week: { dow: 1, doy: 4 },
 			locale: 'es',
-			defaultDate: Date.now(),
+			// defaultDate: Date.now(),
+			defaultDate: '2018-12-12',
 			navLinks: true, // can click day/week names to navigate views
 			editable: true,
 			eventLimit: true, // allow "more" link when too many events
 			height: 650,
+			eventClick: (calEvent, jsEvent, view) => {
+				setEvent(calEvent.event.title);
+			},
 			events: [
 				{
 					title: 'All Day Event',
@@ -89,10 +102,11 @@ const Calendario = (props) => {
 				}
 			]
 		});
+
 		calendar.render();
 	}, []);
 
 	return <div id="calendar" />;
 };
 
-export default Calendario;
+export default Calendar;
