@@ -9,6 +9,7 @@
     "jquery": "^3.1.1",
     "moment": "^2.23.0",
     "react": "next",
+    "react-bootstrap": "^0.32.4",
     "react-dom": "next",
     "react-scripts": "2.1.1",
     "yup": "^0.26.6"
