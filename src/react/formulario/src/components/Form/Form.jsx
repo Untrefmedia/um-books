@@ -3,6 +3,7 @@ import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Calendar from '../Calendar/Calendar';
 import { FormGroup, Col } from 'react-bootstrap';
+import API from '../../config/config';
 
 const Formulario = () => {
 	// Evento es la fecha del calendario (evento elegido)
@@ -13,36 +14,36 @@ const Formulario = () => {
 	};
 
 	const Validacion = Yup.object().shape({
-		name: Yup.string().required('Obligatorio'),
-		surname: Yup.string().required('Obligatorio'),
-		venue: Yup.string().required('Obligatorio'),
-		selectedEvent: Yup.string().required('Obligatorio'),
-		institution_name: Yup.string().required('Obligatorio'),
-		institution_responsable: Yup.string().required('Obligatorio'),
-		institution_address: Yup.string().required('Obligatorio'),
-		institution_email: Yup.string()
-			.email('Ingrese un email válido')
-			.required('Obligatorio'),
-		institution_phone: Yup.string().required('Obligatorio'),
-		institution_city: Yup.string().required('Obligatorio'),
-		institution_location: Yup.string().required('Obligatorio'),
-		institution_type: Yup.string().required('Obligatorio'),
-		institution_dependency: Yup.string().required('Obligatorio'),
-		group_level: Yup.string().required('Obligatorio'),
-		group_course: Yup.string().required('Obligatorio'),
-		group_numberOfStudents: Yup.number().required('Obligatorio'),
-		group_numberOfCompanions: Yup.number().required('Obligatorio'),
-		teacher_name: Yup.string().required('Obligatorio'),
-		teacher_email: Yup.string()
-			.email('Ingrese un email válido')
-			.required('Obligatorio'),
-		teacher_phone: Yup.string().required('Obligatorio'),
-		teacher_subject: Yup.string().required('Obligatorio'),
-		numberOfGroupMembers: Yup.number().required('Obligatorio'),
-		purpose: Yup.string().required('Obligatorio'),
-		language: Yup.string().required('Obligatorio'),
-		know: Yup.string().required('Obligatorio'),
-		comments: Yup.string().required('Obligatorio')
+		name: Yup.string().required('Obligatorio')
+		// surname: Yup.string().required('Obligatorio'),
+		// venue: Yup.string().required('Obligatorio'),
+		// selectedEvent: Yup.string().required('Obligatorio'),
+		// institution_name: Yup.string().required('Obligatorio'),
+		// institution_responsable: Yup.string().required('Obligatorio'),
+		// institution_address: Yup.string().required('Obligatorio'),
+		// institution_email: Yup.string()
+		// 	.email('Ingrese un email válido')
+		// 	.required('Obligatorio'),
+		// institution_phone: Yup.string().required('Obligatorio'),
+		// institution_city: Yup.string().required('Obligatorio'),
+		// institution_location: Yup.string().required('Obligatorio'),
+		// institution_type: Yup.string().required('Obligatorio'),
+		// institution_dependency: Yup.string().required('Obligatorio'),
+		// group_level: Yup.string().required('Obligatorio'),
+		// group_course: Yup.string().required('Obligatorio'),
+		// group_numberOfStudents: Yup.number().required('Obligatorio'),
+		// group_numberOfCompanions: Yup.number().required('Obligatorio'),
+		// teacher_name: Yup.string().required('Obligatorio'),
+		// teacher_email: Yup.string()
+		// 	.email('Ingrese un email válido')
+		// 	.required('Obligatorio'),
+		// teacher_phone: Yup.string().required('Obligatorio'),
+		// teacher_subject: Yup.string().required('Obligatorio'),
+		// numberOfGroupMembers: Yup.number().required('Obligatorio'),
+		// purpose: Yup.string().required('Obligatorio'),
+		// language: Yup.string().required('Obligatorio'),
+		// know: Yup.string().required('Obligatorio'),
+		// comments: Yup.string().required('Obligatorio')
 	});
 
 	return (
@@ -80,10 +81,16 @@ const Formulario = () => {
 				}}
 				validationSchema={Validacion}
 				onSubmit={(values, { setSubmitting }) => {
-					setTimeout(() => {
-						alert(JSON.stringify(values, null, 2));
-						setSubmitting(false);
-					}, 500);
+					API.post('/admin/book', {
+						values
+					})
+						.then((response) => {
+							console.log('OK');
+							console.log(response);
+						})
+						.catch((error) => {
+							console.log(error);
+						});
 				}}
 				render={({
 					values,
