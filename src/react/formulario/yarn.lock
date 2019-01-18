@@ -7484,7 +7484,7 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rrule@^2.5.6:
+rrule@^2.5.6, rrule@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/rrule/-/rrule-2.6.0.tgz#7aeefe89273e4796d1fabf03051d5e1d68169502"
   optionalDependencies:
