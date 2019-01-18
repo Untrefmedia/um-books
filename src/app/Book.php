@@ -2,25 +2,10 @@
 
 namespace Untrefmedia\UMBooks\App;
 
-use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
-    use Sluggable;
-    /**
-     * Return the sluggable configuration array for this model.
-     * @return array
-     */
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
-    }
-
     /**
      * @var string
      */
@@ -29,7 +14,7 @@ class Book extends Model
     /**
      * @var array
      */
-    protected $fillable = ['title', 'slug'];
+    protected $fillable = ['venue_id', 'event_date_start', 'event_date_end', 'detail'];
 
     /**
      * @var mixed

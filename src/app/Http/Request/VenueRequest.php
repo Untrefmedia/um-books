@@ -27,36 +27,40 @@ class VenueRequest extends FormRequest
             // crear
             case 'POST':
                 return [
-                    'title'       => 'required',
-                    'description' => 'required',
-                    'address1'    => 'required_without:address2',
-                    'address2'    => 'required_without:address1',
-                    'city'        => 'required',
-                    'state'       => 'required',
-                    'postcode'    => 'required',
-                    'country'     => 'required',
-                    'url'         => 'required',
-                    'phone'       => 'required',
-                    'latitude'    => 'numeric',
-                    'longitude'   => 'numeric'
+                    'title'          => 'required',
+                    'description'    => 'required',
+                    'address1'       => 'required_without:address2',
+                    'address2'       => 'required_without:address1',
+                    'city'           => 'required',
+                    'state'          => 'required',
+                    'postcode'       => 'required',
+                    'country'        => 'required',
+                    'url'            => 'required',
+                    'phone'          => 'required',
+                    'latitude'       => 'numeric',
+                    'longitude'      => 'numeric',
+                    'capacity_turn'  => 'required|numeric',
+                    'capacity_group' => 'required|numeric'
                 ];
                 break;
 
             // editar
             case 'PATCH':
                 return [
-                    'title'       => 'required',
-                    'description' => 'required',
-                    'address1'    => 'required_without:address2',
-                    'address2'    => 'required_without:address1',
-                    'city'        => 'required',
-                    'state'       => 'required',
-                    'postcode'    => 'required',
-                    'country'     => 'required',
-                    'url'         => 'required',
-                    'phone'       => 'required',
-                    'latitude'    => 'numeric',
-                    'longitude'   => 'numeric'
+                    'title'          => 'required',
+                    'description'    => 'required',
+                    'address1'       => 'required_without:address2',
+                    'address2'       => 'required_without:address1',
+                    'city'           => 'required',
+                    'state'          => 'required',
+                    'postcode'       => 'required',
+                    'country'        => 'required',
+                    'url'            => 'required',
+                    'phone'          => 'required',
+                    'latitude'       => 'numeric',
+                    'longitude'      => 'numeric',
+                    'capacity_turn'  => 'required|numeric',
+                    'capacity_group' => 'required|numeric'
                 ];
                 break;
 

@@ -43,19 +43,21 @@ class VenueController extends Controller
     {
         $venue = new Venue();
 
-        $venue->title       = $request->title;
-        $venue->slug        = SlugService::createSlug(Venue::class, 'slug', $request->title, ['unique' => true]);
-        $venue->description = $request->description;
-        $venue->address1    = $request->address1;
-        $venue->address2    = $request->address2;
-        $venue->city        = $request->city;
-        $venue->state       = $request->state;
-        $venue->postcode    = $request->postcode;
-        $venue->country     = $request->country;
-        $venue->url         = $request->url;
-        $venue->phone       = $request->phone;
-        $venue->latitude    = $request->latitude;
-        $venue->longitude   = $request->longitude;
+        $venue->title          = $request->title;
+        $venue->slug           = SlugService::createSlug(Venue::class, 'slug', $request->title, ['unique' => true]);
+        $venue->description    = $request->description;
+        $venue->address1       = $request->address1;
+        $venue->address2       = $request->address2;
+        $venue->city           = $request->city;
+        $venue->state          = $request->state;
+        $venue->postcode       = $request->postcode;
+        $venue->country        = $request->country;
+        $venue->url            = $request->url;
+        $venue->phone          = $request->phone;
+        $venue->latitude       = $request->latitude;
+        $venue->longitude      = $request->longitude;
+        $venue->capacity_turn  = $request->capacity_turn;
+        $venue->capacity_group = $request->capacity_group;
         $venue->save();
 
         Session::flash('guardado', 'creado correctamente');
@@ -102,18 +104,20 @@ class VenueController extends Controller
     {
         $venue = Venue::find($id);
 
-        $venue->title       = $request->title;
-        $venue->description = $request->description;
-        $venue->address1    = $request->address1;
-        $venue->address2    = $request->address2;
-        $venue->city        = $request->city;
-        $venue->state       = $request->state;
-        $venue->postcode    = $request->postcode;
-        $venue->country     = $request->country;
-        $venue->url         = $request->url;
-        $venue->phone       = $request->phone;
-        $venue->latitude    = $request->latitude;
-        $venue->longitude   = $request->longitude;
+        $venue->title          = $request->title;
+        $venue->description    = $request->description;
+        $venue->address1       = $request->address1;
+        $venue->address2       = $request->address2;
+        $venue->city           = $request->city;
+        $venue->state          = $request->state;
+        $venue->postcode       = $request->postcode;
+        $venue->country        = $request->country;
+        $venue->url            = $request->url;
+        $venue->phone          = $request->phone;
+        $venue->latitude       = $request->latitude;
+        $venue->longitude      = $request->longitude;
+        $venue->capacity_turn  = $request->capacity_turn;
+        $venue->capacity_group = $request->capacity_group;
         $venue->save();
 
         Session::flash('guardado', 'Editado correctamente');

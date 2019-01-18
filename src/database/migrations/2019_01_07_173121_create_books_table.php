@@ -15,9 +15,14 @@ class CreateBooksTable extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->string('slug')->unique();
+            $table->integer('venue_id')->unsigned()->nullable();
+            $table->dateTime('event_date_start')->nullable();
+            $table->dateTime('event_date_end')->nullable();
+            $table->text('detail');
+
             $table->timestamps();
+
+            $table->foreign('venue_id')->references('id')->on('venues')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

@@ -126,6 +126,20 @@
             </div>
         </div>
 
+        <div class="form-group">
+            {!! Form::label('', 'Capacidad máxima de personas por turno:', ['class' => 'col-sm-3']) !!}
+            <div class="col-sm-9">
+                {!! Form::text('capacity_turn', $venue->capacity_turn, ['class' => 'form-control']) !!}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {!! Form::label('', 'Capacidad máxima de personas por grupo:', ['class' => 'col-sm-3']) !!}
+            <div class="col-sm-9">
+                {!! Form::text('capacity_group', $venue->capacity_group, ['class' => 'form-control']) !!}
+            </div>
+        </div>
+
         <div class="form-group text-center">
             {!! Form::submit() !!}<br>
         </div>

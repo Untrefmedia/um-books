@@ -43,7 +43,7 @@ const Calendar = ({ selectedEvent }) => {
 			eventLimit: true, // allow "more" link when too many events
 			height: 650,
 			eventClick: function(info) {
-				setEvent(info.event.title);
+				setEvent(info.event.start + '|' + info.event.end);
 			},
 			events: [
 				{

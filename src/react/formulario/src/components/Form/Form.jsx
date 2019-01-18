@@ -14,10 +14,10 @@ const Formulario = () => {
 	};
 
 	const Validacion = Yup.object().shape({
-		name: Yup.string().required('Obligatorio')
+		name: Yup.string().required('Obligatorio'),
 		// surname: Yup.string().required('Obligatorio'),
 		// venue: Yup.string().required('Obligatorio'),
-		// selectedEvent: Yup.string().required('Obligatorio'),
+		selectedEvent: Yup.string().required('Obligatorio'),
 		// institution_name: Yup.string().required('Obligatorio'),
 		// institution_responsable: Yup.string().required('Obligatorio'),
 		// institution_address: Yup.string().required('Obligatorio'),
@@ -54,7 +54,7 @@ const Formulario = () => {
 				initialValues={{
 					name: '',
 					surname: '',
-					venue: '',
+					venue_id: '',
 					selectedEvent: '',
 					institution_name: '',
 					institution_responsable: '',
@@ -81,11 +81,10 @@ const Formulario = () => {
 				}}
 				validationSchema={Validacion}
 				onSubmit={(values, { setSubmitting }) => {
-					API.post('/admin/book', {
+					API.post('admin/book', {
 						values
 					})
 						.then((response) => {
-							console.log('OK');
 							console.log(response);
 						})
 						.catch((error) => {
@@ -105,7 +104,7 @@ const Formulario = () => {
 				}) => {
 					// Setea el campo del Calendar
 					values.selectedEvent = evento;
-					values.venue = 'hardcodeado';
+					values.venue_id = 1; //hardcodeado
 
 					return (
 						<Form>

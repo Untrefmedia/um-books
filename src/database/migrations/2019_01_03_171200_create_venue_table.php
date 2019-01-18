@@ -28,6 +28,9 @@ class CreateVenueTable extends Migration
             $table->string('phone', 30)->nullable();
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
+            $table->integer('capacity_turn')->unsigned();
+            $table->integer('capacity_group')->unsigned();
+
             $table->timestamps();
         });
     }

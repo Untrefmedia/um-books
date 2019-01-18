@@ -2,12 +2,14 @@
 
 Route::group(['prefix' => 'admin'], function () {
     // Guardar datos del formulario público
+    Route::resource('book', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController')->only(['store']);
 
+    // Admin
     Route::group(['middleware' => ['web', 'admin', 'auth:admin']], function () {
         Route::resource('venue', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\VenueController');
         Route::get('venueDataList', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\VenueController@dataList')->name('venue.dataList');
 
-        Route::resource('book', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController');
+        Route::resource('book', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController')->except(['store']);
         Route::get('bookDataList', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController@dataList')->name('book.dataList');
 
         Route::resource('event', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\EventController');
@@ -16,4 +18,4 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 // Formulario público
-Route::get('book/form', 'Untrefmedia\UMBooks\App\Http\Controllers\BookController@form')->name('book.form');
+Route::get('bookForm', 'Untrefmedia\UMBooks\App\Http\Controllers\BookController@form')->name('book.form');

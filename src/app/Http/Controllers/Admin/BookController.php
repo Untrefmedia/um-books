@@ -3,8 +3,9 @@
 namespace Untrefmedia\UMBooks\App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Cviebrock\EloquentSluggable\Services\SlugService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Session;
 use Untrefmedia\UMBooks\App\Book;
 use Untrefmedia\UMBooks\App\Http\Requests\BookRequest;
 use URL;
@@ -12,6 +13,11 @@ use Yajra\Datatables\Datatables;
 
 class BookController extends Controller
 {
+    public function test()
+    {
+        echo 555;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -40,10 +46,30 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
+        $fechas              = explode('|', $request->values['selectedEvent']);
+        $fecha_inicio_evento = $fechas[0];
+        $fecha_fin_evento    = $fechas[1];
+
+        if (! is_null($fecha_inicio_evento) && $fecha_inicio_evento != 'null') {
+            $inicioEvento = Carbon::createFromFormat('D M d Y H:i:s e+', $fecha_inicio_evento);
+        } else {
+            $inicioEvento = null;
+        }
+
+        if (! is_null($fecha_fin_evento) && $fecha_fin_evento != 'null') {
+            $finEvento = Carbon::createFromFormat('D M d Y H:i:s e+', $fecha_fin_evento);
+        } else {
+            $finEvento = null;
+        }
+
+        $detalles = json_encode($request->values);
+
         $book = new Book();
 
-        $book->title = $request->title;
-        $book->slug  = SlugService::createSlug(Book::class, 'slug', $request->title, ['unique' => true]);
+        $book->venue_id         = $request->values['venue_id'];
+        $book->event_date_start = $inicioEvento;
+        $book->event_date_end   = $finEvento;
+        $book->detail           = $detalles;
         $book->save();
 
         Session::flash('guardado', 'creado correctamente');
@@ -138,4 +164,5 @@ class BookController extends Controller
 
             })->make(true);
     }
+
 }
