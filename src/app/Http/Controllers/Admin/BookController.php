@@ -51,13 +51,13 @@ class BookController extends Controller
         $fecha_fin_evento    = $fechas[1];
 
         if (! is_null($fecha_inicio_evento) && $fecha_inicio_evento != 'null') {
-            $inicioEvento = Carbon::createFromFormat('D M d Y H:i:s e+', $fecha_inicio_evento);
+            $inicioEvento = date('Y-m-d H:i:s', strtotime($fecha_inicio_evento));
         } else {
             $inicioEvento = null;
         }
 
         if (! is_null($fecha_fin_evento) && $fecha_fin_evento != 'null') {
-            $finEvento = Carbon::createFromFormat('D M d Y H:i:s e+', $fecha_fin_evento);
+            $finEvento = date('Y-m-d H:i:s', strtotime($fecha_fin_evento));
         } else {
             $finEvento = null;
         }
