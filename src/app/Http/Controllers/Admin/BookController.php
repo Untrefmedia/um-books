@@ -3,21 +3,16 @@
 namespace Untrefmedia\UMBooks\App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Session;
 use Untrefmedia\UMBooks\App\Book;
 use Untrefmedia\UMBooks\App\Http\Requests\BookRequest;
+use Untrefmedia\UMBooks\App\Venue;
 use URL;
 use Yajra\Datatables\Datatables;
 
 class BookController extends Controller
 {
-    public function test()
-    {
-        echo 555;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -163,6 +158,14 @@ class BookController extends Controller
                 return '<span style="display: inline-block;">' . $button_edit . '</span> <span style="display: inline-block;">' . $button_delete . '</span>';
 
             })->make(true);
+    }
+
+// Revisa si un turno está disponible segun la capacidad del venue
+    /**
+     * @param Request $request
+     */
+    public function availabilityBook(Request $request)
+    {
     }
 
 }

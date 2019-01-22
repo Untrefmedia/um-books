@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Calendar as fullcalendar } from 'fullcalendar';
-import '../../../node_modules/fullcalendar/dist/plugins/rrule.js'; // need this! or include <script> tag instead
+import '../../../node_modules/fullcalendar/dist/plugins/rrule.js';
 import './fullcalendar.min.css';
+import API from '../../config/config';
 
 const Calendar = ({ selectedEvent }) => {
 	const [event, setEvent] = useState([]);
@@ -103,16 +104,36 @@ const Calendar = ({ selectedEvent }) => {
 			noEventsMessage: 'No hay eventos para mostrar',
 			week: { dow: 1, doy: 4 },
 			locale: 'es',
-			// defaultDate: Date.now(),
-			defaultDate: '2018-12-12',
+			defaultDate: Date.now(),
 			navLinks: true, // can click day/week names to navigate views
 			editable: true,
 			eventLimit: true, // allow "more" link when too many events
 			height: 650,
+			events: eventos,
 			eventClick: function(info) {
-				setEvent(info.event.start + '|' + info.event.end);
+				API.post('admin/availabilityBook', {
+					venue: 1,
+					start: info.event.start.toLocaleString()
+				})
+					.then((response) => {
+						console.log(response);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+				setEvent(
+					info.event.start.toLocaleString() +
+						'|' +
+						info.event.end.toLocaleString()
+				);
 			},
-			events: eventos
+			eventRender: function(info) {
+				if (
+					info.event.start.toLocaleString() === '21/1/2019 11:00:00'
+				) {
+					return false;
+				}
+			}
 		});
 
 		calendar.render();

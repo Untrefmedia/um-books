@@ -39,7 +39,7 @@ const Formulario = () => {
 		// 	.required('Obligatorio'),
 		// teacher_phone: Yup.string().required('Obligatorio'),
 		// teacher_subject: Yup.string().required('Obligatorio'),
-		// numberOfGroupMembers: Yup.number().required('Obligatorio'),
+		numberOfGroupMembers: Yup.number().required('Obligatorio').max(35),
 		// purpose: Yup.string().required('Obligatorio'),
 		// language: Yup.string().required('Obligatorio'),
 		// know: Yup.string().required('Obligatorio'),
