@@ -58,6 +58,7 @@ class VenueController extends Controller
         $venue->longitude      = $request->longitude;
         $venue->capacity_turn  = $request->capacity_turn;
         $venue->capacity_group = $request->capacity_group;
+        $venue->quantity_group = $request->quantity_group;
         $venue->save();
 
         Session::flash('guardado', 'creado correctamente');
@@ -118,6 +119,7 @@ class VenueController extends Controller
         $venue->longitude      = $request->longitude;
         $venue->capacity_turn  = $request->capacity_turn;
         $venue->capacity_group = $request->capacity_group;
+        $venue->quantity_group = $request->quantity_group;
         $venue->save();
 
         Session::flash('guardado', 'Editado correctamente');

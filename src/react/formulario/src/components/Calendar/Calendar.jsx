@@ -4,7 +4,7 @@ import '../../../node_modules/fullcalendar/dist/plugins/rrule.js';
 import './fullcalendar.min.css';
 import API from '../../config/config';
 
-const Calendar = ({ selectedEvent }) => {
+const Calendar = ({ selectedEvent, venueId }) => {
 	const [event, setEvent] = useState([]);
 
 	useEffect(
@@ -112,27 +112,48 @@ const Calendar = ({ selectedEvent }) => {
 			events: eventos,
 			eventClick: function(info) {
 				API.post('admin/availabilityBook', {
-					venue: 1,
+					venue: venueId,
 					start: info.event.start.toLocaleString()
 				})
 					.then((response) => {
-						console.log(response);
+						if (response.data === 'disponible') {
+							setEvent(
+								info.event.start.toLocaleString() +
+									'|' +
+									info.event.end.toLocaleString()
+							);
+						} else {
+							alert('fecha no disponible');
+						}
 					})
 					.catch((error) => {
 						console.log(error);
 					});
-				setEvent(
-					info.event.start.toLocaleString() +
-						'|' +
-						info.event.end.toLocaleString()
-				);
 			},
 			eventRender: function(info) {
-				if (
-					info.event.start.toLocaleString() === '21/1/2019 11:00:00'
-				) {
-					return false;
-				}
+				API.post('admin/datesNotAvailability', {
+					venue: venueId
+				})
+					.then((response) => {
+						if (response.data === 'disponible') {
+							setEvent(
+								info.event.start.toLocaleString() +
+									'|' +
+									info.event.end.toLocaleString()
+							);
+						} else {
+							alert('fecha no disponible');
+						}
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+
+				// if (
+				// 	info.event.start.toLocaleString() === '21/1/2019 11:00:00'
+				// ) {
+				// 	return false;
+				// }
 			}
 		});
 

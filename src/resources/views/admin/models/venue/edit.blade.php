@@ -140,6 +140,13 @@
             </div>
         </div>
 
+        <div class="form-group">
+            {!! Form::label('', 'Cantidad máxima de grupos por turno:', ['class' => 'col-sm-3']) !!}
+            <div class="col-sm-9">
+                {!! Form::text('quantity_group', $venue->quantity_group, ['class' => 'form-control']) !!}
+            </div>
+        </div>
+
         <div class="form-group text-center">
             {!! Form::submit() !!}<br>
         </div>

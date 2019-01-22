@@ -4,7 +4,8 @@ Route::group(['prefix' => 'admin'], function () {
     // Guardar datos del formulario público
     Route::resource('book', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController')->only(['store']);
     Route::post('availabilityBook', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController@availabilityBook');
-
+    Route::post('datesNotAvailability', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController@datesNotAvailability');
+    
     // Admin
     Route::group(['middleware' => ['web', 'admin', 'auth:admin']], function () {
         Route::resource('venue', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\VenueController');

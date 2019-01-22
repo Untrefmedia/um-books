@@ -5,7 +5,7 @@ import Calendar from '../Calendar/Calendar';
 import { FormGroup, Col } from 'react-bootstrap';
 import API from '../../config/config';
 
-const Formulario = () => {
+const Formulario = ({ venueId = 1, capacityGroup = 35 }) => {
 	// Evento es la fecha del calendario (evento elegido)
 	const [evento, setEvent] = useState('');
 
@@ -39,7 +39,9 @@ const Formulario = () => {
 		// 	.required('Obligatorio'),
 		// teacher_phone: Yup.string().required('Obligatorio'),
 		// teacher_subject: Yup.string().required('Obligatorio'),
-		numberOfGroupMembers: Yup.number().required('Obligatorio').max(35),
+		numberOfGroupMembers: Yup.number()
+			.required('Obligatorio')
+			.max(capacityGroup)
 		// purpose: Yup.string().required('Obligatorio'),
 		// language: Yup.string().required('Obligatorio'),
 		// know: Yup.string().required('Obligatorio'),
@@ -48,7 +50,7 @@ const Formulario = () => {
 
 	return (
 		<div>
-			<Calendar selectedEvent={handleEvent} />
+			<Calendar selectedEvent={handleEvent} venueId={venueId} />
 
 			<Formik
 				initialValues={{
@@ -104,7 +106,7 @@ const Formulario = () => {
 				}) => {
 					// Setea el campo del Calendar
 					values.selectedEvent = evento;
-					values.venue_id = 1; //hardcodeado
+					values.venue_id = venueId;
 
 					return (
 						<Form>

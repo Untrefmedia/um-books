@@ -30,6 +30,7 @@ class CreateVenueTable extends Migration
             $table->double('longitude')->nullable();
             $table->integer('capacity_turn')->unsigned();
             $table->integer('capacity_group')->unsigned();
+            $table->integer('quantity_group')->unsigned();
 
             $table->timestamps();
         });

@@ -160,12 +160,42 @@ class BookController extends Controller
             })->make(true);
     }
 
-// Revisa si un turno está disponible segun la capacidad del venue
     /**
+     * Revisa si un turno está disponible segun la capacidad del venue
      * @param Request $request
      */
     public function availabilityBook(Request $request)
     {
+        $respuesta = 'lleno';
+
+        $cantidad_maxima_de_grupos = Venue::where('id', $request->venue)->select('quantity_group')->get()->first()->quantity_group;
+        $fecha_inicio_evento       = date('Y-m-d H:i:s', strtotime($request->start));
+        $cantidad_de_reservas      = Book::where('event_date_start', $fecha_inicio_evento)->count();
+
+        if ($cantidad_de_reservas < $cantidad_maxima_de_grupos) {
+            $respuesta = 'disponible';
+        }
+
+        return $respuesta;
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function datesNotAvailability(Request $request)
+    {
+        $cantidad_maxima_de_grupos = Venue::where('id', $request->venue)->select('quantity_group')->get()->first()->quantity_group;
+        // seguir aca
+        // $cantidad_de_reservas      = Book::where('venue_id', $request->venue)
+        //     ->where('event_date_start', $fecha_inicio_evento)
+        //     ->get();
+
+        // if ($cantidad_de_reservas < $cantidad_maxima_de_grupos) {
+        //     $respuesta = 'disponible';
+        // }
+
+        // return $respuesta;
     }
 
 }
