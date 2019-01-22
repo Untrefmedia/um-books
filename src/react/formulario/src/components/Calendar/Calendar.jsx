@@ -135,15 +135,7 @@ const Calendar = ({ selectedEvent, venueId }) => {
 					venue: venueId
 				})
 					.then((response) => {
-						if (response.data === 'disponible') {
-							setEvent(
-								info.event.start.toLocaleString() +
-									'|' +
-									info.event.end.toLocaleString()
-							);
-						} else {
-							alert('fecha no disponible');
-						}
+						console.log(response);
 					})
 					.catch((error) => {
 						console.log(error);

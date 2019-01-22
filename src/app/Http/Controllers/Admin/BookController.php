@@ -187,15 +187,12 @@ class BookController extends Controller
     {
         $cantidad_maxima_de_grupos = Venue::where('id', $request->venue)->select('quantity_group')->get()->first()->quantity_group;
         // seguir aca
-        // $cantidad_de_reservas      = Book::where('venue_id', $request->venue)
-        //     ->where('event_date_start', $fecha_inicio_evento)
-        //     ->get();
+        $turnos_no_disponibles = Book::where('venue_id', $request->venue)
+            ->whereRaw('COUNT(event_date_start >= ' . $cantidad_maxima_de_grupos . ')')
+            ->select('event_date_start')
+            ->get();
 
-        // if ($cantidad_de_reservas < $cantidad_maxima_de_grupos) {
-        //     $respuesta = 'disponible';
-        // }
-
-        // return $respuesta;
+        return response()->json($turnos_no_disponibles);
     }
 
 }
