@@ -14,6 +14,20 @@ const Calendar = ({ selectedEvent, venueId }) => {
 		[event]
 	);
 
+	const [datesNotAvailability, setDatesNotAvailability] = useState([]);
+	useEffect(() => {
+		API.post('admin/datesNotAvailability', {
+			venue: venueId
+		})
+			.then((response) => {
+				console.log(response);
+				setDatesNotAvailability(response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}, []);
+
 	useEffect(() => {
 		var calendarEl = document.getElementById('calendar');
 
@@ -131,16 +145,6 @@ const Calendar = ({ selectedEvent, venueId }) => {
 					});
 			},
 			eventRender: function(info) {
-				API.post('admin/datesNotAvailability', {
-					venue: venueId
-				})
-					.then((response) => {
-						console.log(response);
-					})
-					.catch((error) => {
-						console.log(error);
-					});
-
 				// if (
 				// 	info.event.start.toLocaleString() === '21/1/2019 11:00:00'
 				// ) {

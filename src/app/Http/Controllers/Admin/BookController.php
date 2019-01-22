@@ -186,11 +186,11 @@ class BookController extends Controller
     public function datesNotAvailability(Request $request)
     {
         $cantidad_maxima_de_grupos = Venue::where('id', $request->venue)->select('quantity_group')->get()->first()->quantity_group;
-        // seguir aca
+
         $turnos_no_disponibles = Book::where('venue_id', $request->venue)
-            ->whereRaw('COUNT(event_date_start >= ' . $cantidad_maxima_de_grupos . ')')
-            ->select('event_date_start')
-            ->get();
+        // ->whereRaw('COUNT(event_date_start >= ' . $cantidad_maxima_de_grupos . ')')
+        ->select('event_date_start')
+        ->get();
 
         return response()->json($turnos_no_disponibles);
     }
