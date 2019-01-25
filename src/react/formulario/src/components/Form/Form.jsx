@@ -13,7 +13,7 @@ const Formulario = ({ venueId = 1, capacityGroup = 35 }) => {
 		setEvent(value);
 	};
 
-	const Validacion = Yup.object().shape({
+	let Validacion = Yup.object().shape({
 		name: Yup.string().required('Obligatorio'),
 		// surname: Yup.string().required('Obligatorio'),
 		// venue: Yup.string().required('Obligatorio'),
@@ -52,617 +52,639 @@ const Formulario = ({ venueId = 1, capacityGroup = 35 }) => {
 		<div>
 			<Calendar selectedEvent={handleEvent} venueId={venueId} />
 
-			<Formik
-				initialValues={{
-					name: '',
-					surname: '',
-					venue_id: '',
-					selectedEvent: '',
-					institution_name: '',
-					institution_responsable: '',
-					institution_address: '',
-					institution_email: '',
-					institution_phone: '',
-					institution_city: '',
-					institution_location: '',
-					institution_type: '',
-					institution_dependency: '',
-					group_level: '',
-					group_course: '',
-					group_numberOfStudents: '',
-					group_numberOfCompanions: '',
-					teacher_name: '',
-					teacher_email: '',
-					teacher_phone: '',
-					teacher_subject: '',
-					numberOfGroupMembers: '',
-					purpose: '',
-					language: '',
-					know: '',
-					comments: ''
-				}}
-				validationSchema={Validacion}
-				onSubmit={(values, { setSubmitting }) => {
-					API.post('admin/book', {
-						values
-					})
-						.then((response) => {
-							console.log(response);
+			{evento.length > 0 ? (
+				<Formik
+					initialValues={{
+						name: '',
+						surname: '',
+						venue_id: '',
+						selectedEvent: '',
+						institution_name: '',
+						institution_responsable: '',
+						institution_address: '',
+						institution_email: '',
+						institution_phone: '',
+						institution_city: '',
+						institution_location: '',
+						institution_type: '',
+						institution_dependency: '',
+						group_level: '',
+						group_course: '',
+						group_numberOfStudents: '',
+						group_numberOfCompanions: '',
+						teacher_name: '',
+						teacher_email: '',
+						teacher_phone: '',
+						teacher_subject: '',
+						numberOfGroupMembers: '',
+						purpose: '',
+						language: '',
+						know: '',
+						comments: ''
+					}}
+					validationSchema={Validacion}
+					onSubmit={(values, { setSubmitting }) => {
+						API.post('admin/book', {
+							values
 						})
-						.catch((error) => {
-							console.log(error);
-						});
-				}}
-				render={({
-					values,
-					touched,
-					errors,
-					dirty,
-					isSubmitting,
-					handleChange,
-					handleBlur,
-					handleSubmit,
-					handleReset
-				}) => {
-					// Setea el campo del Calendar
-					values.selectedEvent = evento;
-					values.venue_id = venueId;
+							.then((response) => {
+								console.log(response);
+							})
+							.catch((error) => {
+								console.log(error);
+							});
+					}}
+					render={({
+						values,
+						touched,
+						errors,
+						dirty,
+						isSubmitting,
+						handleChange,
+						handleBlur,
+						handleSubmit,
+						handleReset
+					}) => {
+						// Setea el campo del Calendar
+						values.selectedEvent = evento;
+						values.venue_id = venueId;
 
-					return (
-						<Form>
-							<FormGroup>
-								<Col xs={2}>Nombre</Col>
-								<Col xs={10}>
-									<input
-										name="name"
-										type="text"
-										value={values.name}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="name"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
-
-							<FormGroup>
-								<Col xs={2}>Apellido</Col>
-								<Col xs={10}>
-									<input
-										name="surname"
-										type="text"
-										value={values.surname}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="surname"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
-
-							<FormGroup>
-								<Col xs={2}>Institución: Nombre</Col>
-								<Col xs={10}>
-									<input
-										name="institution_name"
-										type="text"
-										value={values.institution_name}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="institution_name"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
-
-							<FormGroup>
-								<Col xs={2}>
-									Institución: Responsable (nombre y apellido)
-								</Col>
-								<Col xs={10}>
-									<input
-										name="institution_responsable"
-										type="text"
-										value={values.institution_responsable}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="institution_responsable"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
-
-							<FormGroup>
-								<Col xs={2}>Institución: Dirección</Col>
-								<Col xs={10}>
-									<input
-										name="institution_address"
-										type="text"
-										value={values.institution_address}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="institution_address"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
-
-							<FormGroup>
-								<Col xs={2}>Institución: Email</Col>
-								<Col xs={10}>
-									<input
-										name="institution_email"
-										type="text"
-										value={values.institution_email}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="institution_email"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
-
-							<FormGroup>
-								<Col xs={2}>Institución: Teléfono</Col>
-								<Col xs={10}>
-									<input
-										name="institution_phone"
-										type="text"
-										value={values.institution_phone}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="institution_phone"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
-
-							<FormGroup>
-								<Col xs={2}>Institución: Localidad</Col>
-								<Col xs={10}>
-									<input
-										name="institution_city"
-										type="text"
-										value={values.institution_city}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="institution_city"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
-
-							<FormGroup>
-								<Col xs={2}>Institución: Ubicación</Col>
-								<Col xs={10}>
-									<select
-										name="institution_location"
-										value={values.institution_location}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									>
-										<option
-											value=""
-											label="Seleccionar ubicación"
+						return (
+							<Form>
+								<FormGroup>
+									<Col xs={2}>Nombre</Col>
+									<Col xs={10}>
+										<input
+											name="name"
+											type="text"
+											value={values.name}
+											onChange={handleChange}
+											onBlur={handleBlur}
 										/>
-										<option value="caba" label="CABA" />
-										<option
-											value="gba"
-											label="Gran Buenos Aires"
+										<ErrorMessage
+											name="name"
+											component="div"
+											className="field-error"
 										/>
+									</Col>
+								</FormGroup>
 
-										<option
-											value="interior"
-											label="Interior"
+								<FormGroup>
+									<Col xs={2}>Apellido</Col>
+									<Col xs={10}>
+										<input
+											name="surname"
+											type="text"
+											value={values.surname}
+											onChange={handleChange}
+											onBlur={handleBlur}
 										/>
-									</select>
-									<ErrorMessage
-										name="institution_location"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
-
-							<FormGroup>
-								<Col xs={2}>Institución: Tipo</Col>
-								<Col xs={10}>
-									<input
-										name="institution_type"
-										type="radio"
-										value="educativa"
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<label htmlFor="institution_type">
-										Educativa
-									</label>
-									<input
-										name="institution_type"
-										type="radio"
-										value="centro adultos mayores"
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<label htmlFor="institution_type">
-										Centro adultos mayores
-									</label>
-									<input
-										name="institution_type"
-										type="radio"
-										value="fundación"
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<label htmlFor="institution_type">
-										Fundación
-									</label>
-									<input
-										name="institution_type"
-										type="radio"
-										value="otra"
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<label htmlFor="institution_type">
-										Otra: (completar)
-									</label>
-									<ErrorMessage
-										name="institution_type"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
-
-							<FormGroup>
-								<Col xs={2}>Institución: Dependencia</Col>
-								<Col xs={10}>
-									<select
-										name="institution_dependency"
-										value={values.institution_dependency}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									>
-										<option
-											value=""
-											label="Seleccionar dependencia"
+										<ErrorMessage
+											name="surname"
+											component="div"
+											className="field-error"
 										/>
-										<option
-											value="pública"
-											label="Pública"
+									</Col>
+								</FormGroup>
+
+								<FormGroup>
+									<Col xs={2}>Institución: Nombre</Col>
+									<Col xs={10}>
+										<input
+											name="institution_name"
+											type="text"
+											value={values.institution_name}
+											onChange={handleChange}
+											onBlur={handleBlur}
 										/>
-										<option
-											value="privada"
-											label="Privada"
+										<ErrorMessage
+											name="institution_name"
+											component="div"
+											className="field-error"
 										/>
-									</select>
-									<ErrorMessage
-										name="institution_dependency"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
+									</Col>
+								</FormGroup>
 
-							<FormGroup>
-								<Col xs={2}>Grupo: Nivel</Col>
-								<Col xs={10}>
-									<select
-										name="group_level"
-										value={values.group_level}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									>
-										<option
-											value=""
-											label="Seleccionar nivel"
+								<FormGroup>
+									<Col xs={2}>
+										Institución: Responsable (nombre y
+										apellido)
+									</Col>
+									<Col xs={10}>
+										<input
+											name="institution_responsable"
+											type="text"
+											value={
+												values.institution_responsable
+											}
+											onChange={handleChange}
+											onBlur={handleBlur}
 										/>
-										<option value="jardín" label="Jardín" />
-										<option
-											value="primaria"
-											label="Primaria"
+										<ErrorMessage
+											name="institution_responsable"
+											component="div"
+											className="field-error"
 										/>
-										<option
-											value="secundaria"
-											label="Secundaria"
+									</Col>
+								</FormGroup>
+
+								<FormGroup>
+									<Col xs={2}>Institución: Dirección</Col>
+									<Col xs={10}>
+										<input
+											name="institution_address"
+											type="text"
+											value={values.institution_address}
+											onChange={handleChange}
+											onBlur={handleBlur}
 										/>
-										<option
-											value="terciario"
-											label="Terciario"
+										<ErrorMessage
+											name="institution_address"
+											component="div"
+											className="field-error"
 										/>
-										<option
-											value="universitario"
-											label="Universitario"
+									</Col>
+								</FormGroup>
+
+								<FormGroup>
+									<Col xs={2}>Institución: Email</Col>
+									<Col xs={10}>
+										<input
+											name="institution_email"
+											type="text"
+											value={values.institution_email}
+											onChange={handleChange}
+											onBlur={handleBlur}
 										/>
-									</select>
-									<ErrorMessage
-										name="group_level"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
+										<ErrorMessage
+											name="institution_email"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
 
-							<FormGroup>
-								<Col xs={2}>Grupo: Curso</Col>
-								<Col xs={10}>
-									<input
-										name="group_course"
-										type="text"
-										value={values.group_course}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="group_course"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
+								<FormGroup>
+									<Col xs={2}>Institución: Teléfono</Col>
+									<Col xs={10}>
+										<input
+											name="institution_phone"
+											type="text"
+											value={values.institution_phone}
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<ErrorMessage
+											name="institution_phone"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
 
-							<FormGroup>
-								<Col xs={2}>Grupo: Cantidad de alumnos</Col>
-								<Col xs={10}>
-									<input
-										name="group_numberOfStudents"
-										type="text"
-										value={values.group_numberOfStudents}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="group_numberOfStudents"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
+								<FormGroup>
+									<Col xs={2}>Institución: Localidad</Col>
+									<Col xs={10}>
+										<input
+											name="institution_city"
+											type="text"
+											value={values.institution_city}
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<ErrorMessage
+											name="institution_city"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
 
-							<FormGroup>
-								<Col xs={2}>
-									Grupo: Cantidad de acompañantes
-								</Col>
-								<Col xs={10}>
-									<input
-										name="group_numberOfCompanions"
-										type="text"
-										value={values.group_numberOfCompanions}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="group_numberOfCompanions"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
+								<FormGroup>
+									<Col xs={2}>Institución: Ubicación</Col>
+									<Col xs={10}>
+										<select
+											name="institution_location"
+											value={values.institution_location}
+											onChange={handleChange}
+											onBlur={handleBlur}
+										>
+											<option
+												value=""
+												label="Seleccionar ubicación"
+											/>
+											<option value="caba" label="CABA" />
+											<option
+												value="gba"
+												label="Gran Buenos Aires"
+											/>
 
-							<FormGroup>
-								<Col xs={2}>Docente: Nombre y apellido</Col>
-								<Col xs={10}>
-									<input
-										name="teacher_name"
-										type="text"
-										value={values.teacher_name}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="teacher_name"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
+											<option
+												value="interior"
+												label="Interior"
+											/>
+										</select>
+										<ErrorMessage
+											name="institution_location"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
 
-							<FormGroup>
-								<Col xs={2}>Docente: Email</Col>
-								<Col xs={10}>
-									<input
-										name="teacher_email"
-										type="text"
-										value={values.teacher_email}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="teacher_email"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
+								<FormGroup>
+									<Col xs={2}>Institución: Tipo</Col>
+									<Col xs={10}>
+										<input
+											name="institution_type"
+											type="radio"
+											value="educativa"
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<label htmlFor="institution_type">
+											Educativa
+										</label>
+										<input
+											name="institution_type"
+											type="radio"
+											value="centro adultos mayores"
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<label htmlFor="institution_type">
+											Centro adultos mayores
+										</label>
+										<input
+											name="institution_type"
+											type="radio"
+											value="fundación"
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<label htmlFor="institution_type">
+											Fundación
+										</label>
+										<input
+											name="institution_type"
+											type="radio"
+											value="otra"
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<label htmlFor="institution_type">
+											Otra: (completar)
+										</label>
+										<ErrorMessage
+											name="institution_type"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
 
-							<FormGroup>
-								<Col xs={2}>Docente: Teléfono</Col>
-								<Col xs={10}>
-									<input
-										name="teacher_phone"
-										type="text"
-										value={values.teacher_phone}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="teacher_phone"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
+								<FormGroup>
+									<Col xs={2}>Institución: Dependencia</Col>
+									<Col xs={10}>
+										<select
+											name="institution_dependency"
+											value={
+												values.institution_dependency
+											}
+											onChange={handleChange}
+											onBlur={handleBlur}
+										>
+											<option
+												value=""
+												label="Seleccionar dependencia"
+											/>
+											<option
+												value="pública"
+												label="Pública"
+											/>
+											<option
+												value="privada"
+												label="Privada"
+											/>
+										</select>
+										<ErrorMessage
+											name="institution_dependency"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
 
-							<FormGroup>
-								<Col xs={2}>Docente: Asignatura que dicta</Col>
-								<Col xs={10}>
-									<input
-										name="teacher_subject"
-										type="text"
-										value={values.teacher_subject}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="teacher_subject"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
+								<FormGroup>
+									<Col xs={2}>Grupo: Nivel</Col>
+									<Col xs={10}>
+										<select
+											name="group_level"
+											value={values.group_level}
+											onChange={handleChange}
+											onBlur={handleBlur}
+										>
+											<option
+												value=""
+												label="Seleccionar nivel"
+											/>
+											<option
+												value="jardín"
+												label="Jardín"
+											/>
+											<option
+												value="primaria"
+												label="Primaria"
+											/>
+											<option
+												value="secundaria"
+												label="Secundaria"
+											/>
+											<option
+												value="terciario"
+												label="Terciario"
+											/>
+											<option
+												value="universitario"
+												label="Universitario"
+											/>
+										</select>
+										<ErrorMessage
+											name="group_level"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
 
-							<FormGroup>
-								<Col xs={2}>
-									Cantidad de integrantes del grupo:
-								</Col>
-								<Col xs={10}>
-									<input
-										name="numberOfGroupMembers"
-										type="text"
-										value={values.numberOfGroupMembers}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="numberOfGroupMembers"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
+								<FormGroup>
+									<Col xs={2}>Grupo: Curso</Col>
+									<Col xs={10}>
+										<input
+											name="group_course"
+											type="text"
+											value={values.group_course}
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<ErrorMessage
+											name="group_course"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
 
-							<FormGroup>
-								<Col xs={2}>Propósito de la visita:</Col>
-								<Col xs={10}>
-									<textarea
-										name="purpose"
-										type="text"
-										value={values.purpose}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="purpose"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
+								<FormGroup>
+									<Col xs={2}>Grupo: Cantidad de alumnos</Col>
+									<Col xs={10}>
+										<input
+											name="group_numberOfStudents"
+											type="text"
+											value={
+												values.group_numberOfStudents
+											}
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<ErrorMessage
+											name="group_numberOfStudents"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
 
-							<FormGroup>
-								<Col xs={2}>Idioma necesario en la visita:</Col>
-								<Col xs={10}>
-									<input
-										name="language"
-										type="radio"
-										value="español"
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<label htmlFor="language">Español</label>
-									<input
-										name="language"
-										type="radio"
-										value="inglés"
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<label htmlFor="language">Inglés</label>
-									<ErrorMessage
-										name="language"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
+								<FormGroup>
+									<Col xs={2}>
+										Grupo: Cantidad de acompañantes
+									</Col>
+									<Col xs={10}>
+										<input
+											name="group_numberOfCompanions"
+											type="text"
+											value={
+												values.group_numberOfCompanions
+											}
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<ErrorMessage
+											name="group_numberOfCompanions"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
 
-							<FormGroup>
-								<Col xs={2}>Cómo supo del museo:</Col>
-								<Col xs={10}>
-									<textarea
-										name="know"
-										type="text"
-										value={values.know}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="know"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
+								<FormGroup>
+									<Col xs={2}>Docente: Nombre y apellido</Col>
+									<Col xs={10}>
+										<input
+											name="teacher_name"
+											type="text"
+											value={values.teacher_name}
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<ErrorMessage
+											name="teacher_name"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
 
-							<FormGroup>
-								<Col xs={2}>Comentarios y Preguntas:</Col>
-								<Col xs={10}>
-									<textarea
-										name="comments"
-										type="text"
-										value={values.comments}
-										onChange={handleChange}
-										onBlur={handleBlur}
-									/>
-									<ErrorMessage
-										name="comments"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
+								<FormGroup>
+									<Col xs={2}>Docente: Email</Col>
+									<Col xs={10}>
+										<input
+											name="teacher_email"
+											type="text"
+											value={values.teacher_email}
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<ErrorMessage
+											name="teacher_email"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
 
-							<FormGroup>
-								<Col xs={2}>Calendario</Col>
-								<Col xs={10}>
-									<input
-										name="selectedEvent"
-										type="text"
-										value={values.selectedEvent}
-										onChange={handleChange}
-										onBlur={handleBlur}
-										style={{ visibility: 'hidden' }}
-									/>
-									<ErrorMessage
-										name="selectedEvent"
-										component="div"
-										className="field-error"
-									/>
-								</Col>
-							</FormGroup>
+								<FormGroup>
+									<Col xs={2}>Docente: Teléfono</Col>
+									<Col xs={10}>
+										<input
+											name="teacher_phone"
+											type="text"
+											value={values.teacher_phone}
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<ErrorMessage
+											name="teacher_phone"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
 
-							<button type="submit" disabled={isSubmitting}>
-								Submit
-							</button>
-						</Form>
-					);
-				}}
-			/>
+								<FormGroup>
+									<Col xs={2}>
+										Docente: Asignatura que dicta
+									</Col>
+									<Col xs={10}>
+										<input
+											name="teacher_subject"
+											type="text"
+											value={values.teacher_subject}
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<ErrorMessage
+											name="teacher_subject"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
+
+								<FormGroup>
+									<Col xs={2}>
+										Cantidad de integrantes del grupo:
+									</Col>
+									<Col xs={10}>
+										<input
+											name="numberOfGroupMembers"
+											type="text"
+											value={values.numberOfGroupMembers}
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<ErrorMessage
+											name="numberOfGroupMembers"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
+
+								<FormGroup>
+									<Col xs={2}>Propósito de la visita:</Col>
+									<Col xs={10}>
+										<textarea
+											name="purpose"
+											type="text"
+											value={values.purpose}
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<ErrorMessage
+											name="purpose"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
+
+								<FormGroup>
+									<Col xs={2}>
+										Idioma necesario en la visita:
+									</Col>
+									<Col xs={10}>
+										<input
+											name="language"
+											type="radio"
+											value="español"
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<label htmlFor="language">
+											Español
+										</label>
+										<input
+											name="language"
+											type="radio"
+											value="inglés"
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<label htmlFor="language">Inglés</label>
+										<ErrorMessage
+											name="language"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
+
+								<FormGroup>
+									<Col xs={2}>Cómo supo del museo:</Col>
+									<Col xs={10}>
+										<textarea
+											name="know"
+											type="text"
+											value={values.know}
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<ErrorMessage
+											name="know"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
+
+								<FormGroup>
+									<Col xs={2}>Comentarios y Preguntas:</Col>
+									<Col xs={10}>
+										<textarea
+											name="comments"
+											type="text"
+											value={values.comments}
+											onChange={handleChange}
+											onBlur={handleBlur}
+										/>
+										<ErrorMessage
+											name="comments"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
+
+								<FormGroup>
+									<Col xs={2}>Calendario</Col>
+									<Col xs={10}>
+										<input
+											name="selectedEvent"
+											type="text"
+											value={values.selectedEvent}
+											onChange={handleChange}
+											onBlur={handleBlur}
+											style={{ visibility: 'hidden' }}
+										/>
+										<ErrorMessage
+											name="selectedEvent"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
+
+								<button type="submit" disabled={isSubmitting}>
+									Submit
+								</button>
+							</Form>
+						);
+					}}
+				/>
+			) : (
+				''
+			)}
 		</div>
 	);
 };

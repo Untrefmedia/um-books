@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Calendar as fullcalendar } from 'fullcalendar';
-import '../../../node_modules/fullcalendar/dist/plugins/rrule.js';
 import './fullcalendar.min.css';
 import API from '../../config/config';
 
 const Calendar = ({ selectedEvent, venueId }) => {
 	// evento elegido en el calendario, para input del formulario
 	const [event, setEvent] = useState([]);
+	// listado de turnos para rellenar el calendario
+	const [turnos, setTurnos] = useState({ status: false, turnos: [] });
+
 	useEffect(
 		() => {
 			selectedEvent(event);
@@ -14,8 +16,6 @@ const Calendar = ({ selectedEvent, venueId }) => {
 		[event]
 	);
 
-	// listado de turnos para rellenar el calendario
-	const [turnos, setTurnos] = useState({ status: false, turnos: [] });
 	useEffect(() => {
 		API.post('admin/getEvents')
 			.then((response) => {
