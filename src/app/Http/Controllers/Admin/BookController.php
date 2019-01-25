@@ -238,4 +238,34 @@ class BookController extends Controller
         return response()->json($eventos);
     }
 
+    /**
+     * @param Request $request
+     */
+    public function checkCapacityTurn(Request $request)
+    {
+        $fechas              = explode('|', $request->turnoElegido);
+        $fecha_inicio_evento = $fechas[0];
+
+        if (! is_null($fecha_inicio_evento) && $fecha_inicio_evento != 'null') {
+            $inicioEvento = date('Y-d-m H:i:s', strtotime($fecha_inicio_evento));
+        } else {
+            $inicioEvento = null;
+        }
+
+        $maximo_personas_por_turno = Venue::where('id', $request->venue)->select('capacity_turn')->get()->first()->capacity_turn;
+
+        $reservas_en_fecha_elegida = Book::where('venue_id', $request->venue)
+            ->where('event_date_start', $inicioEvento)
+            ->select('detail')
+            ->get()
+            ->pluck('detail');
+
+        if ($reservas_en_fecha_elegida->isNotEmpty()) {
+            $detalles = json_decode($reservas_en_fecha_elegida);
+            print_r($detalles[0]);
+        }
+
+        return response()->json($reservas_en_fecha_elegida);
+    }
+
 }

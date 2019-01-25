@@ -3,7 +3,7 @@ import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Calendar from '../Calendar/Calendar';
 import { FormGroup, Col } from 'react-bootstrap';
-import API from '../../config/config';
+import API, { API_baseURL } from '../../config/config';
 
 const Formulario = ({ venueId = 1, capacityGroup = 35 }) => {
 	// Evento es la fecha del calendario (evento elegido)
@@ -42,6 +42,24 @@ const Formulario = ({ venueId = 1, capacityGroup = 35 }) => {
 		numberOfGroupMembers: Yup.number()
 			.required('Obligatorio')
 			.max(capacityGroup)
+			.test('is-jimmy', '${path} is not Jimmy', function(value) {
+				return fetch(API_baseURL + 'admin/checkCapacityTurn', {
+					method: 'POST',
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						cantidadMiembros: value,
+						turnoElegido: evento,
+						venue: venueId
+					})
+				}).then((response) => {
+					console.log(response);
+				});
+			})
+
+		// response.responseText === 'true'
 		// purpose: Yup.string().required('Obligatorio'),
 		// language: Yup.string().required('Obligatorio'),
 		// know: Yup.string().required('Obligatorio'),
