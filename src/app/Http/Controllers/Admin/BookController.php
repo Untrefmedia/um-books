@@ -4,6 +4,7 @@ namespace Untrefmedia\UMBooks\App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use RRule\RRule;
 use Session;
 use Untrefmedia\UMBooks\App\Book;
 use Untrefmedia\UMBooks\App\Http\Requests\BookRequest;
@@ -46,15 +47,17 @@ class BookController extends Controller
         $fecha_fin_evento    = $fechas[1];
 
         if (! is_null($fecha_inicio_evento) && $fecha_inicio_evento != 'null') {
-            $inicioEvento = date('Y-m-d H:i:s', strtotime($fecha_inicio_evento));
+            $inicioEvento = date('Y-d-m H:i:s', strtotime($fecha_inicio_evento));
         } else {
             $inicioEvento = null;
         }
 
         if (! is_null($fecha_fin_evento) && $fecha_fin_evento != 'null') {
-            $finEvento = date('Y-m-d H:i:s', strtotime($fecha_fin_evento));
+            $finEvento = date('Y-d-m H:i:s', strtotime($fecha_fin_evento));
+
         } else {
             $finEvento = null;
+
         }
 
         $detalles = json_encode($request->values);
@@ -169,7 +172,7 @@ class BookController extends Controller
         $respuesta = 'lleno';
 
         $cantidad_maxima_de_grupos = Venue::where('id', $request->venue)->select('quantity_group')->get()->first()->quantity_group;
-        $fecha_inicio_evento       = date('Y-m-d H:i:s', strtotime($request->start));
+        $fecha_inicio_evento       = date('Y-d-m H:i:s', strtotime($request->start));
         $cantidad_de_reservas      = Book::where('event_date_start', $fecha_inicio_evento)->count();
 
         if ($cantidad_de_reservas < $cantidad_maxima_de_grupos) {
@@ -188,11 +191,51 @@ class BookController extends Controller
         $cantidad_maxima_de_grupos = Venue::where('id', $request->venue)->select('quantity_group')->get()->first()->quantity_group;
 
         $turnos_no_disponibles = Book::where('venue_id', $request->venue)
-        // ->whereRaw('COUNT(event_date_start >= ' . $cantidad_maxima_de_grupos . ')')
-        ->select('event_date_start')
-        ->get();
+            ->groupBy('event_date_start')
+            ->havingRaw('COUNT(event_date_start) >= ' . $cantidad_maxima_de_grupos)
+            ->select('event_date_start')
+            ->get()
+            ->pluck('event_date_start');
 
-        return response()->json($turnos_no_disponibles);
+        $fechas = array();
+
+        foreach ($turnos_no_disponibles as $key => $value) {
+            $fechas[$key] = date('Y-d-m H:i:s', strtotime($value));
+            $formato_A    = explode(' ', $value);
+            $formato_B    = explode('-', $formato_A[0]);
+
+            $formateada   = $formato_B[2] . '/' . $formato_B[1] . '/' . $formato_B[0] . ', ' . $formato_A[1];
+            $fechas[$key] = $formateada;
+        }
+
+        $arr = array(
+            "events" => $fechas,
+            "status" => true
+        );
+
+        return response()->json($arr);
+    }
+
+    public function getEvents()
+    {
+        $rrule = new RRule([
+            'FREQ'     => 'WEEKLY',
+            'INTERVAL' => 1,
+            'DTSTART'  => '2019-01-01 10:00:00',
+            'BYDAY'    => ['MO', 'TU', 'WE', 'TH', 'FR'],
+            'UNTIL'    => '2020-01-01 10:00:00'
+            // 'COUNT'    => 100
+        ]);
+
+        $eventos = array();
+
+        foreach ($rrule as $key => $occurrence) {
+            $eventos[$key]['title'] = 'Desde las 10';
+            $eventos[$key]['start'] = $occurrence->format('Y/m/d H:i:s');
+            $eventos[$key]['end']   = date('Y/m/d H:i:s', strtotime('+1 hours', strtotime($eventos[$key]['start'])));
+        }
+
+        return response()->json($eventos);
     }
 
 }

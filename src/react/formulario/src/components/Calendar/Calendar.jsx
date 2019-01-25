@@ -5,8 +5,8 @@ import './fullcalendar.min.css';
 import API from '../../config/config';
 
 const Calendar = ({ selectedEvent, venueId }) => {
+	// evento elegido en el calendario, para input del formulario
 	const [event, setEvent] = useState([]);
-
 	useEffect(
 		() => {
 			selectedEvent(event);
@@ -14,147 +14,89 @@ const Calendar = ({ selectedEvent, venueId }) => {
 		[event]
 	);
 
-	const [datesNotAvailability, setDatesNotAvailability] = useState([]);
+	// listado de turnos para rellenar el calendario
+	const [turnos, setTurnos] = useState({ status: false, turnos: [] });
 	useEffect(() => {
-		API.post('admin/datesNotAvailability', {
-			venue: venueId
-		})
+		API.post('admin/getEvents')
 			.then((response) => {
-				console.log(response);
-				setDatesNotAvailability(response.data);
+				setTurnos({ status: true, turnos: [...response.data] });
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	}, []);
 
-	useEffect(() => {
-		var calendarEl = document.getElementById('calendar');
+	useEffect(
+		() => {
+			if (turnos.status) {
+				var calendarEl = document.getElementById('calendar');
 
-		const eventos = [
-			{
-				title: 'Desde las 10',
-				rrule: {
-					freq: 'DAILY',
-					byweekday: ['mo', 'tu', 'we', 'th', 'fr'],
-					dtstart: '2018-12-01T10:00:00'
-				},
-				duration: '01:00'
-			},
-			{
-				title: 'Desde las 11',
-				rrule: {
-					freq: 'DAILY',
-					byweekday: ['mo', 'tu', 'we', 'th', 'fr'],
-					dtstart: '2018-12-01T11:00:00'
-				},
-				duration: '01:00'
-			},
-			{
-				title: 'Desde las 14',
-				rrule: {
-					freq: 'DAILY',
-					byweekday: ['mo', 'tu', 'we', 'th', 'fr'],
-					dtstart: '2018-12-01T14:00:00'
-				},
-				duration: '01:00'
-			},
-			{
-				title: 'Desde las 15',
-				rrule: {
-					freq: 'DAILY',
-					byweekday: ['mo', 'tu', 'we', 'th', 'fr'],
-					dtstart: '2018-12-01T15:00:00'
-				},
-				duration: '01:00'
-			},
-			{
-				title: 'Desde las 16',
-				rrule: {
-					freq: 'DAILY',
-					byweekday: ['mo', 'tu', 'we', 'th', 'fr'],
-					dtstart: '2018-12-01T16:00:00'
-				},
-				duration: '01:00'
-			},
-			{
-				title: 'Desde las 17',
-				rrule: {
-					freq: 'DAILY',
-					byweekday: ['mo', 'tu', 'we', 'th', 'fr'],
-					dtstart: '2018-12-01T17:00:00'
-				},
-				duration: '01:00'
-			},
-			{
-				title: 'Fin de semana',
-				rrule: {
-					freq: 'DAILY',
-					byweekday: ['sa', 'su'],
-					dtstart: '2018-12-01T15:00:00'
-				},
-				duration: '01:00'
+				var calendar = new fullcalendar(calendarEl, {
+					header: {
+						left: 'prev,next today',
+						center: 'title',
+						right: 'month,agendaWeek,agendaDay,listWeek'
+					},
+					buttonText: {
+						prev: 'Ant',
+						next: 'Sig',
+						today: 'Hoy',
+						month: 'Mes',
+						week: 'Semana',
+						day: 'Día',
+						list: 'Agenda'
+					},
+					weekLabel: 'Sm',
+					allDayHtml: 'Todo<br/>el día',
+					eventLimitText: 'más',
+					noEventsMessage: 'No hay eventos para mostrar',
+					week: { dow: 1, doy: 4 },
+					locale: 'es',
+					defaultDate: Date.now(),
+					navLinks: true, // can click day/week names to navigate views
+					editable: true,
+					eventLimit: true, // allow "more" link when too many events
+					height: 650,
+					events: turnos.turnos,
+					eventClick: function(info) {
+						API.post('admin/availabilityBook', {
+							venue: venueId,
+							start: info.event.start.toLocaleString('en-GB', {
+								timeZone: 'America/Argentina/Buenos_Aires'
+							})
+						})
+							.then((response) => {
+								if (response.data === 'disponible') {
+									let turnoElegido =
+										info.event.start.toLocaleString(
+											'en-GB',
+											{
+												timeZone:
+													'America/Argentina/Buenos_Aires'
+											}
+										) +
+										'|' +
+										info.event.end.toLocaleString('en-GB', {
+											timeZone:
+												'America/Argentina/Buenos_Aires'
+										});
+
+									setEvent(turnoElegido);
+								} else {
+									alert('fecha no disponible');
+								}
+							})
+							.catch((error) => {
+								console.log(error);
+							});
+					}
+				});
+
+				calendar.render();
 			}
-		];
-
-		var calendar = new fullcalendar(calendarEl, {
-			header: {
-				left: 'prev,next today',
-				center: 'title',
-				right: 'month,agendaWeek,agendaDay,listWeek'
-			},
-			buttonText: {
-				prev: 'Ant',
-				next: 'Sig',
-				today: 'Hoy',
-				month: 'Mes',
-				week: 'Semana',
-				day: 'Día',
-				list: 'Agenda'
-			},
-			weekLabel: 'Sm',
-			allDayHtml: 'Todo<br/>el día',
-			eventLimitText: 'más',
-			noEventsMessage: 'No hay eventos para mostrar',
-			week: { dow: 1, doy: 4 },
-			locale: 'es',
-			defaultDate: Date.now(),
-			navLinks: true, // can click day/week names to navigate views
-			editable: true,
-			eventLimit: true, // allow "more" link when too many events
-			height: 650,
-			events: eventos,
-			eventClick: function(info) {
-				API.post('admin/availabilityBook', {
-					venue: venueId,
-					start: info.event.start.toLocaleString()
-				})
-					.then((response) => {
-						if (response.data === 'disponible') {
-							setEvent(
-								info.event.start.toLocaleString() +
-									'|' +
-									info.event.end.toLocaleString()
-							);
-						} else {
-							alert('fecha no disponible');
-						}
-					})
-					.catch((error) => {
-						console.log(error);
-					});
-			},
-			eventRender: function(info) {
-				// if (
-				// 	info.event.start.toLocaleString() === '21/1/2019 11:00:00'
-				// ) {
-				// 	return false;
-				// }
-			}
-		});
-
-		calendar.render();
-	}, []);
+		},
+		[turnos]
+	);
 
 	return <div id="calendar" />;
 };

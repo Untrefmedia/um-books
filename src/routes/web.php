@@ -5,6 +5,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('book', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController')->only(['store']);
     Route::post('availabilityBook', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController@availabilityBook');
     Route::post('datesNotAvailability', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController@datesNotAvailability');
+    Route::post('getEvents', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController@getEvents');
     
     // Admin
     Route::group(['middleware' => ['web', 'admin', 'auth:admin']], function () {
