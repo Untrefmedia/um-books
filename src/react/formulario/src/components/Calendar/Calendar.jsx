@@ -17,7 +17,7 @@ const Calendar = ({ selectedEvent, venueId }) => {
 	);
 
 	useEffect(() => {
-		API.post('admin/getEvents')
+		API.post('admin/getEvents', { venueId })
 			.then((response) => {
 				setTurnos({ status: true, turnos: [...response.data] });
 			})
@@ -59,10 +59,15 @@ const Calendar = ({ selectedEvent, venueId }) => {
 					height: 650,
 					events: turnos.turnos,
 					eventClick: function(info) {
+						console.log(
+							info.event.start.toLocaleString('en-GB', {
+								timeZone: 'America/Winnipeg'
+							})
+						);
 						API.post('admin/availabilityBook', {
 							venue: venueId,
 							start: info.event.start.toLocaleString('en-GB', {
-								timeZone: 'America/Argentina/Buenos_Aires'
+								timeZone: 'America/Winnipeg'
 							})
 						})
 							.then((response) => {
@@ -71,14 +76,12 @@ const Calendar = ({ selectedEvent, venueId }) => {
 										info.event.start.toLocaleString(
 											'en-GB',
 											{
-												timeZone:
-													'America/Argentina/Buenos_Aires'
+												timeZone: 'America/Winnipeg'
 											}
 										) +
 										'|' +
 										info.event.end.toLocaleString('en-GB', {
-											timeZone:
-												'America/Argentina/Buenos_Aires'
+											timeZone: 'America/Winnipeg'
 										});
 
 									setEvent(turnoElegido);

@@ -186,11 +186,11 @@ class BookController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function datesNotAvailability(Request $request)
+    public function datesNotAvailability($id_venue)
     {
-        $cantidad_maxima_de_grupos = Venue::where('id', $request->venue)->select('quantity_group')->get()->first()->quantity_group;
+        $cantidad_maxima_de_grupos = Venue::where('id', $id_venue)->select('quantity_group')->get()->first()->quantity_group;
 
-        $turnos_no_disponibles = Book::where('venue_id', $request->venue)
+        $turnos_no_disponibles = Book::where('venue_id', $id_venue)
             ->groupBy('event_date_start')
             ->havingRaw('COUNT(event_date_start) >= ' . $cantidad_maxima_de_grupos)
             ->select('event_date_start')
@@ -200,23 +200,21 @@ class BookController extends Controller
         $fechas = array();
 
         foreach ($turnos_no_disponibles as $key => $value) {
-            $fechas[$key] = date('Y-d-m H:i:s', strtotime($value));
+            $fechas[$key] = date('Y/m/d H:i:s', strtotime($value));
             $formato_A    = explode(' ', $value);
             $formato_B    = explode('-', $formato_A[0]);
 
-            $formateada   = $formato_B[2] . '/' . $formato_B[1] . '/' . $formato_B[0] . ', ' . $formato_A[1];
-            $fechas[$key] = $formateada;
+// $formateada   = $formato_B[2] . '/' . $formato_B[1] . '/' . $formato_B[0] . ', ' . $formato_A[1];
+            // $fechas[$key] = $formateada;
         }
 
-        $arr = array(
-            "events" => $fechas,
-            "status" => true
-        );
-
-        return response()->json($arr);
+        return $fechas;
     }
 
-    public function getEvents()
+    /**
+     * @param $venueId
+     */
+    public function getEvents(Request $request)
     {
         $rrule = new RRule([
             'FREQ'     => 'WEEKLY',
@@ -227,12 +225,22 @@ class BookController extends Controller
             // 'COUNT'    => 100
         ]);
 
+        $fechas_no_disponibles = $this->datesNotAvailability($request->venueId);
+
         $eventos = array();
+        $clave   = 0;
 
         foreach ($rrule as $key => $occurrence) {
-            $eventos[$key]['title'] = 'Desde las 10';
-            $eventos[$key]['start'] = $occurrence->format('Y/m/d H:i:s');
-            $eventos[$key]['end']   = date('Y/m/d H:i:s', strtotime('+1 hours', strtotime($eventos[$key]['start'])));
+            $inicio = $occurrence->format('Y/m/d H:i:s');
+
+            if (! in_array($inicio, $fechas_no_disponibles)) {
+                $eventos[$clave]['title'] = 'Desde las 10';
+                $eventos[$clave]['start'] = $inicio;
+                $eventos[$clave]['end']   = date('Y/m/d H:i:s', strtotime('+1 hours', strtotime($inicio)));
+
+                ++$clave;
+            }
+
         }
 
         return response()->json($eventos);
@@ -243,6 +251,10 @@ class BookController extends Controller
      */
     public function checkCapacityTurn(Request $request)
     {
+        $respuesta = 'false';
+
+        $maximo_personas_por_turno = Venue::where('id', $request->venue)->select('capacity_turn')->get()->first()->capacity_turn;
+
         $fechas              = explode('|', $request->turnoElegido);
         $fecha_inicio_evento = $fechas[0];
 
@@ -252,8 +264,6 @@ class BookController extends Controller
             $inicioEvento = null;
         }
 
-        $maximo_personas_por_turno = Venue::where('id', $request->venue)->select('capacity_turn')->get()->first()->capacity_turn;
-
         $reservas_en_fecha_elegida = Book::where('venue_id', $request->venue)
             ->where('event_date_start', $inicioEvento)
             ->select('detail')
@@ -261,11 +271,21 @@ class BookController extends Controller
             ->pluck('detail');
 
         if ($reservas_en_fecha_elegida->isNotEmpty()) {
-            $detalles = json_decode($reservas_en_fecha_elegida);
-            print_r($detalles[0]);
+            $detalles                     = json_decode($reservas_en_fecha_elegida);
+            $contador_personas_reservadas = 0;
+
+            foreach ($detalles as $key => $value) {
+                $array_detalles = json_decode($value);
+                $contador_personas_reservadas += $array_detalles->numberOfGroupMembers;
+            }
+
+            if ($contador_personas_reservadas + $request->cantidadMiembros <= $maximo_personas_por_turno) {
+                $respuesta = 'true';
+            }
+
         }
 
-        return response()->json($reservas_en_fecha_elegida);
+        return response()->json($respuesta);
     }
 
 }

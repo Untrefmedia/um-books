@@ -42,22 +42,29 @@ const Formulario = ({ venueId = 1, capacityGroup = 35 }) => {
 		numberOfGroupMembers: Yup.number()
 			.required('Obligatorio')
 			.max(capacityGroup)
-			.test('is-jimmy', '${path} is not Jimmy', function(value) {
-				return fetch(API_baseURL + 'admin/checkCapacityTurn', {
-					method: 'POST',
-					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						cantidadMiembros: value,
-						turnoElegido: evento,
-						venue: venueId
+			.test(
+				'capacity-turn',
+				'Para el turno elegido, debe ingresar una cantidad menor de personas',
+				function(value) {
+					return fetch(API_baseURL + 'admin/checkCapacityTurn', {
+						method: 'POST',
+						headers: {
+							Accept: 'application/json',
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							cantidadMiembros: value,
+							turnoElegido: evento,
+							venue: venueId
+						})
 					})
-				}).then((response) => {
-					console.log(response);
-				});
-			})
+						.then((response) => response.json())
+						.then((responseJson) => {
+							console.log(responseJson);
+							return responseJson === 'true';
+						});
+				}
+			)
 
 		// response.responseText === 'true'
 		// purpose: Yup.string().required('Obligatorio'),
