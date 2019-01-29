@@ -3,19 +3,36 @@ import { Calendar as fullcalendar } from 'fullcalendar';
 import './fullcalendar.min.css';
 import API from '../../config/config';
 
-const Calendar = ({ selectedEvent, venueId }) => {
+const Calendar = ({
+	getSelectedEvent,
+	venueId,
+	capacityGroup,
+	getCapacityTurn
+}) => {
 	// evento elegido en el calendario, para input del formulario
 	const [event, setEvent] = useState([]);
 	// listado de turnos para rellenar el calendario
 	const [turnos, setTurnos] = useState({ status: false, turnos: [] });
 
+	let [disponibilidadTurno, setDisponibilidadTurno] = useState(capacityGroup);
+
+	// retorna el evento elegido
 	useEffect(
 		() => {
-			selectedEvent(event);
+			getSelectedEvent(event);
 		},
 		[event]
 	);
 
+	// retorna la capacidad disponible en el turno
+	useEffect(
+		() => {
+			getCapacityTurn(disponibilidadTurno);
+		},
+		[disponibilidadTurno]
+	);
+
+	// traae los eventos para cargar en el calendario
 	useEffect(() => {
 		API.post('admin/getEvents', { venueId })
 			.then((response) => {
@@ -59,11 +76,10 @@ const Calendar = ({ selectedEvent, venueId }) => {
 					height: 650,
 					events: turnos.turnos,
 					eventClick: function(info) {
-						console.log(
-							info.event.start.toLocaleString('en-GB', {
-								timeZone: 'America/Winnipeg'
-							})
-						);
+						console.log(info.event.start.toLocaleString('en-GB', {
+							timeZone: 'America/Winnipeg'
+						}))
+
 						API.post('admin/availabilityBook', {
 							venue: venueId,
 							start: info.event.start.toLocaleString('en-GB', {
@@ -71,7 +87,14 @@ const Calendar = ({ selectedEvent, venueId }) => {
 							})
 						})
 							.then((response) => {
-								if (response.data === 'disponible') {
+								setDisponibilidadTurno(
+									response.data.capacidad_turno_disponible
+								);
+
+								if (
+									response.data.disponibilidad ===
+									'disponible'
+								) {
 									let turnoElegido =
 										info.event.start.toLocaleString(
 											'en-GB',

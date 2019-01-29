@@ -47,14 +47,13 @@ class BookController extends Controller
         $fecha_fin_evento    = $fechas[1];
 
         if (! is_null($fecha_inicio_evento) && $fecha_inicio_evento != 'null') {
-            $inicioEvento = date('Y-d-m H:i:s', strtotime($fecha_inicio_evento));
+            $inicioEvento = $fecha_inicio_evento;
         } else {
             $inicioEvento = null;
         }
 
         if (! is_null($fecha_fin_evento) && $fecha_fin_evento != 'null') {
-            $finEvento = date('Y-d-m H:i:s', strtotime($fecha_fin_evento));
-
+            $finEvento = $fecha_fin_evento;
         } else {
             $finEvento = null;
 
@@ -65,14 +64,14 @@ class BookController extends Controller
         $book = new Book();
 
         $book->venue_id         = $request->values['venue_id'];
-        $book->event_date_start = $inicioEvento;
-        $book->event_date_end   = $finEvento;
+        $book->event_date_start = $this->dateFormatCalendar($inicioEvento);
+        $book->event_date_end   = $this->dateFormatCalendar($finEvento);
         $book->detail           = $detalles;
         $book->save();
 
         Session::flash('guardado', 'creado correctamente');
 
-        return back();
+        return 'true';
     }
 
     /**
@@ -139,6 +138,7 @@ class BookController extends Controller
     }
 
     /**
+     * Data para listado en administrador
      * @return mixed
      * @throws \Exception
      */
@@ -166,25 +166,43 @@ class BookController extends Controller
     /**
      * Revisa si un turno está disponible segun la capacidad del venue
      * @param Request $request
+     * @return mixed
      */
     public function availabilityBook(Request $request)
     {
-        $respuesta = 'lleno';
+        $fecha_elegida  = $request->start;
+        $venue_id       = $request->venue;
+        $disponibilidad = 'lleno';
 
-        $cantidad_maxima_de_grupos = Venue::where('id', $request->venue)->select('quantity_group')->get()->first()->quantity_group;
-        $fecha_inicio_evento       = date('Y-d-m H:i:s', strtotime($request->start));
-        $cantidad_de_reservas      = Book::where('event_date_start', $fecha_inicio_evento)->count();
+        $cantidad_maxima_de_grupos = Venue::where('id', $venue_id)->select('quantity_group')->get()->first()->quantity_group;
+
+        $fecha_inicio_evento = date('Y-m-d H:i:s', strtotime($this->dateFormatCalendar($fecha_elegida)));
+
+        $cantidad_de_reservas = Book::where('event_date_start', $fecha_inicio_evento)->count();
 
         if ($cantidad_de_reservas < $cantidad_maxima_de_grupos) {
-            $respuesta = 'disponible';
+            $disponibilidad = 'disponible';
         }
+
+        $capacidad_turno_disponible = $this->getCapacityTurn($venue_id, $fecha_elegida);
+
+        $respuesta = [
+            'disponibilidad'             => $disponibilidad,
+            'capacidad_turno_disponible' => $capacidad_turno_disponible,
+            'fecha_elegida'              => $fecha_elegida,
+            'cantidad_maxima_de_grupos'  => $cantidad_maxima_de_grupos,
+            'fecha_inicio_evento'        => $fecha_inicio_evento,
+            'cantidad_de_reservas'       => $cantidad_de_reservas
+
+        ];
 
         return $respuesta;
     }
 
     /**
+     * Devuelve los turnos llenos
      * @param Request $request
-     * @return mixed
+     * @return array
      */
     public function datesNotAvailability($id_venue)
     {
@@ -201,31 +219,29 @@ class BookController extends Controller
 
         foreach ($turnos_no_disponibles as $key => $value) {
             $fechas[$key] = date('Y/m/d H:i:s', strtotime($value));
-            $formato_A    = explode(' ', $value);
-            $formato_B    = explode('-', $formato_A[0]);
-
-// $formateada   = $formato_B[2] . '/' . $formato_B[1] . '/' . $formato_B[0] . ', ' . $formato_A[1];
-            // $fechas[$key] = $formateada;
         }
 
         return $fechas;
     }
 
     /**
+     * Lista de eventos para el calendario
      * @param $venueId
+     * @return json
      */
     public function getEvents(Request $request)
     {
+        $venue_id = $request->venueId;
+
         $rrule = new RRule([
             'FREQ'     => 'WEEKLY',
             'INTERVAL' => 1,
             'DTSTART'  => '2019-01-01 10:00:00',
             'BYDAY'    => ['MO', 'TU', 'WE', 'TH', 'FR'],
             'UNTIL'    => '2020-01-01 10:00:00'
-            // 'COUNT'    => 100
         ]);
 
-        $fechas_no_disponibles = $this->datesNotAvailability($request->venueId);
+        $fechas_no_disponibles = $this->datesNotAvailability($venue_id);
 
         $eventos = array();
         $clave   = 0;
@@ -247,24 +263,26 @@ class BookController extends Controller
     }
 
     /**
+     * Devuelve la cantidad de personas que pueden ocupar un turno
      * @param Request $request
+     * @return int
      */
-    public function checkCapacityTurn(Request $request)
+    public function getCapacityTurn($id_venue, $fecha_elegida)
     {
-        $respuesta = 'false';
+        $maximo_personas_por_turno = Venue::where('id', $id_venue)->select('capacity_turn')->get()->first()->capacity_turn;
 
-        $maximo_personas_por_turno = Venue::where('id', $request->venue)->select('capacity_turn')->get()->first()->capacity_turn;
+        $lugares_disponibles = $maximo_personas_por_turno;
 
-        $fechas              = explode('|', $request->turnoElegido);
+        $fechas              = explode('|', $fecha_elegida);
         $fecha_inicio_evento = $fechas[0];
 
         if (! is_null($fecha_inicio_evento) && $fecha_inicio_evento != 'null') {
-            $inicioEvento = date('Y-d-m H:i:s', strtotime($fecha_inicio_evento));
+            $inicioEvento = $this->dateFormatCalendar($fecha_inicio_evento);
         } else {
             $inicioEvento = null;
         }
 
-        $reservas_en_fecha_elegida = Book::where('venue_id', $request->venue)
+        $reservas_en_fecha_elegida = Book::where('venue_id', $id_venue)
             ->where('event_date_start', $inicioEvento)
             ->select('detail')
             ->get()
@@ -279,13 +297,25 @@ class BookController extends Controller
                 $contador_personas_reservadas += $array_detalles->numberOfGroupMembers;
             }
 
-            if ($contador_personas_reservadas + $request->cantidadMiembros <= $maximo_personas_por_turno) {
-                $respuesta = 'true';
-            }
+            $lugares_disponibles -= $contador_personas_reservadas;
 
         }
 
-        return response()->json($respuesta);
+        return $lugares_disponibles;
+    }
+
+    /**
+     * ordena los elementos de la fecha del fullcalendar (dd/mm/yyyy, H:i:s) => (yyyy-mm-dd, H:i:s)
+     * @param $fecha
+     * @return string
+     */
+    public function dateFormatCalendar($fecha)
+    {
+        $formato_A           = explode(', ', $fecha);
+        $formato_B           = explode('/', $formato_A[0]);
+        $fecha_inicio_evento = $formato_B[2] . '-' . $formato_B[1] . '-' . $formato_B[0] . ' ' . $formato_A[1];
+
+        return $fecha_inicio_evento;
     }
 
 }

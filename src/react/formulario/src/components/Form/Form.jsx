@@ -1,17 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import Calendar from '../Calendar/Calendar';
 import { FormGroup, Col } from 'react-bootstrap';
-import API, { API_baseURL } from '../../config/config';
+import API from '../../config/config';
 
 const Formulario = ({ venueId = 1, capacityGroup = 35 }) => {
 	// Evento es la fecha del calendario (evento elegido)
 	const [evento, setEvent] = useState('');
+	const [verTurnoElegido, setVerTurnoElegido] = useState([]);
+	let [capacityTurn, setCapacityTurn] = useState(0);
 
 	const handleEvent = (value) => {
 		setEvent(value);
 	};
+
+	const handleCapacityTurn = (value) => {
+		setCapacityTurn(value);
+	};
+
+	useEffect(
+		() => {
+			if (typeof evento === 'string') {
+				setVerTurnoElegido(evento.split('|'));
+			}
+		},
+		[evento]
+	);
 
 	let Validacion = Yup.object().shape({
 		name: Yup.string().required('Obligatorio'),
@@ -44,26 +59,10 @@ const Formulario = ({ venueId = 1, capacityGroup = 35 }) => {
 			.max(capacityGroup)
 			.test(
 				'capacity-turn',
-				'Para el turno elegido, debe ingresar una cantidad menor de personas',
-				function(value) {
-					return fetch(API_baseURL + 'admin/checkCapacityTurn', {
-						method: 'POST',
-						headers: {
-							Accept: 'application/json',
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							cantidadMiembros: value,
-							turnoElegido: evento,
-							venue: venueId
-						})
-					})
-						.then((response) => response.json())
-						.then((responseJson) => {
-							console.log(responseJson);
-							return responseJson === 'true';
-						});
-				}
+				'Para el turno elegido, puede ingresar hasta ' +
+					capacityTurn +
+					' personas',
+				(value) => value <= capacityTurn
 			)
 
 		// response.responseText === 'true'
@@ -75,14 +74,18 @@ const Formulario = ({ venueId = 1, capacityGroup = 35 }) => {
 
 	return (
 		<div>
-			<Calendar selectedEvent={handleEvent} venueId={venueId} />
+			<Calendar
+				getSelectedEvent={handleEvent}
+				venueId={venueId}
+				getCapacityTurn={handleCapacityTurn}
+			/>
 
 			{evento.length > 0 ? (
 				<Formik
 					initialValues={{
 						name: '',
 						surname: '',
-						venue_id: '',
+						venue_id: venueId,
 						selectedEvent: '',
 						institution_name: '',
 						institution_responsable: '',
@@ -113,7 +116,9 @@ const Formulario = ({ venueId = 1, capacityGroup = 35 }) => {
 							values
 						})
 							.then((response) => {
-								console.log(response);
+								if (response.data === 'true') {
+									alert('reservado: ' + verTurnoElegido[0]);
+								}
 							})
 							.catch((error) => {
 								console.log(error);
@@ -132,10 +137,21 @@ const Formulario = ({ venueId = 1, capacityGroup = 35 }) => {
 					}) => {
 						// Setea el campo del Calendar
 						values.selectedEvent = evento;
-						values.venue_id = venueId;
 
 						return (
 							<Form>
+								<FormGroup>
+									<Col xs={2}>Turno elegido</Col>
+									<Col xs={10}>
+										<span>{verTurnoElegido[0]}</span>
+										<ErrorMessage
+											name="selectedEvent"
+											component="div"
+											className="field-error"
+										/>
+									</Col>
+								</FormGroup>
+
 								<FormGroup>
 									<Col xs={2}>Nombre</Col>
 									<Col xs={10}>
@@ -675,25 +691,6 @@ const Formulario = ({ venueId = 1, capacityGroup = 35 }) => {
 										/>
 										<ErrorMessage
 											name="comments"
-											component="div"
-											className="field-error"
-										/>
-									</Col>
-								</FormGroup>
-
-								<FormGroup>
-									<Col xs={2}>Calendario</Col>
-									<Col xs={10}>
-										<input
-											name="selectedEvent"
-											type="text"
-											value={values.selectedEvent}
-											onChange={handleChange}
-											onBlur={handleBlur}
-											style={{ visibility: 'hidden' }}
-										/>
-										<ErrorMessage
-											name="selectedEvent"
 											component="div"
 											className="field-error"
 										/>

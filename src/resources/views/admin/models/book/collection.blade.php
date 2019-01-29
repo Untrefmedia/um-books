@@ -15,7 +15,7 @@
                 <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Title</th>
+                    <th>Turno</th>
                     <th>Created At</th>
                     <th>Updated At</th>
                     <th>Actions</th>
@@ -35,7 +35,7 @@
                 ajax: '{!! route('book.dataList') !!}',
                 columns: [
                     {data: 'id', name: 'id'},
-                    {data: 'title', name: 'title'},
+                    {data: 'event_date_start', name: 'event_date_start'},
                     {data: 'created_at', name: 'created_at'},
                     {data: 'updated_at', name: 'updated_at'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
