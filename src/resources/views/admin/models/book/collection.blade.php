@@ -16,8 +16,7 @@
                 <tr>
                     <th>Id</th>
                     <th>Turno</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -36,8 +35,7 @@
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'event_date_start', name: 'event_date_start'},
-                    {data: 'created_at', name: 'created_at'},
-                    {data: 'updated_at', name: 'updated_at'},
+                    {data: 'status', name: 'status'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
 
                 ]

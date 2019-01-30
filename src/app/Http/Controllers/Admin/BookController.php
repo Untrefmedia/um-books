@@ -146,7 +146,21 @@ class BookController extends Controller
     {
         return Datatables::of(Book::query())
             ->addColumn('action', function ($book) {
-                $button_edit = '<a href="' . URL::to("/") . '/admin/book/' . $book->id . '/edit   " class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+                $button_confirm =
+                '<form method="post" action="' . URL::to('emailbook') . '">
+                    ' . csrf_field() . '
+                    
+                    <input type="hidden" name="id" value="' . $book->id . '">
+
+                    <button type="submit" class="btn btn-xs btn-success">
+                        <i class="glyphicon glyphicon-check"></i> Confirm
+                    </button>
+                </form>';
+
+                $button_edit =
+                '<a href="' . URL::to('admin/book/' . $book->id . '/edit') . '" class="btn btn-xs btn-primary">
+                    <i class="glyphicon glyphicon-edit"></i> Edit
+                </a>';
 
                 $button_delete =
                 '<form method="post" action="book/' . $book->id . '">
@@ -158,7 +172,9 @@ class BookController extends Controller
                     </button>
                 </form>';
 
-                return '<span style="display: inline-block;">' . $button_edit . '</span> <span style="display: inline-block;">' . $button_delete . '</span>';
+                return '<span style="display: inline-block;">' . $button_confirm . '</span>
+                        <span style="display: inline-block;">' . $button_edit . '</span>
+                        <span style="display: inline-block;">' . $button_delete . '</span>';
 
             })->make(true);
     }

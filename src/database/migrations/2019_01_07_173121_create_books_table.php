@@ -19,6 +19,7 @@ class CreateBooksTable extends Migration
             $table->dateTime('event_date_start')->nullable();
             $table->dateTime('event_date_end')->nullable();
             $table->text('detail');
+            $table->integer('status')->default(1)->unsigned()->comment('[1: pendiente, 2: confirmado]');
 
             $table->timestamps();
 

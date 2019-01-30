@@ -23,3 +23,5 @@ Route::group(['prefix' => 'admin'], function () {
 
 // Formulario público
 Route::get('bookForm', 'Untrefmedia\UMBooks\App\Http\Controllers\BookController@form')->name('book.form');
+
+Route::post('emailbook', 'Untrefmedia\UMBooks\App\Http\Controllers\EmailController@SendMailBook')->name('emailbook');
