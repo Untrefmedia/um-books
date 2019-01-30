@@ -7,6 +7,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('datesNotAvailability', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController@datesNotAvailability');
     Route::post('getEvents', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController@getEvents');
     Route::post('checkCapacityTurn', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController@checkCapacityTurn');
+    Route::post('cancelbook', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController@cancelbook')->name('cancelbook');
 
     // Admin
     Route::group(['middleware' => ['web', 'admin', 'auth:admin']], function () {

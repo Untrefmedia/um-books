@@ -146,16 +146,37 @@ class BookController extends Controller
     {
         return Datatables::of(Book::query())
             ->addColumn('action', function ($book) {
-                $button_confirm =
-                '<form method="post" action="' . URL::to('emailbook') . '">
-                    ' . csrf_field() . '
-                    
-                    <input type="hidden" name="id" value="' . $book->id . '">
+                switch ($book->status) {
+                    case 1:
+                        $button_confirm =
+                        '<form method="post" action="' . URL::to('emailbook') . '">
+                        ' . csrf_field() . '
 
-                    <button type="submit" class="btn btn-xs btn-success">
+                        <input type="hidden" name="id" value="' . $book->id . '">
+
+                        <button type="submit" class="btn btn-xs btn-success">
                         <i class="glyphicon glyphicon-check"></i> Confirm
-                    </button>
-                </form>';
+                        </button>
+                        </form>';
+                        break;
+
+                    case 2:
+                        $button_confirm =
+                        '<form method="post" action="' . URL::to('admin/cancelbook') . '">
+                        ' . csrf_field() . '
+
+                        <input type="hidden" name="id" value="' . $book->id . '">
+
+                        <button type="submit" class="btn btn-xs btn-warning">
+                        <i class="glyphicon glyphicon-check"></i> Cancel
+                        </button>
+                        </form>';
+                        break;
+
+                    default:
+                        $button_confirm = '';
+                        break;
+                }
 
                 $button_edit =
                 '<a href="' . URL::to('admin/book/' . $book->id . '/edit') . '" class="btn btn-xs btn-primary">
@@ -314,6 +335,21 @@ class BookController extends Controller
         }
 
         return $lugares_disponibles;
+    }
+
+    /**
+     * Cancela una reserva
+     * @param Request $request
+     * @return request
+     */
+    public function cancelbook(Request $request)
+    {
+        $book = Book::find($request->id);
+
+        $book->status = 1;
+        $book->save();
+
+        return back();
     }
 
     /**

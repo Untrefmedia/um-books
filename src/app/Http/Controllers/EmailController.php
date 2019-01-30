@@ -30,6 +30,10 @@ class EmailController extends Controller
             $message->to($toUser, $venue->title)->subject('Reserva en ' . $venue->title);
         });
 
+        // Actualiza el estado de la reserva a confirmada
+        $book->status = 2;
+        $book->save();
+
         return back();
     }
 }
