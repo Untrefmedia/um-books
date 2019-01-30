@@ -43,6 +43,22 @@ class EventController extends Controller
     {
         $event = new Event();
 
+/*
+        echo "<pre>";
+        dd($request->all());
+        echo "</pre>";
+
+        echo "dasdas";
+        exit; 
+*/
+        $event->start_date   = $request->start_date;
+
+
+        echo $request->start_date; 
+
+        exit; 
+
+
         $event->title   = $request->title;
         $event->slug    = SlugService::createSlug(Event::class, 'slug', $request->title, ['unique' => true]);
         $event->user_id = Auth::id();
