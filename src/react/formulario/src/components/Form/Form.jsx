@@ -116,7 +116,7 @@ const Formulario = ({ venueId = 1, capacityGroup = 35 }) => {
 							values
 						})
 							.then((response) => {
-								if (response.data === 'true') {
+								if (response.data) {
 									alert('reservado: ' + verTurnoElegido[0]);
 								}
 							})

@@ -76,10 +76,6 @@ const Calendar = ({
 					height: 650,
 					events: turnos.turnos,
 					eventClick: function(info) {
-						console.log(info.event.start.toLocaleString('en-GB', {
-							timeZone: 'America/Winnipeg'
-						}))
-
 						API.post('admin/availabilityBook', {
 							venue: venueId,
 							start: info.event.start.toLocaleString('en-GB', {

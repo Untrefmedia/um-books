@@ -188,11 +188,7 @@ class BookController extends Controller
 
         $respuesta = [
             'disponibilidad'             => $disponibilidad,
-            'capacidad_turno_disponible' => $capacidad_turno_disponible,
-            'fecha_elegida'              => $fecha_elegida,
-            'cantidad_maxima_de_grupos'  => $cantidad_maxima_de_grupos,
-            'fecha_inicio_evento'        => $fecha_inicio_evento,
-            'cantidad_de_reservas'       => $cantidad_de_reservas
+            'capacidad_turno_disponible' => $capacidad_turno_disponible
 
         ];
 
