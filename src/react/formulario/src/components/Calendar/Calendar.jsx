@@ -1,23 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import { Calendar as fullcalendar } from 'fullcalendar';
-import '../../../node_modules/fullcalendar/dist/plugins/rrule.js';
 import './fullcalendar.min.css';
 import API from '../../config/config';
 
-const Calendar = ({ selectedEvent, venueId }) => {
+const Calendar = ({
+	getSelectedEvent,
+	venueId,
+	capacityGroup,
+	getCapacityTurn
+}) => {
 	// evento elegido en el calendario, para input del formulario
 	const [event, setEvent] = useState([]);
+	// listado de turnos para rellenar el calendario
+	const [turnos, setTurnos] = useState({ status: false, turnos: [] });
+
+	let [disponibilidadTurno, setDisponibilidadTurno] = useState(capacityGroup);
+
+	// retorna el evento elegido
 	useEffect(
 		() => {
-			selectedEvent(event);
+			getSelectedEvent(event);
 		},
 		[event]
 	);
 
-	// listado de turnos para rellenar el calendario
-	const [turnos, setTurnos] = useState({ status: false, turnos: [] });
+	// retorna la capacidad disponible en el turno
+	useEffect(
+		() => {
+			getCapacityTurn(disponibilidadTurno);
+		},
+		[disponibilidadTurno]
+	);
+
+	// traae los eventos para cargar en el calendario
 	useEffect(() => {
-		API.post('admin/getEvents')
+		API.post('admin/getEvents', { venueId })
 			.then((response) => {
 				setTurnos({ status: true, turnos: [...response.data] });
 			})
@@ -62,23 +79,28 @@ const Calendar = ({ selectedEvent, venueId }) => {
 						API.post('admin/availabilityBook', {
 							venue: venueId,
 							start: info.event.start.toLocaleString('en-GB', {
-								timeZone: 'America/Argentina/Buenos_Aires'
+								timeZone: 'America/Winnipeg'
 							})
 						})
 							.then((response) => {
-								if (response.data === 'disponible') {
+								setDisponibilidadTurno(
+									response.data.capacidad_turno_disponible
+								);
+
+								if (
+									response.data.disponibilidad ===
+									'disponible'
+								) {
 									let turnoElegido =
 										info.event.start.toLocaleString(
 											'en-GB',
 											{
-												timeZone:
-													'America/Argentina/Buenos_Aires'
+												timeZone: 'America/Winnipeg'
 											}
 										) +
 										'|' +
 										info.event.end.toLocaleString('en-GB', {
-											timeZone:
-												'America/Argentina/Buenos_Aires'
+											timeZone: 'America/Winnipeg'
 										});
 
 									setEvent(turnoElegido);

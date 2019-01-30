@@ -6,7 +6,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('availabilityBook', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController@availabilityBook');
     Route::post('datesNotAvailability', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController@datesNotAvailability');
     Route::post('getEvents', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController@getEvents');
-    
+    Route::post('checkCapacityTurn', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\BookController@checkCapacityTurn');
+
     // Admin
     Route::group(['middleware' => ['web', 'admin', 'auth:admin']], function () {
         Route::resource('venue', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\VenueController');
@@ -22,3 +23,5 @@ Route::group(['prefix' => 'admin'], function () {
 
 // Formulario público
 Route::get('bookForm', 'Untrefmedia\UMBooks\App\Http\Controllers\BookController@form')->name('book.form');
+
+Route::post('emailbook', 'Untrefmedia\UMBooks\App\Http\Controllers\EmailController@SendMailBook')->name('emailbook');
