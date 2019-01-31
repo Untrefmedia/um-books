@@ -46,7 +46,7 @@ class EventController extends Controller
         $event              = new Event();   
         $event->title       = $request->title;
         $event->slug        = SlugService::createSlug(Event::class, 'slug', $request->title, ['unique' => true]);
-        $event->user_id     = Auth::id();
+        $event->admin_id     = Auth::id();
         $event->start_date  = $this->dateFormatCalendar($request->start_date); 
         $event->freq        = $request->freq; 
         $event->byday       = json_encode($request->byday); 
