@@ -138,6 +138,13 @@
             </div>
         </div>
 
+        <div class="form-group">
+            {!! Form::label('', 'Imagen:', ['class' => 'col-sm-3']) !!}
+            <div class="col-sm-9">
+                {!! Form::file('image', ['class' => 'form-control']) !!}
+            </div>
+        </div>
+
         <div class="form-group text-center">
             {!! Form::submit() !!}<br>
         </div>

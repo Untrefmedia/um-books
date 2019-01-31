@@ -123,6 +123,7 @@ class VenueController extends Controller
         $venue->capacity_turn  = $request->capacity_turn;
         $venue->capacity_group = $request->capacity_group;
         $venue->quantity_group = $request->quantity_group;
+        $venue->image          = $this->storeImage($request->image);
         $venue->save();
 
         Session::flash('guardado', 'Editado correctamente');
@@ -217,22 +218,16 @@ class VenueController extends Controller
      * Guarda la imagen del venue
      * @param Request $request
      */
-    public function storeImage(Request $request)
+    public function storeImage($request_image)
     {
-        if ($request->file('image')) {
-            $image = $value;
+        $image = $request_image;
 
-            $input['imagename'] = time() . "_" . $image->getClientOriginalName();
+        $input['imagename'] = time() . "_" . $image->getClientOriginalName();
+        $destinationPath    = public_path('images/venue/original');
+        $img                = Image::make($image->getRealPath());
+        $img->save($destinationPath . '/' . $input['imagename']);
 
-            $destinationPath = public_path('images/venue/original');
-            $img             = Image::make($image->getRealPath());
-            $img->save($destinationPath . '/' . $input['imagename']);
+        return $input['imagename'];
 
-            return $input['imagename'];
-
-        }
-
-        return;
     }
-
 }
