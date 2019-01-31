@@ -21,15 +21,15 @@
 				<div class="container">
 
 						<div class="collapse navbar-collapse flex" id="navbarSupportedContent">
-							
+							{{$venue->title}}
 						</div>
 				</div>
 		</nav>
 
 		<p style="margin:50px;">
-      		¡Tu inscripción fue realizada con éxito! <br>
+      		Su reserva fue confirmada. <br>
   		
-      		Your registration was successful! <br>
+		Mapa: <a href="http://www.google.com/maps/place/"{{$detail->latitude.','.$detail->longitude}}></a> <br>
   		
       		Sua inscrição foi realizada com sucesso! <br>
   		
