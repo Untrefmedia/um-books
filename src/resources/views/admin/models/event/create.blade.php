@@ -115,7 +115,7 @@
        
 
         <div class="form-group">
-                {!! Form::label('', 'Dias del evento:', ['class' => 'col-sm-9']) !!}
+                {!! Form::label('', 'Dias del evento:', ['class' => 'col-sm-9','style'=>'position:absolute']) !!}
                 <div class="col-sm-1 col-sm-offset-3" style="width: 15%;">Lunes </div>
                 <div class="col-sm-7"><input type="checkbox" name="byday[]" value="MO" ><br></div>
 
@@ -155,7 +155,7 @@
 
 
         
-        <div class="form-group" style="margin-left:8px">
+        <div class="form-group" style="margin-left:8px;margin-top: 80px;" >
             {!! Form::submit() !!}<br>
         </div>
 
