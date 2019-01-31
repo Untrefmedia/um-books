@@ -102,19 +102,17 @@
         </div>
 
 
-
-
         <div class="form-group">
             {!! Form::label('', 'Fecha y hora:', ['class' => 'col-sm-3']) !!}
             <div class="col-sm-9">
-                {!! Form::text('start_date', '', ['class' => 'form-control start_date']) !!}
+                {!! Form::text('start_date', '', ['class' => 'form-control start_date','autocomplete'=>"off"]) !!}
             </div>
         </div>
 
 
        
 
-        <div class="form-group">
+        <div class="form-group" style="margin-top: 18px;">
                 {!! Form::label('', 'Dias del evento:', ['class' => 'col-sm-9','style'=>'position:absolute']) !!}
                 <div class="col-sm-1 col-sm-offset-3" style="width: 15%;">Lunes </div>
                 <div class="col-sm-7"><input type="checkbox" name="byday[]" value="MO" ><br></div>
