@@ -3,24 +3,13 @@
 
 @section('title', 'Create Event')
 
+@section('css')
 
-@section('content')
-
-
-
-
-
-
-
-
-
-
-
+<link rel="stylesheet" media="all" type="text/css" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" media="all" type="text/css" href="https://trentrichardson.com/examples/timepicker/jquery-ui-timepicker-addon.css" />
 
 
 <style type="text/css">
-
-
    
     #tabs{ margin: 20px -20px; border: none; }
     #tabs, #ui-datepicker-div, .ui-datepicker{ font-size: 85%; }
@@ -33,29 +22,9 @@
     .ebook .buyp a iframe{ margin-bottom: -5px; }
 </style>
 
-<link rel="stylesheet" media="all" type="text/css" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css" />
-<link rel="stylesheet" media="all" type="text/css" href="https://trentrichardson.com/examples/timepicker/jquery-ui-timepicker-addon.css" />
+@endsection
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@section('content')
 
 
 

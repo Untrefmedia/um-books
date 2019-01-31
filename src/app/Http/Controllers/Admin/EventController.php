@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use Auth;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
+use Session;
 use Untrefmedia\UMBooks\App\Event;
 use Untrefmedia\UMBooks\App\Http\Requests\EventRequest;
 use URL;
 use Yajra\Datatables\Datatables;
-use Session;
 
 class EventController extends Controller
 {
@@ -42,19 +42,15 @@ class EventController extends Controller
      */
     public function store(EventRequest $request)
     {
+        $event             = new Event();
+        $event->title      = $request->title;
+        $event->slug       = SlugService::createSlug(Event::class, 'slug', $request->title, ['unique' => true]);
+        $event->admin_id   = Auth::id();
+        $event->start_date = $this->dateFormatCalendar($request->start_date);
+        $event->freq       = $request->freq;
+        $event->byday      = json_encode($request->byday);
 
-        $event              = new Event();   
-        $event->title       = $request->title;
-        $event->slug        = SlugService::createSlug(Event::class, 'slug', $request->title, ['unique' => true]);
-        $event->admin_id     = Auth::id();
-        $event->start_date  = $this->dateFormatCalendar($request->start_date); 
-        $event->freq        = $request->freq; 
-        $event->byday       = json_encode($request->byday); 
-
-
-
- // dd($event);
-
+        // dd($event);
 
         $event->save();
 
@@ -84,6 +80,8 @@ class EventController extends Controller
     {
         $event = Event::find($id);
 
+        $event->start_date = $this->dateFormatCalendarreverse($event->start_date);
+
         $args = [
             'event' => $event
         ];
@@ -102,7 +100,12 @@ class EventController extends Controller
     {
         $event = Event::find($id);
 
-        $event->title = $request->title;
+        $event->title      = $request->title;
+        $event->slug       = SlugService::createSlug(Event::class, 'slug', $request->title, ['unique' => true]);
+        $event->admin_id   = Auth::id();
+        $event->start_date = $this->dateFormatCalendar($request->start_date);
+        $event->freq       = $request->freq;
+        $event->byday      = json_encode($request->byday);
         $event->save();
 
         Session::flash('guardado', 'Editado correctamente');
@@ -151,8 +154,6 @@ class EventController extends Controller
             })->make(true);
     }
 
-
-
     /**
      * ordena los elementos de la fecha del fullcalendar (dd/mm/yyyy, H:i:s) => (yyyy-mm-dd, H:i:s)
      * @param $fecha
@@ -162,9 +163,24 @@ class EventController extends Controller
     {
         $formato_A           = explode(' ', $fecha);
         $formato_B           = explode('/', $formato_A[0]);
-        $fecha_inicio_evento = $formato_B[2] . '-' . $formato_B[1] . '-' . $formato_B[0] . ' ' . $formato_A[1].":00";
+        $fecha_inicio_evento = $formato_B[2] . '-' . $formato_B[1] . '-' . $formato_B[0] . ' ' . $formato_A[1] . ":00";
 
         return $fecha_inicio_evento;
     }
 
+    /**
+     * ordena los elementos de la fecha del fullcalendar (dd/mm/yyyy, H:i:s) => (yyyy-mm-dd, H:i:s)
+     * @param $fecha
+     * @return string
+     */
+    public function dateFormatCalendarreverse($fecha)
+    {
+        $formato_A = explode(' ', $fecha);
+        $formato_B = explode('-', $formato_A[0]);
+        $hour      = explode(":", $formato_A[1]);
+
+        $fecha_inicio_evento = $formato_B[2] . '/' . $formato_B[1] . '/' . $formato_B[0] . ' ' . $hour[0] . ":" . $hour[1];
+
+        return $fecha_inicio_evento;
+    }
 }
