@@ -18,8 +18,11 @@ class CreateEventsTable extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->integer('user_id')->unsigned()->nullable();
+            $table->dateTime('start_date')->nullable();
+            $table->text('byday')->nullable();
+            $table->text('freq')->nullable();
 
-            $table->foreign('user_id')->references('id')->on('admin_users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
 
             $table->timestamps();
         });
