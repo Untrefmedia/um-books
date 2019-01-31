@@ -17,8 +17,8 @@ class EmailController extends Controller
      */
     public function SendMailBook(Request $request)
     {
-        $book     = Book::find($request->id);
-        $venue    = Venue::find($book->venue_id);
+        $book   = Book::find($request->id);
+        $venue  = Venue::find($book->venue_id);
         $detail = json_decode($book->detail);
 
         $token   = md5(microtime());

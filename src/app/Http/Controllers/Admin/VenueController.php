@@ -2,6 +2,7 @@
 
 namespace Untrefmedia\UMBooks\App\Http\Controllers\Admin;
 
+use App\Admin;
 use App\Http\Controllers\Controller;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
@@ -151,7 +152,15 @@ class VenueController extends Controller
     {
         return Datatables::of(Venue::query())
             ->addColumn('action', function ($venue) {
-                $button_edit = '<a href="' . URL::to("/") . '/admin/venue/' . $venue->id . '/edit   " class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+                $button_edit =
+                '<a href="' . URL::to("/") . '/admin/venue/' . $venue->id . '/edit   " class="btn btn-xs btn-primary">
+                    <i class="glyphicon glyphicon-edit"></i> Edit
+                </a>';
+
+                $button_admin =
+                '<a href="' . URL::to("/") . '/admin/venueAdmin/' . $venue->id . '" class="btn btn-xs btn-info">
+                    <i class="glyphicon glyphicon-edit"></i> Admin
+                </a>';
 
                 $button_delete =
                 '<form method="post" action="venue/' . $venue->id . '">
@@ -163,8 +172,42 @@ class VenueController extends Controller
                     </button>
                 </form>';
 
-                return '<span style="display: inline-block;">' . $button_edit . '</span> <span style="display: inline-block;">' . $button_delete . '</span>';
+                return '<span style="display: inline-block;">' . $button_edit . '</span>
+                        <span style="display: inline-block;">' . $button_admin . '</span>
+                        <span style="display: inline-block;">' . $button_delete . '</span>';
 
             })->make(true);
+    }
+
+    /**
+     * Vista para editar los administradores de venues
+     * @param $id
+     */
+    public function venueAdmin($id)
+    {
+        $venue          = Venue::find($id);
+        $admins         = Admin::all();
+        $admin_of_venue = $venue->admins->pluck('id')->toArray();
+
+        $args = [
+            'venue'          => $venue,
+            'admins'         => $admins,
+            'admin_of_venue' => $admin_of_venue
+        ];
+
+        return view('umbooks::admin.models.venue.adminList', $args);
+    }
+
+    /**
+     * Actualiza los admin de un venue
+     * @param Request $request
+     * @param $id
+     */
+    public function updateVenueAdmin(Request $request, $id)
+    {
+        $venue = Venue::find($id);
+        $venue->admins()->sync($request->admin);
+
+        return back();
     }
 }

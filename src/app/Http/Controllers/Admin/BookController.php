@@ -150,7 +150,7 @@ class BookController extends Controller
                 switch ($book->status) {
                     case 1:
                         $button_confirm =
-                        '<form method="post" action="' . URL::to('emailbook') . '">
+                        '<form method="post" action="' . URL::to('emailBook') . '">
                         ' . csrf_field() . '
 
                         <input type="hidden" name="id" value="' . $book->id . '">
@@ -163,7 +163,7 @@ class BookController extends Controller
 
                     case 2:
                         $button_confirm =
-                        '<form method="post" action="' . URL::to('admin/cancelbook') . '">
+                        '<form method="post" action="' . URL::to('admin/cancelBook') . '">
                         ' . csrf_field() . '
 
                         <input type="hidden" name="id" value="' . $book->id . '">
