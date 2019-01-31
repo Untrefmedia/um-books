@@ -22,10 +22,10 @@ class EmailController extends Controller
         $detail = json_decode($book->detail);
 
         $token   = md5(microtime());
-        $toUser  = array($detalles->institution_email, $detalles->teacher_email);
+        $toUser  = array($detail->institution_email, $detail->teacher_email);
         $message = '';
 
-        Mail::send('umbooks::email.book', ['token' => $token, 'toUser' => $toUser, 'venue' => $venue, 'detail' => $detail], function ($message) use ($token, $toUser, $venue) {
+        Mail::send('umbooks::email.book', ['token' => $token, 'toUser' => $toUser, 'venue' => $venue, 'detail' => $detail, 'book' => $book], function ($message) use ($token, $toUser, $venue) {
             $message->from(env('MAIL_FROM_ADDRESS'), $venue->title);
             $message->to($toUser, $venue->title)->subject('Reserva en ' . $venue->title);
         });

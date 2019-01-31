@@ -27,14 +27,14 @@ class BookRequest extends FormRequest
             // crear
             case 'POST':
                 return [
-                    // 'title' => 'required'
+                    'values' => 'required'
                 ];
                 break;
 
             // editar
             case 'PATCH':
                 return [
-                    // 'title' => 'required'
+                    'values' => 'required'
                 ];
                 break;
 

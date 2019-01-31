@@ -27,14 +27,22 @@ class EventRequest extends FormRequest
             // crear
             case 'POST':
                 return [
-                    'title' => 'required'
+                    'title'      => 'required',
+                    'start_date' => 'required',
+                    'freq'       => 'required',
+                    'byday'      => 'required',
+                    'venue_id'   => 'required'
                 ];
                 break;
 
             // editar
             case 'PATCH':
                 return [
-                    'title' => 'required'
+                    'title'      => 'required',
+                    'start_date' => 'required',
+                    'freq'       => 'required',
+                    'byday'      => 'required',
+                    'venue_id'   => 'required'
                 ];
                 break;
 

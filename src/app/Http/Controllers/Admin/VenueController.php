@@ -6,6 +6,7 @@ use App\Admin;
 use App\Http\Controllers\Controller;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 use Session;
 use Untrefmedia\UMBooks\App\Http\Requests\VenueRequest;
 use Untrefmedia\UMBooks\App\Venue;
@@ -60,6 +61,7 @@ class VenueController extends Controller
         $venue->capacity_turn  = $request->capacity_turn;
         $venue->capacity_group = $request->capacity_group;
         $venue->quantity_group = $request->quantity_group;
+        $venue->image          = $this->storeImage($request->image);
         $venue->save();
 
         Session::flash('guardado', 'creado correctamente');
@@ -210,4 +212,27 @@ class VenueController extends Controller
 
         return back();
     }
+
+    /**
+     * Guarda la imagen del venue
+     * @param Request $request
+     */
+    public function storeImage(Request $request)
+    {
+        if ($request->file('image')) {
+            $image = $value;
+
+            $input['imagename'] = time() . "_" . $image->getClientOriginalName();
+
+            $destinationPath = public_path('images/venue/original');
+            $img             = Image::make($image->getRealPath());
+            $img->save($destinationPath . '/' . $input['imagename']);
+
+            return $input['imagename'];
+
+        }
+
+        return;
+    }
+
 }

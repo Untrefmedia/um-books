@@ -31,6 +31,7 @@ class CreateVenueTable extends Migration
             $table->integer('capacity_turn')->unsigned();
             $table->integer('capacity_group')->unsigned();
             $table->integer('quantity_group')->unsigned();
+            $table->text('image')->nullable();
 
             $table->timestamps();
         });

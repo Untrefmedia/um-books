@@ -14,7 +14,7 @@ class Book extends Model
     /**
      * @var array
      */
-    protected $fillable = ['venue_id', 'event_date_start', 'event_date_end', 'detail'];
+    protected $fillable = ['venue_id', 'event_date_start', 'event_date_end', 'detail', 'status'];
 
     /**
      * @var mixed
