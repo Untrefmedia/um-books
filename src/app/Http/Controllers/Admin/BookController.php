@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use RRule\RRule;
 use Session;
 use Untrefmedia\UMBooks\App\Book;
+use Untrefmedia\UMBooks\App\Event;
 use Untrefmedia\UMBooks\App\Http\Requests\BookRequest;
 use Untrefmedia\UMBooks\App\Venue;
 use URL;
@@ -266,6 +267,7 @@ class BookController extends Controller
     {
         $venue_id = $request->venueId;
 
+        // Event::where()
         $rrule = new RRule([
             'FREQ'     => 'WEEKLY',
             'INTERVAL' => 1,

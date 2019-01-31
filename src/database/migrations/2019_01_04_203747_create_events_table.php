@@ -17,12 +17,14 @@ class CreateEventsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('slug')->unique();
-            $table->integer('user_id')->unsigned()->nullable();
             $table->dateTime('start_date')->nullable();
             $table->text('byday')->nullable();
             $table->text('freq')->nullable();
+            $table->integer('venue_id')->unsigned()->nullable();
+            $table->integer('admin_id')->unsigned()->nullable()->comment('admin creador');
 
-            $table->foreign('user_id')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('venue_id')->references('id')->on('venues')->onDelete('cascade')->onUpdate('cascade');
 
             $table->timestamps();
         });
