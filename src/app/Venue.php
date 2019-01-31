@@ -35,4 +35,13 @@ class Venue extends Model
      * @var mixed
      */
     public $timestamps = true;
+
+    /**
+     * Relation
+     * @return mixed
+     */
+    public function admins()
+    {
+        return $this->belongsToMany('App\Admin', 'venue_admin', 'venue_id', 'admin_id');
+    }
 }
