@@ -147,6 +147,16 @@
             </div>
         </div>
 
+        <div class="form-group">
+            {!! Form::label('', 'Imagen:', ['class' => 'col-sm-3']) !!}
+            <div class="col-sm-9">
+                    @if(! is_null($venue->image))
+                        <img src={{asset('image/venue/' . $venue->image)}} />
+                    @endif
+                {!! Form::file('image', ['class' => 'form-control']) !!}
+            </div>
+        </div>
+
         <div class="form-group text-center">
             {!! Form::submit() !!}<br>
         </div>

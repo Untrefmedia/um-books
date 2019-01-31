@@ -29,7 +29,7 @@ class Event extends Model
     /**
      * @var array
      */
-    protected $fillable = ['title', 'slug', 'user_id'];
+    protected $fillable = ['title', 'slug', 'start_date', 'byday', 'freq', 'venue_id', 'admin_id'];
 
     /**
      * @var mixed

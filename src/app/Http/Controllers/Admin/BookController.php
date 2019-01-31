@@ -265,31 +265,35 @@ class BookController extends Controller
      */
     public function getEvents(Request $request)
     {
-        $venue_id = $request->venueId;
-
-        // Event::where()
-        $rrule = new RRule([
-            'FREQ'     => 'WEEKLY',
-            'INTERVAL' => 1,
-            'DTSTART'  => '2019-01-01 10:00:00',
-            'BYDAY'    => ['MO', 'TU', 'WE', 'TH', 'FR'],
-            'UNTIL'    => '2020-01-01 10:00:00'
-        ]);
-
+        $venue_id              = $request->venueId;
         $fechas_no_disponibles = $this->datesNotAvailability($venue_id);
+        $eventos               = array();
+        $clave                 = 0;
 
-        $eventos = array();
-        $clave   = 0;
+        $events = Event::where('venue_id', $venue_id)
+            ->select('title', 'start_date', 'byday', 'freq')
+            ->get();
 
-        foreach ($rrule as $key => $occurrence) {
-            $inicio = $occurrence->format('Y/m/d H:i:s');
+        foreach ($events as $key => $event) {
+            $rrule = new RRule([
+                'FREQ'     => $event->freq,
+                'INTERVAL' => 1,
+                'DTSTART'  => $event->start_date,
+                'BYDAY'    => json_decode($event->byday),
+                'UNTIL'    => date('Y-m-d H:i:s', strtotime('+1 years', strtotime($event->start_date)))
+            ]);
 
-            if (! in_array($inicio, $fechas_no_disponibles)) {
-                $eventos[$clave]['title'] = 'Desde las 10';
-                $eventos[$clave]['start'] = $inicio;
-                $eventos[$clave]['end']   = date('Y/m/d H:i:s', strtotime('+1 hours', strtotime($inicio)));
+            foreach ($rrule as $key => $occurrence) {
+                $inicio = $occurrence->format('Y/m/d H:i:s');
 
-                ++$clave;
+                if (! in_array($inicio, $fechas_no_disponibles)) {
+                    $eventos[$clave]['title'] = $event->title;
+                    $eventos[$clave]['start'] = $inicio;
+                    $eventos[$clave]['end']   = date('Y/m/d H:i:s', strtotime('+1 hours', strtotime($inicio)));
+
+                    ++$clave;
+                }
+
             }
 
         }

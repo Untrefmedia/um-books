@@ -29,12 +29,9 @@
 		<p style="margin:50px;">
       		Su reserva fue confirmada. <br>
   		
-		Mapa: <a href="http://www.google.com/maps/place/"{{$detail->latitude.','.$detail->longitude}}></a> <br>
+			Mapa: <a href="http://www.google.com/maps/place/"{{$venue->latitude.','.$venue->longitude}}></a> <br>
   		
-      		Sua inscrição foi realizada com sucesso! <br>
-  		
-      		Votre inscription a été réalisé avec succès! <br>
-  		
+			Fecha y hora: {{$book->event_date_start}}
     </p>
 	</div>
 

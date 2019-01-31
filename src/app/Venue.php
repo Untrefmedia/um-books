@@ -29,7 +29,7 @@ class Venue extends Model
     /**
      * @var array
      */
-    protected $fillable = ['title', 'slug', 'description', 'address1', 'address2', 'city', 'state', 'postcode', 'country', 'url', 'phone', 'latitude', 'longitude', 'capacity_turn', 'capacity_group'];
+    protected $fillable = ['title', 'slug', 'description', 'address1', 'address2', 'city', 'state', 'postcode', 'country', 'url', 'phone', 'latitude', 'longitude', 'capacity_turn', 'capacity_group', 'quantity_group', 'image'];
 
     /**
      * @var mixed

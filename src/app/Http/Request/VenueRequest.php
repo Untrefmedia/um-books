@@ -41,7 +41,8 @@ class VenueRequest extends FormRequest
                     'longitude'      => 'numeric',
                     'capacity_turn'  => 'required|numeric',
                     'capacity_group' => 'required|numeric',
-                    'quantity_group' => 'required|numeric'
+                    'quantity_group' => 'required|numeric',
+                    'image'          => 'image'
                 ];
                 break;
 
@@ -62,7 +63,8 @@ class VenueRequest extends FormRequest
                     'longitude'      => 'numeric',
                     'capacity_turn'  => 'required|numeric',
                     'capacity_group' => 'required|numeric',
-                    'quantity_group' => 'required|numeric'
+                    'quantity_group' => 'required|numeric',
+                    'image'          => 'image'
                 ];
                 break;
 
