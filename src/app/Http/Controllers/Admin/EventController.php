@@ -10,6 +10,7 @@ use Untrefmedia\UMBooks\App\Event;
 use Untrefmedia\UMBooks\App\Http\Requests\EventRequest;
 use URL;
 use Yajra\Datatables\Datatables;
+use Session;
 
 class EventController extends Controller
 {
@@ -41,27 +42,20 @@ class EventController extends Controller
      */
     public function store(EventRequest $request)
     {
-        $event = new Event();
 
-/*
-        echo "<pre>";
-        dd($request->all());
-        echo "</pre>";
-
-        echo "dasdas";
-        exit; 
-*/
-        $event->start_date   = $request->start_date;
+        $event              = new Event();   
+        $event->title       = $request->title;
+        $event->slug        = SlugService::createSlug(Event::class, 'slug', $request->title, ['unique' => true]);
+        $event->user_id     = Auth::id();
+        $event->start_date  = $this->dateFormatCalendar($request->start_date); 
+        $event->freq        = $request->freq; 
+        $event->byday       = json_encode($request->byday); 
 
 
-        echo $request->start_date; 
 
-        exit; 
+ // dd($event);
 
 
-        $event->title   = $request->title;
-        $event->slug    = SlugService::createSlug(Event::class, 'slug', $request->title, ['unique' => true]);
-        $event->user_id = Auth::id();
         $event->save();
 
         Session::flash('guardado', 'creado correctamente');
@@ -156,4 +150,21 @@ class EventController extends Controller
 
             })->make(true);
     }
+
+
+
+    /**
+     * ordena los elementos de la fecha del fullcalendar (dd/mm/yyyy, H:i:s) => (yyyy-mm-dd, H:i:s)
+     * @param $fecha
+     * @return string
+     */
+    public function dateFormatCalendar($fecha)
+    {
+        $formato_A           = explode(' ', $fecha);
+        $formato_B           = explode('/', $formato_A[0]);
+        $fecha_inicio_evento = $formato_B[2] . '-' . $formato_B[1] . '-' . $formato_B[0] . ' ' . $formato_A[1].":00";
+
+        return $fecha_inicio_evento;
+    }
+
 }
