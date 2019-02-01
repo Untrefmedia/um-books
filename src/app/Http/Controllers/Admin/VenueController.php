@@ -224,10 +224,16 @@ class VenueController extends Controller
 
         $input['imagename'] = time() . "_" . $image->getClientOriginalName();
         $destinationPath    = public_path('images/venue/original');
-        $img                = Image::make($image->getRealPath());
+
+        if (! file_exists($destinationPath)) {
+            mkdir($destinationPath, 0777, true);
+        }
+
+        $img = Image::make($image->getRealPath());
         $img->save($destinationPath . '/' . $input['imagename']);
 
         return $input['imagename'];
 
     }
+
 }
