@@ -151,7 +151,7 @@
             {!! Form::label('', 'Imagen:', ['class' => 'col-sm-3']) !!}
             <div class="col-sm-9">
                     @if(! is_null($venue->image))
-                        <img src={{asset('image/venue/' . $venue->image)}} />
+                        <img src={{asset('images/venue/original/' . $venue->image)}} class="img img-responsive" style="max-height:200px"/>
                     @endif
                 {!! Form::file('image', ['class' => 'form-control']) !!}
             </div>
