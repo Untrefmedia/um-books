@@ -24,7 +24,7 @@ class CreateVenueTable extends Migration
             $table->string('state', 50)->nullable();
             $table->string('postcode', 10)->nullable();
             $table->string('country', 100)->nullable();
-            $table->string('url', 100)->nullable();
+            $table->text('url')->nullable();
             $table->string('phone', 30)->nullable();
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();
