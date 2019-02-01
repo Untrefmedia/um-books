@@ -29,7 +29,11 @@
 		<p style="margin:50px;">
       		Su reserva fue confirmada. <br>
   		
-			Mapa: <a href="http://www.google.com/maps/place/"{{$venue->latitude.','.$venue->longitude}}></a> <br>
+			Mapa: 
+			<a href="http://www.google.com/maps/place/"{{$venue->latitude.','.$venue->longitude}}>
+				<img src={{asset('images/venue/original/' . $venue->image)}} alt="">
+			</a>
+			<br>
   		
 			Fecha y hora: {{$book->event_date_start}}
     </p>
