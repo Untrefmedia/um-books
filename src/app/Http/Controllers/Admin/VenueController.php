@@ -123,7 +123,11 @@ class VenueController extends Controller
         $venue->capacity_turn  = $request->capacity_turn;
         $venue->capacity_group = $request->capacity_group;
         $venue->quantity_group = $request->quantity_group;
-        $venue->image          = $this->storeImage($request->image);
+
+        if (isset($request->image) && ! is_null($request->image)) {
+            $venue->image = $this->storeImage($request->image);
+        }
+
         $venue->save();
 
         Session::flash('guardado', 'Editado correctamente');

@@ -42,7 +42,7 @@ class VenueRequest extends FormRequest
                     'capacity_turn'  => 'required|numeric',
                     'capacity_group' => 'required|numeric',
                     'quantity_group' => 'required|numeric',
-                    'image'          => 'image'
+                    'image'          => 'required|image'
                 ];
                 break;
 
