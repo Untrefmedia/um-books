@@ -195,7 +195,6 @@ class BookController extends Controller
                 </form>';
 
                 return '<span style="display: inline-block;">' . $button_confirm . '</span>
-                        <span style="display: inline-block;">' . $button_edit . '</span>
                         <span style="display: inline-block;">' . $button_delete . '</span>';
 
             })->make(true);

@@ -772,6 +772,7 @@ const Formulario = ({ venueId = 1, capacityGroup = 35 }) => {
 											<Button
 												type="submit"
 												variant="primary"
+												disabled={isSubmitting}
 											>
 												Submit
 											</Button>

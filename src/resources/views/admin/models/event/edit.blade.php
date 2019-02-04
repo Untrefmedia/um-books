@@ -26,7 +26,7 @@
 
 @section('content')
 
-<h1 class="page-header">Editar Usuario</h1>
+<h1 class="page-header">Editar Evento</h1>
 
 <div class="panel panel-default">
     <div class="panel-heading">
