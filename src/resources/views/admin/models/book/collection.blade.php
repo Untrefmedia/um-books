@@ -15,8 +15,8 @@
                 <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Institución</th>
                     <th>Turno</th>
+                    <th>Institución</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
