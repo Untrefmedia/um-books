@@ -15,6 +15,7 @@
                 <thead>
                 <tr>
                     <th>Id</th>
+                    <th>Institución</th>
                     <th>Turno</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -27,14 +28,22 @@
 
 @section('js')
     <script>
-        $(function () {
+        $(document).ready(function () {
             $('#users-table').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: '{!! route('book.dataList') !!}',
+                columnDefs: [ {
+                    "targets": 2,
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        let data = JSON.parse(cellData.replace(/&quot;/g,'"'));
+                            $(td).html(data.institution_name)
+                    }
+                } ],
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'event_date_start', name: 'event_date_start'},
+                    {data: 'detail', name: 'detail'},
                     {data: 'status', name: 'status'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
 
@@ -43,6 +52,3 @@
         });
     </script>
 @stop
-
-
-
