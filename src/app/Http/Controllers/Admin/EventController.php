@@ -2,6 +2,7 @@
 
 namespace Untrefmedia\UMBooks\App\Http\Controllers\Admin;
 
+use App\Admin;
 use App\Http\Controllers\Controller;
 use Auth;
 use Cviebrock\EloquentSluggable\Services\SlugService;
@@ -9,6 +10,7 @@ use Illuminate\Http\Request;
 use Session;
 use Untrefmedia\UMBooks\App\Event;
 use Untrefmedia\UMBooks\App\Http\Requests\EventRequest;
+use Untrefmedia\UMBooks\App\Venue;
 use URL;
 use Yajra\Datatables\Datatables;
 
@@ -31,7 +33,21 @@ class EventController extends Controller
      */
     public function create()
     {
-        return view('umbooks::admin.models.event.create');
+        $v = Admin::find(Auth::id());
+
+        $new_v = [];
+
+        foreach ($v->venues as $key => $value) {
+            $new_v[$value->id] = $value->title;
+        }
+
+
+
+        $args = [
+            'venues' => $new_v
+        ];
+
+        return view('umbooks::admin.models.event.create', $args);
     }
 
     /**
