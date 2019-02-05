@@ -253,6 +253,16 @@ class BookController extends Controller
         foreach ($turnos_no_disponibles as $key => $value) {
             $fechas[$key] = date('Y/m/d H:i:s', strtotime($value));
         }
+        
+        $key_no_disponibles = count($fechas);
+        $fechas_bloqueadas = Event::where('type', 2) //[1: evento, 2: fechas bloqueadas]
+        ->select('start_date')
+        ->get()
+        ->pluck('start_date');
+
+        foreach ($fechas_bloqueadas as $key => $value) {
+            $fechas[$key_no_disponibles + $key] = date('Y/m/d H:i:s', strtotime($value));
+        }
 
         return $fechas;
     }
@@ -270,6 +280,7 @@ class BookController extends Controller
         $clave                 = 0;
 
         $events = Event::where('venue_id', $venue_id)
+            ->where('type', 1) //[1: evento, 2:fecha bloqueada]
             ->select('title', 'start_date', 'byday', 'freq')
             ->get();
 

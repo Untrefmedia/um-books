@@ -95,7 +95,6 @@ class EventController extends Controller
     {
         $event = Event::find($id);
 
-
         $v = Admin::find(Auth::id());
 
         $new_v = [];
@@ -107,7 +106,7 @@ class EventController extends Controller
         $event->start_date = $this->dateFormatCalendarreverse($event->start_date);
 
         $args = [
-            'event' => $event,
+            'event'  => $event,
             'venues' => $new_v
         ];
 
@@ -210,13 +209,47 @@ class EventController extends Controller
         return $fecha_inicio_evento;
     }
 
+    /**
+     * Vista para bloquear fechas
+     */
     public function eventDateBlocked()
     {
-        return view('umbooks::admin.models.event.dateBlocked');
+        $v = Admin::find(Auth::id());
+
+        $new_v = [];
+
+        foreach ($v->venues as $key => $value) {
+            $new_v[$value->id] = $value->title;
+        }
+
+        $args = [
+            'venues' => $new_v
+        ];
+
+        return view('umbooks::admin.models.event.dateBlocked', $args);
     }
 
-    public function storeEventDateBlocked()
+    /**
+     * @param Request $request
+     */
+    public function storeEventDateBlocked(Request $request)
     {
+        $validatedData = $request->validate([
+            'venue_id'   => 'required|numeric',
+            'start_date' => 'required'
+        ]);
+
+        $event = new Event();
+
+        $event->admin_id   = Auth::id();
+        $event->start_date = $this->dateFormatCalendar($request->start_date);
+        $event->venue_id   = $request->venue_id;
+        $event->type       = 2;
+        $event->save();
+
+        Session::flash('guardado', 'creado correctamente');
+
+        return back();
     }
 
 }

@@ -57,9 +57,16 @@
         !!} {!! Form::token() !!}
 
         <div class="form-group">
-            {!! Form::label('', 'Título:', ['class' => 'col-sm-3']) !!}
+            {!! Form::label('', 'Lugar:', ['class' => 'col-sm-3']) !!}
             <div class="col-sm-9">
-                {!! Form::text('title', '', ['class' => 'form-control']) !!}
+            {{ Form::select('venue_id', $venues, null, array('class'=>'form-control', 'placeholder'=>'Select')) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {!! Form::label('', 'Fecha y hora:', ['class' => 'col-sm-3']) !!}
+            <div class="col-sm-9">
+                {!! Form::text('start_date', '', ['class' => 'form-control start_date','autocomplete'=>"off"]) !!}
             </div>
         </div>
 

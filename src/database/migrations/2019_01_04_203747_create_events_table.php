@@ -15,13 +15,14 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->string('slug')->unique();
+            $table->string('title')->nullable();
+            $table->string('slug')->nullable()->unique();
             $table->dateTime('start_date')->nullable();
             $table->text('byday')->nullable();
             $table->text('freq')->nullable();
             $table->integer('venue_id')->unsigned()->nullable();
             $table->integer('admin_id')->unsigned()->nullable()->comment('admin creador');
+            $table->integer('type')->unsigned()->nullable()->default(1)->comment('[1:evento, 2: fecha bloqueada]');
 
             $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('venue_id')->references('id')->on('venues')->onDelete('cascade')->onUpdate('cascade');
