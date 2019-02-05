@@ -25,10 +25,11 @@ class EmailController extends Controller
         $toUser  = array($detail->institution_email, $detail->teacher_email);
         $message = '';
 
-        Mail::send('umbooks::email.book', ['token' => $token, 'toUser' => $toUser, 'venue' => $venue, 'detail' => $detail, 'book' => $book], function ($message) use ($token, $toUser, $venue) {
-            $message->from(env('MAIL_FROM_ADDRESS'), $venue->title);
-            $message->to($toUser, $venue->title)->subject('Reserva en ' . $venue->title);
-        });
+        // descomentar cuando funcione cuenta de mandrill
+        // Mail::send('umbooks::email.book', ['token' => $token, 'toUser' => $toUser, 'venue' => $venue, 'detail' => $detail, 'book' => $book], function ($message) use ($token, $toUser, $venue) {
+        //     $message->from(env('MAIL_FROM_ADDRESS'), $venue->title);
+        //     $message->to($toUser, $venue->title)->subject('Reserva en ' . $venue->title);
+        // });
 
         // Actualiza el estado de la reserva a confirmada
         $book->status = 2;
