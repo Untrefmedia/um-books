@@ -137,6 +137,9 @@
 </div>
 
 
+
+@stop
+
 @section('js')
 
 
@@ -191,37 +194,3 @@ $('.start_date').datetimepicker({
 </script>
 
 @endsection
-
-@stop
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

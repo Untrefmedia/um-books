@@ -50,6 +50,10 @@ return [
                 [
                     'text' => 'Create',
                     'url'  => 'admin/event/create'
+                ],
+                [
+                    'text' => 'Date blocked',
+                    'url'  => 'admin/eventDateBlocked'
                 ]
             ]
         ]

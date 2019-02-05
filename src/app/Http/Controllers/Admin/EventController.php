@@ -41,8 +41,6 @@ class EventController extends Controller
             $new_v[$value->id] = $value->title;
         }
 
-
-
         $args = [
             'venues' => $new_v
         ];
@@ -199,4 +197,14 @@ class EventController extends Controller
 
         return $fecha_inicio_evento;
     }
+
+    public function eventDateBlocked()
+    {
+        return view('umbooks::admin.models.event.dateBlocked');
+    }
+
+    public function storeEventDateBlocked()
+    {
+    }
+
 }
