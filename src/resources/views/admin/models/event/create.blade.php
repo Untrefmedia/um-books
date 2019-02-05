@@ -109,7 +109,7 @@
      <div class="form-group">
             {!! Form::label('', 'Museos:', ['class' => 'col-sm-3']) !!}
             <div class="col-sm-9">
-            {{ Form::select('warehouse', $venues, null, array('class'=>'form-control', 'placeholder'=>'Please select ...')) }}
+            {{ Form::select('venue_id', $venues, null, array('class'=>'form-control', 'placeholder'=>'Please select ...')) }}
             </div>
         </div>
 

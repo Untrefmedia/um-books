@@ -105,7 +105,12 @@
     
          </div>
     
-    
+         <div class="form-group">
+                {!! Form::label('', 'Museos:', ['class' => 'col-sm-3']) !!}
+                <div class="col-sm-9">
+                {{ Form::select('venue_id', $venues, $event->venue_id, array('class'=>'form-control', 'placeholder'=>'Please select ...')) }}
+                </div>
+            </div>
     
          <div class="form-group">
                 {!! Form::label('', 'Frecuencia:', ['class' => 'col-sm-3']) !!}

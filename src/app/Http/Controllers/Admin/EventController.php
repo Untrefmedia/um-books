@@ -62,6 +62,7 @@ class EventController extends Controller
         $event->admin_id   = Auth::id();
         $event->start_date = $this->dateFormatCalendar($request->start_date);
         $event->freq       = $request->freq;
+        $event->venue_id   = $request->venue_id;
         $event->byday      = json_encode($request->byday);
 
         // dd($event);
@@ -94,10 +95,20 @@ class EventController extends Controller
     {
         $event = Event::find($id);
 
+
+        $v = Admin::find(Auth::id());
+
+        $new_v = [];
+
+        foreach ($v->venues as $key => $value) {
+            $new_v[$value->id] = $value->title;
+        }
+
         $event->start_date = $this->dateFormatCalendarreverse($event->start_date);
 
         $args = [
-            'event' => $event
+            'event' => $event,
+            'venues' => $new_v
         ];
 
         return view('umbooks::admin.models.event.edit', $args);
@@ -119,6 +130,7 @@ class EventController extends Controller
         $event->admin_id   = Auth::id();
         $event->start_date = $this->dateFormatCalendar($request->start_date);
         $event->freq       = $request->freq;
+        $event->venue_id   = $request->venue_id;
         $event->byday      = json_encode($request->byday);
         $event->save();
 
