@@ -78,30 +78,30 @@
                 </div>
             </div>
     
+    <?php  
+            $daysweek = ['Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'];
+            $dayval   = ['MO','TU','WE','TH','FR','SA','SU']; 
     
+    ?>
     
+
+
             <div class="form-group" style="margin-top: 18px;">
                     {!! Form::label('', 'Dias del evento:', ['class' => 'col-sm-9','style'=>'position:absolute']) !!}
-                    <div class="col-sm-1 col-sm-offset-3" style="width: 15%;">Lunes </div>
-                    <div class="col-sm-7"><input type="checkbox" name="byday[]" value="MO" ><br></div>
+                    
+                    
+
+                    @foreach ($daysweek as $key => $node)
+
+                    <div class="col-sm-1 col-sm-offset-3" style="width: 15%;">{{$node}} </div>
+            <div class="col-sm-7">{!! Form::checkbox('byday[]', $dayval[$key]) !!}<br></div>
+                        
+                    @endforeach
+
+           
     
-                    <div class="col-sm-1 col-sm-offset-3" style="width: 15%;">Martes </div>
-                    <div class="col-sm-7"><input type="checkbox" name="byday[]" value="TU" ><br></div>
-    
-                    <div class="col-sm-1 col-sm-offset-3" style="width: 15%;">Miercoles </div>
-                    <div class="col-sm-7"><input type="checkbox" name="byday[]" value="WE" ><br></div>
-    
-                    <div class="col-sm-1 col-sm-offset-3" style="width: 15%;">Jueves </div>
-                    <div class="col-sm-7"><input type="checkbox" name="byday[]" value="TH"><br></div>
-    
-                    <div class="col-sm-1 col-sm-offset-3" style="width: 15%;">Viernes </div>
-                    <div class="col-sm-7"><input type="checkbox" name="byday[]" value="FR" ><br></div>
-    
-                    <div class="col-sm-1 col-sm-offset-3" style="width: 15%;">Sabado </div>
-                    <div class="col-sm-7"><input type="checkbox" name="byday[]" value="SA"><br></div>
-    
-                    <div class="col-sm-1 col-sm-offset-3" style="width: 15%;">Domingo </div>
-                    <div class="col-sm-7"><input type="checkbox" name="byday[]" value="SU" ><br></div> 
+
+
     
          </div>
     
