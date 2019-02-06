@@ -120,12 +120,12 @@
      <div class="form-group">
             {!! Form::label('', 'Frecuencia:', ['class' => 'col-sm-3']) !!}
             <div class="col-sm-9">
-                    <select class="form-control" id="freq" name="freq">
-                            <option value="DAILY" >Diariamente</option>
-                            <option value="WEEKLY">Semanalmente</option>
-                            <option value="MONTHLY">Mensualmente</option>
-                            <option value="YEARLY">Anualmente</option>
-                    </select>
+
+                    <?php    $freesky = array("DAILY"=>"Diariamente","WEEKLY"=>"Semanalmente","MONTHLY"=>"Mensualmente","YEARLY"=>"Anualmente")   ?>
+
+                   
+                    {{Form::select('freq', $freesky,null, array('class'=>'form-control freq'))}}
+            
             </div>
         </div>
 
