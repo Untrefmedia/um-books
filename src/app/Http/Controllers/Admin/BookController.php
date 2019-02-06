@@ -253,9 +253,11 @@ class BookController extends Controller
         foreach ($turnos_no_disponibles as $key => $value) {
             $fechas[$key] = date('Y/m/d H:i:s', strtotime($value));
         }
-        
+
         $key_no_disponibles = count($fechas);
+
         $fechas_bloqueadas = Event::where('type', 2) //[1: evento, 2: fechas bloqueadas]
+        ->where('venue_id', $id_venue)
         ->select('start_date')
         ->get()
         ->pluck('start_date');

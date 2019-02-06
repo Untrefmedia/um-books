@@ -51,9 +51,21 @@ return [
                     'text' => 'Create',
                     'url'  => 'admin/event/create'
                 ],
-                [
-                    'text' => 'Date blocked',
-                    'url'  => 'admin/eventDateBlocked'
+                ['text'       => 'Blocked Turns',
+                    'url'         => 'admin/eventBlocked',
+                    'icon'        => 'file',
+                    'label'       => null,
+                    'label_color' => 'success',
+                    'submenu'     => [
+                        [
+                            'text' => 'List Blocked Events',
+                            'url'  => 'admin/eventBlocked/index'
+                        ],
+                        [
+                            'text' => 'Create Blocked Event',
+                            'url'  => 'admin/eventBlocked/create'
+                        ]
+                    ]
                 ]
             ]
         ]
