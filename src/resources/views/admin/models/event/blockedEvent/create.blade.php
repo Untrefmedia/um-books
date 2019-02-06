@@ -25,7 +25,7 @@
 
 @section('content')
 
-<h1 class="page-header">Fechas bloqueadas</h1>
+<h1 class="page-header">Eventos bloqueados</h1>
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -53,7 +53,7 @@
 
     <div class="panel-body">
 
-        {!! Form::open(array('route' => 'event.dateBlocked.store', 'method' => 'POST', 'enctype'=>"multipart/form-data", 'class' => 'form-horizontal'))
+        {!! Form::open(array('route' => 'eventBlocked.store', 'method' => 'POST', 'enctype'=>"multipart/form-data", 'class' => 'form-horizontal'))
         !!} {!! Form::token() !!}
 
         <div class="form-group">
