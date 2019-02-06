@@ -8,6 +8,8 @@ use Auth;
 use Illuminate\Http\Request;
 use Session;
 use Untrefmedia\UMBooks\App\Event;
+use URL;
+use Yajra\Datatables\Datatables;
 
 class EventBlockedController extends Controller
 {
@@ -123,7 +125,12 @@ class EventBlockedController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $event = Event::find($id);
+        $event->delete();
+
+        Session::flash('guardado', 'Eliminado correctamente');
+
+        return back();
     }
 
     /**
@@ -132,7 +139,10 @@ class EventBlockedController extends Controller
      */
     public function dataList()
     {
-        return Datatables::of(Event::query()->where('type', 2))
+        $admin  = Admin::find(Auth::id());
+        $venues = $admin->venues->pluck('id')->toArray();
+
+        return Datatables::of(Event::query()->where('type', 2)->whereIn('venue_id', $venues))
             ->addColumn('action', function ($event) {
                 $button_edit = '<a href="' . URL::to("/") . '/admin/eventBlocked/' . $event->id . '/edit   " class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
 
@@ -146,7 +156,8 @@ class EventBlockedController extends Controller
                     </button>
                 </form>';
 
-                return '<span style="display: inline-block;">' . $button_edit . '</span> <span style="display: inline-block;">' . $button_delete . '</span>';
+                // <span style="display: inline-block;">' . $button_edit . '</span>
+                return '<span style="display: inline-block;">' . $button_delete . '</span>';
 
             })->make(true);
     }

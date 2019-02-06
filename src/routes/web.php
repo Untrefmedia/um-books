@@ -25,7 +25,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('event', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\EventController');
         Route::get('eventDataList', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\EventController@dataList')->name('event.dataList');
         Route::resource('eventBlocked', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\EventBlockedController');
-        Route::get('eventBlockedDataList', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\EventController@dataList')->name('eventBlocked.dataList');
+        Route::get('eventBlockedDataList', 'Untrefmedia\UMBooks\App\Http\Controllers\Admin\EventBlockedController@dataList')->name('eventBlocked.dataList');
     });
 });
 

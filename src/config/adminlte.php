@@ -58,11 +58,11 @@ return [
                     'label_color' => 'success',
                     'submenu'     => [
                         [
-                            'text' => 'List Blocked Events',
-                            'url'  => 'admin/eventBlocked/index'
+                            'text' => 'List',
+                            'url'  => 'admin/eventBlocked'
                         ],
                         [
-                            'text' => 'Create Blocked Event',
+                            'text' => 'Create',
                             'url'  => 'admin/eventBlocked/create'
                         ]
                     ]

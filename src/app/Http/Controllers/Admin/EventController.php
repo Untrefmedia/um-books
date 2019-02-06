@@ -23,10 +23,6 @@ class EventController extends Controller
      */
     public function index()
     {
-        $admin = Admin::find(Auth::id());
-        $admin->venues->get()->toArray()->pluck('id');
-
-        
         return view('umbooks::admin.models.event.collection');
     }
 
@@ -164,10 +160,10 @@ class EventController extends Controller
      */
     public function dataList()
     {
-        
+        $admin = Admin::find(Auth::id());
+        $venues = $admin->venues->pluck('id')->toArray();
 
-        return Datatables::of(Event::query()->where('type', 1))
-        // ->whereIn('venue_id', $admin))
+        return Datatables::of(Event::query()->where('type', 1)->whereIn('venue_id', $venues))
             ->addColumn('action', function ($event) {
                 $button_edit = '<a href="' . URL::to("/") . '/admin/event/' . $event->id . '/edit   " class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
 
