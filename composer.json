@@ -11,5 +11,10 @@
     "minimum-stability": "dev",
     "require": {
         "rlanvin/php-rrule": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+          "Untrefmedia\\UMBooks\\": "src"
+        }
     }
 }
