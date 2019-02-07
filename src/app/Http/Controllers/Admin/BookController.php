@@ -83,7 +83,18 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        //
+       
+        $book = Book::find($id);
+
+        $args = [
+            'book'   => $book,
+            'detail' => json_decode($book->detail)
+        ];
+
+        // dd($args);
+
+         return view('umbooks::admin.models.book.view', $args);
+
     }
 
     /**
@@ -179,6 +190,12 @@ class BookController extends Controller
                         break;
                 }
 
+                
+                $button_view =
+                '<a href="' . URL::to('admin/book/' . $book->id) . '" class="btn btn-xs btn-primary">
+                    <i class="glyphicon glyphicon-edit"></i> Ver
+                </a>';
+                
                 $button_edit =
                 '<a href="' . URL::to('admin/book/' . $book->id . '/edit') . '" class="btn btn-xs btn-primary">
                     <i class="glyphicon glyphicon-edit"></i> Edit
@@ -195,7 +212,8 @@ class BookController extends Controller
                 </form>';
 
                 return '<span style="display: inline-block;">' . $button_confirm . '</span>
-                        <span style="display: inline-block;">' . $button_delete . '</span>';
+                        <span style="display: inline-block;">' . $button_delete . '</span>
+                        <span style="display: inline-block;">' . $button_view. '</span>';
 
             })->make(true);
     }
