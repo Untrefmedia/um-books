@@ -4,11 +4,22 @@ namespace Untrefmedia\UMBooks\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Untrefmedia\UMBooks\App\Venue;
 
 class BookController extends Controller
 {
-    public function form()
+    /**
+     * @param $venue_id
+     */
+    public function form($venue_id)
     {
-        return view('umbooks::form');
+        $capacityGroup = Venue::find($venue_id)->capacity_group;
+
+        $args = [
+            'venueId'      => $venue_id,
+            'capacityGroup' => $capacityGroup
+        ];
+
+        return view('umbooks::form', $args);
     }
 }

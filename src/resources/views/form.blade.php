@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <div id="root">
+    <div id="root" data-venueId={{$venue_id}} data-capacityGroup={{$capacityGroup}}>
         <img src="https://thumbs.gfycat.com/ImpoliteLivelyGenet-size_restricted.gif" />
     </div>
 @stop
