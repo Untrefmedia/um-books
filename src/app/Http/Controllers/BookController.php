@@ -13,7 +13,7 @@ class BookController extends Controller
      */
     public function form($venue_id)
     {
-        $capacityGroup = Venue::find($venue_id)->capacity_group;
+        $capacityGroup = Venue::findOrFail($venue_id)->capacity_group;
 
         $args = [
             'venueId'      => $venue_id,
