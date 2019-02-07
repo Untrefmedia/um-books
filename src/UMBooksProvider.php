@@ -18,6 +18,10 @@ class UMBooksProvider extends ServiceProvider
             __DIR__ . '/config/um-books.php' => config_path('um-books.php')
         ], 'config');
 
+        $this->publishes([
+            __DIR__ . '/../publish/public/' => public_path()
+        ], 'formulario');
+
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
     }
 
