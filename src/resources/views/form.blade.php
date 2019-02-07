@@ -5,7 +5,7 @@
 @section('css')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous" />
-    <link href={{asset("js/formulario/build/static/css/main.59ee6c23.chunk.css")}} rel="stylesheet" />
+    <link href={{asset("js/formulario/build/static/css/main.e7584eb9.chunk.css")}} rel="stylesheet" />
 @endsection
 
 @section('content')
@@ -98,10 +98,10 @@
                     var r =
                         e && e.__esModule
                             ? function() {
-                                return e.default;
+                                    return e.default;
                             }
                             : function() {
-                                return e;
+                                    return e;
                             };
                     return f.d(r, 'a', r), r;
                 }),
@@ -116,9 +116,8 @@
             var s = n;
             a();
         })([]);
-
     </script>
-    <script src={{asset("js/formulario/build/static/js/1.a80e6019.chunk.js")}}></script>
-    <script src={{asset("js/formulario/build/static/js/main.0e86fa15.chunk.js")}}></script>
+    <script src={{asset("js/formulario/build/static/js/1.78c9ddf9.chunk.js")}}></script>
+    <script src={{asset("js/formulario/build/static/js/main.6fc57771.chunk.js")}}></script>
 
 @stop
