@@ -30,4 +30,4 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 // Formulario público
-Route::get('bookForm', 'Untrefmedia\UMBooks\App\Http\Controllers\BookController@form')->name('book.form');
+Route::get('bookForm/{venue_id}', 'Untrefmedia\UMBooks\App\Http\Controllers\BookController@form')->name('book.form');
