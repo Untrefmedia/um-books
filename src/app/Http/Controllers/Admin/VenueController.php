@@ -4,6 +4,7 @@ namespace Untrefmedia\UMBooks\App\Http\Controllers\Admin;
 
 use App\Admin;
 use App\Http\Controllers\Controller;
+use Auth;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
@@ -75,7 +76,7 @@ class VenueController extends Controller
         $venue->image          = $this->storeImage($request->image);
         $venue->save();
 
-        Session::flash('guardado', 'creado correctamente');
+        Session::flash('guardado', 'creado correctamente, asigne administrador/es al mismo');
 
         return back();
     }
@@ -99,7 +100,14 @@ class VenueController extends Controller
      */
     public function edit($id)
     {
-        $venue = Venue::find($id);
+        $user           = Auth::user();
+        $venues_propios = $user->venues->pluck('id')->toArray();
+
+        if (! in_array($id, $venues_propios) && ! $user->hasPermissionTo('venue-create')) {
+            abort('404');
+        }
+
+        $venue = Venue::findOrFail($id);
 
         $args = [
             'venue' => $venue
@@ -117,7 +125,7 @@ class VenueController extends Controller
      */
     public function update(VenueRequest $request, $id)
     {
-        $venue = Venue::find($id);
+        $venue = Venue::findOrFail($id);
 
         $venue->title          = $request->title;
         $venue->description    = $request->description;
@@ -154,7 +162,7 @@ class VenueController extends Controller
      */
     public function destroy($id)
     {
-        $venue = Venue::find($id);
+        $venue = Venue::findOrFail($id);
         $venue->delete();
 
         Session::flash('guardado', 'Eliminado correctamente');
@@ -168,8 +176,15 @@ class VenueController extends Controller
      */
     public function dataList()
     {
-        return Datatables::of(Venue::query())
-            ->addColumn('action', function ($venue) {
+        $query = Venue::query();
+        $user  = Auth::user();
+
+        if (! $user->hasPermissionTo('venue-create')) {
+            $query = $user->venues;
+        }
+
+        return Datatables::of($query)
+            ->addColumn('action', function ($venue) use ($user) {
                 $button_edit =
                 '<a href="' . URL::to("/") . '/admin/venue/' . $venue->id . '/edit   " class="btn btn-xs btn-primary">
                     <i class="glyphicon glyphicon-edit"></i> Edit
@@ -179,6 +194,9 @@ class VenueController extends Controller
                 '<a href="' . URL::to("/") . '/admin/venueAdmin/' . $venue->id . '" class="btn btn-xs btn-info">
                     <i class="glyphicon glyphicon-edit"></i> Admin
                 </a>';
+
+                $concatenar_boton_edit = $user->hasPermissionTo('venue-create') ?
+                '<span style="display: inline-block;">' . $button_admin . '</span>' : '';
 
                 $button_delete =
                 '<form method="post" action="venue/' . $venue->id . '">
@@ -190,9 +208,9 @@ class VenueController extends Controller
                     </button>
                 </form>';
 
-                return '<span style="display: inline-block;">' . $button_edit . '</span>
-                        <span style="display: inline-block;">' . $button_admin . '</span>
-                        <span style="display: inline-block;">' . $button_delete . '</span>';
+                return '<span style="display: inline-block;">' . $button_edit . '</span>' .
+                    $concatenar_boton_edit .
+                    '<span style="display: inline-block;">' . $button_delete . '</span>';
 
             })->make(true);
     }

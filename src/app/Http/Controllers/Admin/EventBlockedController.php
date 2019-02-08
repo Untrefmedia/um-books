@@ -31,7 +31,7 @@ class EventBlockedController extends Controller
      */
     public function index()
     {
-        $v = Admin::find(Auth::id());
+        $v = Admin::findOrFail(Auth::id());
 
         $new_v = [];
 
@@ -53,7 +53,7 @@ class EventBlockedController extends Controller
      */
     public function create()
     {
-        $v = Admin::find(Auth::id());
+        $v = Admin::findOrFail(Auth::id());
 
         $new_v = [];
 
@@ -136,7 +136,7 @@ class EventBlockedController extends Controller
      */
     public function destroy($id)
     {
-        $event = Event::find($id);
+        $event = Event::findOrFail($id);
         $event->delete();
 
         Session::flash('guardado', 'Eliminado correctamente');
@@ -150,7 +150,7 @@ class EventBlockedController extends Controller
      */
     public function dataList()
     {
-        $admin  = Admin::find(Auth::id());
+        $admin  = Admin::findOrFail(Auth::id());
         $venues = $admin->venues->pluck('id')->toArray();
 
         return Datatables::of(Event::query()->where('type', 2)->whereIn('venue_id', $venues))

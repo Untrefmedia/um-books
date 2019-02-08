@@ -94,7 +94,7 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        $book = Book::find($id);
+        $book = Book::findOrFail($id);
 
         $args = [
             'book'   => $book,
@@ -115,7 +115,7 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        $book = Book::find($id);
+        $book = Book::findOrFail($id);
 
         $args = [
             'book' => $book
@@ -133,7 +133,7 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, $id)
     {
-        $book = Book::find($id);
+        $book = Book::findOrFail($id);
 
         $book->title = $request->title;
         $book->save();
@@ -151,7 +151,7 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        $book = Book::find($id);
+        $book = Book::findOrFail($id);
         $book->delete();
 
         Session::flash('guardado', 'Eliminado correctamente');
@@ -389,7 +389,7 @@ class BookController extends Controller
      */
     public function cancelbook(Request $request)
     {
-        $book = Book::find($request->id);
+        $book = Book::findOrFail($request->id);
 
         $book->status = 1;
         $book->save();
