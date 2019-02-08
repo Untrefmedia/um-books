@@ -3,11 +3,9 @@
 namespace Untrefmedia\UMBooks\App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Auth;
 use Illuminate\Http\Request;
 use RRule\RRule;
 use Session;
-use Spatie\Permission\Models\Permission;
 use Untrefmedia\UMBooks\App\Book;
 use Untrefmedia\UMBooks\App\Event;
 use Untrefmedia\UMBooks\App\Http\Requests\BookRequest;
@@ -24,43 +22,6 @@ class BookController extends Controller
      */
     public function index()
     {
-// Permission::create(['name' => 'venue-list']);
-
-// Permission::create(['name' => 'venue-create']);
-
-// Permission::create(['name' => 'venue-edit']);
-
-// Permission::create(['name' => 'venue-delete']);
-
-// Permission::create(['name' => 'book-list']);
-
-// Permission::create(['name' => 'book-create']);
-
-// Permission::create(['name' => 'book-edit']);
-
-// Permission::create(['name' => 'book-delete']);
-
-// Permission::create(['name' => 'event-list']);
-
-// Permission::create(['name' => 'event-create']);
-
-// Permission::create(['name' => 'event-edit']);
-
-// Permission::create(['name' => 'event-delete']);
-
-// Permission::create(['name' => 'eventBlocked-list']);
-
-// Permission::create(['name' => 'eventBlocked-create']);
-
-// Permission::create(['name' => 'eventBlocked-edit']);
-        // Permission::create(['name' => 'eventBlocked-delete']);
-
-        // $user = Auth::user();
-        // $user->givePermissionTo(['venue-list', 'venue-create', 'venue-edit', 'venue-delete',
-        //                          'book-list', 'book-create', 'book-edit', 'book-delete',
-        //                          'event-list', 'event-create', 'event-edit', 'event-delete',
-        //                          'eventBlocked-list', 'eventBlocked-create', 'eventBlocked-edit', 'eventBlocked-delete']);
-
         return view('umbooks::admin.models.book.collection');
     }
 
@@ -122,6 +83,7 @@ class BookController extends Controller
      */
     public function show($id)
     {
+       
         $book = Book::find($id);
 
         $args = [
@@ -131,7 +93,7 @@ class BookController extends Controller
 
         // dd($args);
 
-        return view('umbooks::admin.models.book.view', $args);
+         return view('umbooks::admin.models.book.view', $args);
 
     }
 
@@ -228,11 +190,12 @@ class BookController extends Controller
                         break;
                 }
 
+                
                 $button_view =
                 '<a href="' . URL::to('admin/book/' . $book->id) . '" class="btn btn-xs btn-primary">
                     <i class="glyphicon glyphicon-edit"></i> Ver
                 </a>';
-
+                
                 $button_edit =
                 '<a href="' . URL::to('admin/book/' . $book->id . '/edit') . '" class="btn btn-xs btn-primary">
                     <i class="glyphicon glyphicon-edit"></i> Edit
@@ -250,7 +213,7 @@ class BookController extends Controller
 
                 return '<span style="display: inline-block;">' . $button_confirm . '</span>
                         <span style="display: inline-block;">' . $button_delete . '</span>
-                        <span style="display: inline-block;">' . $button_view . '</span>';
+                        <span style="display: inline-block;">' . $button_view. '</span>';
 
             })->make(true);
     }
