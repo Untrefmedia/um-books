@@ -16,6 +16,17 @@ use Yajra\Datatables\Datatables;
 class BookController extends Controller
 {
     /**
+     * Construct.
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:book-list');
+        $this->middleware('permission:book-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:book-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:book-delete', ['only' => ['destroy']]);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -83,7 +94,6 @@ class BookController extends Controller
      */
     public function show($id)
     {
-       
         $book = Book::find($id);
 
         $args = [
@@ -93,7 +103,7 @@ class BookController extends Controller
 
         // dd($args);
 
-         return view('umbooks::admin.models.book.view', $args);
+        return view('umbooks::admin.models.book.view', $args);
 
     }
 
@@ -190,12 +200,11 @@ class BookController extends Controller
                         break;
                 }
 
-                
                 $button_view =
                 '<a href="' . URL::to('admin/book/' . $book->id) . '" class="btn btn-xs btn-primary">
                     <i class="glyphicon glyphicon-edit"></i> Ver
                 </a>';
-                
+
                 $button_edit =
                 '<a href="' . URL::to('admin/book/' . $book->id . '/edit') . '" class="btn btn-xs btn-primary">
                     <i class="glyphicon glyphicon-edit"></i> Edit
@@ -213,7 +222,7 @@ class BookController extends Controller
 
                 return '<span style="display: inline-block;">' . $button_confirm . '</span>
                         <span style="display: inline-block;">' . $button_delete . '</span>
-                        <span style="display: inline-block;">' . $button_view. '</span>';
+                        <span style="display: inline-block;">' . $button_view . '</span>';
 
             })->make(true);
     }

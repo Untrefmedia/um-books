@@ -17,6 +17,17 @@ use Yajra\Datatables\Datatables;
 class EventController extends Controller
 {
     /**
+     * Construct.
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:event-list');
+        $this->middleware('permission:event-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:event-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:event-delete', ['only' => ['destroy']]);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -160,7 +171,7 @@ class EventController extends Controller
      */
     public function dataList()
     {
-        $admin = Admin::find(Auth::id());
+        $admin  = Admin::find(Auth::id());
         $venues = $admin->venues->pluck('id')->toArray();
 
         return Datatables::of(Event::query()->where('type', 1)->whereIn('venue_id', $venues))

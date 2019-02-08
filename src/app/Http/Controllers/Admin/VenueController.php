@@ -16,6 +16,17 @@ use Yajra\Datatables\Datatables;
 class VenueController extends Controller
 {
     /**
+     * Construct.
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:venue-list');
+        $this->middleware('permission:venue-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:venue-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:venue-delete', ['only' => ['destroy']]);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response

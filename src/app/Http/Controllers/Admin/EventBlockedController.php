@@ -14,6 +14,17 @@ use Yajra\Datatables\Datatables;
 class EventBlockedController extends Controller
 {
     /**
+     * Construct.
+     */
+    public function __construct()
+    {
+        $this->middleware('permission:eventBlocked-list');
+        $this->middleware('permission:eventBlocked-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:eventBlocked-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:eventBlocked-delete', ['only' => ['destroy']]);
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -157,6 +168,7 @@ class EventBlockedController extends Controller
                 </form>';
 
                 // <span style="display: inline-block;">' . $button_edit . '</span>
+
                 return '<span style="display: inline-block;">' . $button_delete . '</span>';
 
             })->make(true);
