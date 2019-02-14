@@ -2,8 +2,11 @@
 
 namespace Untrefmedia\UMBooks;
 
+use Auth;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
+use JeroenNoten\LaravelAdminLte\Events\BuildingMenu;
 
 class UMBooksProvider extends ServiceProvider
 {
@@ -12,7 +15,7 @@ class UMBooksProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(Dispatcher $events)
     {
         $this->publishes([
             __DIR__ . '/config/um-books.php' => config_path('um-books.php')
@@ -23,6 +26,22 @@ class UMBooksProvider extends ServiceProvider
         ], 'formulario');
 
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+
+        $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
+            $items = &$event->menu->menu;
+
+            $key_venue         = array_search('Venues', array_column($items, 'text'));
+            $submenu_venue     = $items[$key_venue]['submenu'];
+            $key_submenu_venue = array_search('Create', array_column($submenu_venue, 'text'));
+
+            $user = Auth::user();
+
+            // Quita del menu del admin el item "Create"
+            if (! $user->hasPermissionTo('venue-create')) {
+                unset($items[$key_venue]['submenu'][$key_submenu_venue]);
+            }
+
+        });
     }
 
     /**
