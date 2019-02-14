@@ -195,9 +195,6 @@ class VenueController extends Controller
                     <i class="glyphicon glyphicon-edit"></i> Admin
                 </a>';
 
-                $concatenar_boton_edit = $user->hasPermissionTo('venue-create') ?
-                '<span style="display: inline-block;">' . $button_admin . '</span>' : '';
-
                 $button_delete =
                 '<form method="post" action="venue/' . $venue->id . '">
                     ' . csrf_field() . '
@@ -208,9 +205,11 @@ class VenueController extends Controller
                     </button>
                 </form>';
 
-                return '<span style="display: inline-block;">' . $button_edit . '</span>' .
-                    $concatenar_boton_edit .
-                    '<span style="display: inline-block;">' . $button_delete . '</span>';
+                $insertar_boton_edit   = '<span style="display: inline-block;">' . $button_edit . '</span>';
+                $insertar_boton_admin  = $user->hasPermissionTo('venue-create') ? '<span style="display: inline-block;">' . $button_admin . '</span>' : '';
+                $insertar_boton_delete = $user->hasPermissionTo('venue-create') ? '<span style="display: inline-block;">' . $button_delete . '</span>' : '';
+
+                return $insertar_boton_edit . $insertar_boton_admin . $insertar_boton_delete;
 
             })->make(true);
     }
