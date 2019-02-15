@@ -13,7 +13,8 @@ $venue = [
         ],
         [
             'text' => 'Create',
-            'url'  => 'admin/venue/create'
+            'url'  => 'admin/venue/create',
+            'can'  => 'venue-create'
         ]
     ]
 ];
@@ -28,11 +29,12 @@ $book = [
         [
             'text' => 'List',
             'url'  => 'admin/book'
-        ],
-        [
-            'text' => 'Create',
-            'url'  => 'admin/book/create'
         ]
+        // [
+        //     'text' => 'Create',
+        //     'url'  => 'admin/book/create',
+        //     'can'  => 'book-create'
+        // ]
     ]
 ];
 
