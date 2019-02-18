@@ -179,7 +179,7 @@ class VenueController extends Controller
         $query = Venue::query();
         $user  = Auth::user();
 
-        if (! $user->hasPermissionTo('venue-create')) {
+        if (! $user->hasRole('super-admin')) {
             $query = $user->venues;
         }
 
