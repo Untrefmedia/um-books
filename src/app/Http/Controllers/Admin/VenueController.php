@@ -103,7 +103,7 @@ class VenueController extends Controller
         $user           = Auth::user();
         $venues_propios = $user->venues->pluck('id')->toArray();
 
-        if (! in_array($id, $venues_propios) && ! $user->hasPermissionTo('venue-create')) {
+        if (! in_array($id, $venues_propios) && ! $user->hasRole('super-admin')) {
             abort('404');
         }
 
@@ -206,8 +206,8 @@ class VenueController extends Controller
                 </form>';
 
                 $insertar_boton_edit   = '<span style="display: inline-block;">' . $button_edit . '</span>';
-                $insertar_boton_admin  = $user->hasPermissionTo('venue-create') ? '<span style="display: inline-block;">' . $button_admin . '</span>' : '';
-                $insertar_boton_delete = $user->hasPermissionTo('venue-create') ? '<span style="display: inline-block;">' . $button_delete . '</span>' : '';
+                $insertar_boton_admin  = $user->can('venue-create') ? '<span style="display: inline-block;">' . $button_admin . '</span>' : '';
+                $insertar_boton_delete = $user->can('venue-delete') ? '<span style="display: inline-block;">' . $button_delete . '</span>' : '';
 
                 return $insertar_boton_edit . $insertar_boton_admin . $insertar_boton_delete;
 
@@ -242,6 +242,8 @@ class VenueController extends Controller
     {
         $venue = Venue::find($id);
         $venue->admins()->sync($request->admin);
+
+        Session::flash('guardado', 'Editado correctamente');
 
         return back();
     }
