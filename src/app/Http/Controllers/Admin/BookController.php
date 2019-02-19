@@ -21,8 +21,8 @@ class BookController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('permission:book-list');
-        $this->middleware('permission:book-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:book-list', ['only' => ['index']]);
+        // $this->middleware('permission:book-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:book-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:book-delete', ['only' => ['destroy']]);
     }
@@ -168,13 +168,17 @@ class BookController extends Controller
         $query = Book::query();
         $user  = Auth::user();
 
-        // if (! $user->hasRole('super-admin')) {
-        //     $query  = collect();
-        //     $venues = $user->venues;
+// if (! $user->hasRole('super-admin')) {
 
-        //     foreach ($venues as $key => $value) {
-        //         $query->push($value->books);
-        //     }
+//     $query  = collect();
+
+//     $venues = $user->venues;
+
+//     foreach ($venues as $key => $value) {
+
+//         $query->push($value->books);
+
+//     }
 
         // }
 
