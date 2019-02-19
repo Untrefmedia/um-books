@@ -169,7 +169,10 @@ class EventBlockedController extends Controller
 
                 // <span style="display: inline-block;">' . $button_edit . '</span>
 
-                return '<span style="display: inline-block;">' . $button_delete . '</span>';
+                $insertar_boton_delete = $user->can('eventBlocked-delete') ? '<span style="display: inline-block;">' . $button_delete . '</span>' : '';
+
+                return $insertar_boton_delete;
+
 
             })->make(true);
     }

@@ -52,6 +52,15 @@ class EventController extends Controller
             $new_v[$value->id] = $value->title;
         }
 
+        if (Auth::user()->hasRole('super-admin')) {
+            $venues = Venue::all();
+
+            foreach ($venues as $key => $value) {
+                $new_v[$value->id] = $value->title;
+            }
+
+        }
+
         $args = [
             'venues' => $new_v
         ];
@@ -188,7 +197,10 @@ class EventController extends Controller
                     </button>
                 </form>';
 
-                return '<span style="display: inline-block;">' . $button_edit . '</span> <span style="display: inline-block;">' . $button_delete . '</span>';
+                $insertar_boton_edit   = $user->can('event-edit') ? '<span style="display: inline-block;">' . $button_edit . '</span>' : '';
+                $insertar_boton_delete = $user->can('event-delete') ? '<span style="display: inline-block;">' . $button_delete . '</span>' : '';
+
+                return $insertar_boton_edit . $insertar_boton_delete;
 
             })->make(true);
     }

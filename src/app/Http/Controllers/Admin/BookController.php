@@ -3,6 +3,7 @@
 namespace Untrefmedia\UMBooks\App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Auth;
 use Illuminate\Http\Request;
 use RRule\RRule;
 use Session;
@@ -101,8 +102,6 @@ class BookController extends Controller
             'detail' => json_decode($book->detail)
         ];
 
-        // dd($args);
-
         return view('umbooks::admin.models.book.view', $args);
 
     }
@@ -166,8 +165,21 @@ class BookController extends Controller
      */
     public function dataList()
     {
-        return Datatables::of(Book::query())
-            ->addColumn('action', function ($book) {
+        $query = Book::query();
+        $user  = Auth::user();
+
+        // if (! $user->hasRole('super-admin')) {
+        //     $query  = collect();
+        //     $venues = $user->venues;
+
+        //     foreach ($venues as $key => $value) {
+        //         $query->push($value->books);
+        //     }
+
+        // }
+
+        return Datatables::of($query)
+            ->addColumn('action', function ($book) use ($user) {
                 switch ($book->status) {
                     case 1:
                         $button_confirm =
@@ -220,9 +232,11 @@ class BookController extends Controller
                     </button>
                 </form>';
 
-                return '<span style="display: inline-block;">' . $button_confirm . '</span>
-                        <span style="display: inline-block;">' . $button_delete . '</span>
-                        <span style="display: inline-block;">' . $button_view . '</span>';
+                $insertar_boton_confirm = $user->can('book-create') ? '<span style="display: inline-block;">' . $button_confirm . '</span>' : '';
+                $insertar_boton_delete  = $user->can('book-delete') ? '<span style="display: inline-block;">' . $button_delete . '</span>' : '';
+                $insertar_boton_view    = $user->can('book-edit') ? '<span style="display: inline-block;">' . $button_view . '</span>' : '';
+
+                return $insertar_boton_confirm . $insertar_boton_delete . $insertar_boton_view;
 
             })->make(true);
     }
