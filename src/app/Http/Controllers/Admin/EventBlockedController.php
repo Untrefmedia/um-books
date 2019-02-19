@@ -8,6 +8,7 @@ use Auth;
 use Illuminate\Http\Request;
 use Session;
 use Untrefmedia\UMBooks\App\Event;
+use Untrefmedia\UMBooks\App\Venue;
 use URL;
 use Yajra\Datatables\Datatables;
 
@@ -59,6 +60,15 @@ class EventBlockedController extends Controller
 
         foreach ($v->venues as $key => $value) {
             $new_v[$value->id] = $value->title;
+        }
+
+        if (Auth::user()->hasRole('super-admin')) {
+            $venues = Venue::all();
+
+            foreach ($venues as $key => $value) {
+                $new_v[$value->id] = $value->title;
+            }
+
         }
 
         $args = [
@@ -150,11 +160,18 @@ class EventBlockedController extends Controller
      */
     public function dataList()
     {
+        $user   = Auth::user();
         $admin  = Admin::findOrFail(Auth::id());
         $venues = $admin->venues->pluck('id')->toArray();
 
-        return Datatables::of(Event::query()->where('type', 2)->whereIn('venue_id', $venues))
-            ->addColumn('action', function ($event) {
+        if ($user->hasRole('super-admin')) {
+            $query = Event::query()->where('type', 2);
+        } else {
+            $query = Event::query()->where('type', 2)->whereIn('venue_id', $venues);
+        }
+
+        return Datatables::of($query)
+            ->addColumn('action', function ($event) use ($user) {
                 $button_edit = '<a href="' . URL::to("/") . '/admin/eventBlocked/' . $event->id . '/edit   " class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
 
                 $button_delete =
@@ -172,7 +189,6 @@ class EventBlockedController extends Controller
                 $insertar_boton_delete = $user->can('eventBlocked-delete') ? '<span style="display: inline-block;">' . $button_delete . '</span>' : '';
 
                 return $insertar_boton_delete;
-
 
             })->make(true);
     }

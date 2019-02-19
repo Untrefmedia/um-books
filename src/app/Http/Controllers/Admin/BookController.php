@@ -168,19 +168,10 @@ class BookController extends Controller
         $query = Book::query();
         $user  = Auth::user();
 
-// if (! $user->hasRole('super-admin')) {
-
-//     $query  = collect();
-
-//     $venues = $user->venues;
-
-//     foreach ($venues as $key => $value) {
-
-//         $query->push($value->books);
-
-//     }
-
-        // }
+        if (! $user->hasRole('super-admin')) {
+            $venues = $user->venues->pluck('id')->toArray();
+            $query = $query->whereIn('venue_id', $venues);
+        }
 
         return Datatables::of($query)
             ->addColumn('action', function ($book) use ($user) {

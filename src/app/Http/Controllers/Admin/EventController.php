@@ -180,11 +180,18 @@ class EventController extends Controller
      */
     public function dataList()
     {
+        $user   = Auth::user();
         $admin  = Admin::findOrFail(Auth::id());
         $venues = $admin->venues->pluck('id')->toArray();
 
-        return Datatables::of(Event::query()->where('type', 1)->whereIn('venue_id', $venues))
-            ->addColumn('action', function ($event) {
+        if ($user->hasRole('super-admin')) {
+            $query = Event::query()->where('type', 1);
+        } else {
+            $query = Event::query()->where('type', 1)->whereIn('venue_id', $venues);
+        }
+
+        return Datatables::of($query)
+            ->addColumn('action', function ($event) use ($user) {
                 $button_edit = '<a href="' . URL::to("/") . '/admin/event/' . $event->id . '/edit   " class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
 
                 $button_delete =
