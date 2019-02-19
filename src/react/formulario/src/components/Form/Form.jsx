@@ -35,7 +35,7 @@ const Formulario = ({ venueId, capacityGroup }) => {
 	let Validacion = Yup.object().shape({
 		name: Yup.string().required('Obligatorio'),
 		surname: Yup.string().required('Obligatorio'),
-		venue: Yup.string().required('Obligatorio'),
+		venue_id: Yup.string().required('Obligatorio'),
 		selectedEvent: Yup.string().required('Obligatorio'),
 		institution_name: Yup.string().required('Obligatorio'),
 		institution_responsable: Yup.string().required('Obligatorio'),
