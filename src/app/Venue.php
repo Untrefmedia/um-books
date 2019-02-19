@@ -44,4 +44,22 @@ class Venue extends Model
     {
         return $this->belongsToMany('App\Admin', 'venue_admin', 'venue_id', 'admin_id');
     }
+
+    /**
+     * Relation
+     * @return mixed
+     */
+    public function books()
+    {
+        return $this->hasMany('Untrefmedia\UMBooks\App\Book', 'venue_id', 'id');
+    }
+
+    /**
+     * Relation
+     * @return mixed
+     */
+    public function events()
+    {
+        return $this->hasMany('Untrefmedia\UMBooks\App\Event', 'venue_id', 'id');
+    }
 }

@@ -20,4 +20,13 @@ class Book extends Model
      * @var mixed
      */
     public $timestamps = true;
+
+    /**
+     * Relation
+     * @return mixed
+     */
+    public function venues()
+    {
+        return $this->belongsTo('Untrefmedia\UMBooks\App\Venue', 'venue_id', 'id');
+    }
 }
