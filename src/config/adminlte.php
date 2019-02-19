@@ -9,7 +9,8 @@ $venue = [
     'submenu'     => [
         [
             'text' => 'List',
-            'url'  => 'admin/venue'
+            'url'  => 'admin/venue',
+            'can'  => 'venue-list'
         ],
         [
             'text' => 'Create',
@@ -28,7 +29,8 @@ $book = [
     'submenu'     => [
         [
             'text' => 'List',
-            'url'  => 'admin/book'
+            'url'  => 'admin/book',
+            'can'  => 'book-list'
         ]
         // [
         //     'text' => 'Create',
@@ -47,11 +49,13 @@ $event = [
     'submenu'     => [
         [
             'text' => 'List',
-            'url'  => 'admin/event'
+            'url'  => 'admin/event',
+            'can'  => 'event-list'
         ],
         [
             'text' => 'Create',
-            'url'  => 'admin/event/create'
+            'url'  => 'admin/event/create',
+            'can'  => 'event-create'
         ],
         ['text'       => 'Blocked Turns',
             'url'         => 'admin/eventBlocked',
@@ -61,11 +65,13 @@ $event = [
             'submenu'     => [
                 [
                     'text' => 'List',
-                    'url'  => 'admin/eventBlocked'
+                    'url'  => 'admin/eventBlocked',
+                    'can'  => 'eventBlocked-list'
                 ],
                 [
                     'text' => 'Create',
-                    'url'  => 'admin/eventBlocked/create'
+                    'url'  => 'admin/eventBlocked/create',
+                    'can'  => 'eventBlocked-create'
                 ]
             ]
         ]

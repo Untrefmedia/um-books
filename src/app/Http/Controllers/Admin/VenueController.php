@@ -205,7 +205,7 @@ class VenueController extends Controller
                     </button>
                 </form>';
 
-                $insertar_boton_edit   = '<span style="display: inline-block;">' . $button_edit . '</span>';
+                $insertar_boton_edit   = $user->can('venue-edit') ? '<span style="display: inline-block;">' . $button_edit . '</span>' : '';
                 $insertar_boton_admin  = $user->can('venue-create') ? '<span style="display: inline-block;">' . $button_admin . '</span>' : '';
                 $insertar_boton_delete = $user->can('venue-delete') ? '<span style="display: inline-block;">' . $button_delete . '</span>' : '';
 
